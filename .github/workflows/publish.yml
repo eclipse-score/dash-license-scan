@@ -1,0 +1,86 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Build
+        run: |
+          uv pip install --system build twine
+          python -m build
+
+      - name: Validate with twine
+        run: twine check dist/*
+
+      - name: Smoke test wheel
+        run: |
+          WHEEL=$(ls dist/*.whl | head -n1)
+          uvx --from "$WHEEL" dash-license-scan --help
+
+      - name: Smoke test sdist
+        run: |
+          SDIST=$(ls dist/*.tar.gz | head -n1)
+          uv venv .venv-sdist
+          uv pip install --python .venv-sdist "$SDIST"
+          .venv-sdist/bin/dash-license-scan --help
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/*
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    # FIXME: enable and configure trusted publishing in PyPI once it's available
+    # environment:
+    #   name: pypi
+    #   url: https://pypi.org/project/dash-license-scan/
+    permissions:
+      contents: read
+      id-token: write  # Required for trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist
+
+      - name: Ensure tag matches built version
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event.release.tag_name }}"
+          TAG_STRIPPED="${TAG#v}"
+          WHEEL=$(ls dist/*.whl | head -n1)
+          BASENAME=$(basename "$WHEEL")
+          VER=$(printf "%s" "$BASENAME" | awk -F- '{print $2}')
+          echo "Release tag: ${TAG}"
+          echo "Built version: ${VER}"
+          if [[ "$VER" != "$TAG_STRIPPED" ]]; then
+            echo "ERROR: Tag (${TAG}) does not match built version (${VER})." >&2
+            exit 1
+          fi
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
+          print-hash: true

@@ -1,0 +1,137 @@
+[project]
+name = "dash-license-scan"
+dynamic = ["version"]
+description = "A thin Python CLI wrapper for eclipse-dash/dash-licenses (JAR) with lockfile helpers."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Alexander Lanin" }]
+keywords = ["licenses", "oss", "dash", "eclipse", "sbom"]
+dependencies = []
+
+classifiers = [
+  # Project maturity & audience
+  "Development Status :: 2 - Pre-Alpha", # proof of concept
+  "Intended Audience :: Developers",
+
+  # License
+  "License :: OSI Approved :: Apache Software License",
+
+  # Environment & OS
+  "Environment :: Console",
+  "Operating System :: OS Independent",
+
+  # Python versions & impls (keep in sync with requires-python)
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+
+  # Topics
+  "Topic :: Software Development :: Build Tools",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Utilities",
+
+  # Typing
+  "Typing :: Typed",
+]
+
+[project.scripts]
+dash-license-scan = "dash_license_scan.main:main"
+
+[project.urls]
+Homepage = "https://github.com/eclipse-score/dash-license-scan"
+Source = "https://github.com/eclipse-score/dash-license-scan"
+Issues = "https://github.com/eclipse-score/dash-license-scan/issues"
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/dash_license_scan/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dash_license_scan"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/dash_license_scan/**/*.py",
+  "src/dash_license_scan/py.typed",
+  "src/dash_license_scan/resources/*",
+  "README.md",
+  "LICENSE",
+]
+
+# [dependency-groups]
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff",
+    "coverage>=7.12.0",
+]
+
+
+[tool.ruff]
+src = ["src", "tests"]
+line-length = 80
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+  "E",    # pycodestyle errors
+  "W",    # pycodestyle warnings
+  "F",    # pyflakes
+  "I",    # isort
+  "N",    # pep8-naming
+  "UP",   # pyupgrade
+  "B",    # flake8-bugbear
+  "C4",   # flake8-comprehensions
+  "SIM",  # flake8-simplify
+  "TCH",  # flake8-type-checking
+  "TID",  # flake8-tidy-imports
+  "RUF",  # ruff-specific rules
+  "PT",   # flake8-pytest-style
+  "PIE",  # flake8-pie
+  "T20",  # flake8-print
+  "RSE",  # flake8-raise
+  "RET",  # flake8-return
+]
+ignore = [
+  "E501",   # line too long (handled by formatter)
+  "T201",   # allow print() globally for CLI friendliness
+  "RET505", # opinionated decision: allow else after if-return for readability
+]
+
+
+[tool.ruff.lint.isort]
+known-first-party = ["score_tools"]
+combine-as-imports = true
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+  "S101",  # assert used
+]
+
+[tool.uv]
+package = true
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = [
+  "--import-mode=importlib",
+  "--strict-markers",
+  "--strict-config",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
