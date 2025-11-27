@@ -22,6 +22,7 @@ def real_main(argv: list[str] | None = None) -> None:
     args = parse_args(argv)
     if args.verbose:
         log.setLevel(logging.DEBUG)
+        logging.getLogger().setLevel(logging.DEBUG)
 
     log.debug("Starting dash_license_scan.main(%s)", argv)
     log.debug("Parsed args: %s", args)
