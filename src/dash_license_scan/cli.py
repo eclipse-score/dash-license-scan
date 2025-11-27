@@ -29,7 +29,7 @@ def build_parser() -> argparse.ArgumentParser:
     _ = p.add_argument(
         "--dry-run",
         action="store_true",
-        help="Print the constructed eclipse-dash command without executing it",
+        help="Print detected dependencies without executing dash-licenses",
     )
     _ = p.add_argument(
         "-v",
