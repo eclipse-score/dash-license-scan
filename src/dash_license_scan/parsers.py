@@ -45,9 +45,6 @@ def parse_crate(file: Path):
 
     assert isinstance(file, Path), f"Expected Path, got <{type(file)}> {file}"
 
-    if not file.exists():
-        sys.exit(f"crate lockfile not found: {file}")
-
     text = file.read_text(encoding="utf-8")
 
     # Split into [[package]] blocks and parse simple key=value lines into a dict.
