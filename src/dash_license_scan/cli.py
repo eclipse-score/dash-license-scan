@@ -60,5 +60,5 @@ def parse_args(argv: Sequence[str] | None = None):
         dry_run=args.dry_run,  # pyright: ignore[reportAny]
         lockfiles=args.lockfiles,  # pyright: ignore[reportAny]
         verbose=args.verbose,  # pyright: ignore[reportAny]
-        summary=args.summary if hasattr(args, "summary") else None,  # pyright: ignore[reportAny]
+        summary=args.summary,  # pyright: ignore[reportAny]
     )
