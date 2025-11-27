@@ -60,10 +60,6 @@ uvx dash-license-scan requirements.txt Cargo.lock
 uvx dash-license-scan --dry-run requirements.txt
 ```
 
-To request clearance with your Eclipse Foundation token:
-```bash
-uvx dash-license-scan requirements.txt --token=YOUR_TOKEN
-```
 
 For verbose logging:
 ```bash
