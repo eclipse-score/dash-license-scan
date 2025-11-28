@@ -1,0 +1,145 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint & Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v7
+
+      - name: Lint with ruff
+        run: uvx ruff check src/ tests/
+
+      - name: Format check with ruff
+        run: uvx ruff format --check src/ tests/
+
+  build:
+    name: Build Distribution
+    runs-on: ubuntu-latest
+    outputs:
+      sdist: ${{ steps.paths.outputs.sdist }}
+      wheel: ${{ steps.paths.outputs.wheel }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install build tooling
+        run: uv pip install --system build twine
+
+      - name: Build sdist and wheel
+        run: python -m build
+
+      - name: Locate built artifacts
+        id: paths
+        run: |
+          echo "sdist=$(ls dist/*.tar.gz | head -n1)" >> "$GITHUB_OUTPUT"
+          echo "wheel=$(ls dist/*.whl | head -n1)" >> "$GITHUB_OUTPUT"
+
+      - name: Validate metadata
+        run: twine check dist/*
+
+      - name: Smoke test wheel
+        run: uvx --from "${{ steps.paths.outputs.wheel }}" dash-license-scan --help
+
+      - name: Smoke test sdist
+        run: |
+          uv venv .venv-sdist
+          uv pip install --python .venv-sdist "${{ steps.paths.outputs.sdist }}"
+          .venv-sdist/bin/dash-license-scan --help
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/*
+          retention-days: 7
+
+  test:
+    name: Test / ${{ matrix.os }} / py${{ matrix.python-version }}
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        exclude:
+          # Reduce cost: test all versions on Linux, subset on macOS/Windows
+          - os: macos-latest
+            python-version: "3.11"
+          - os: macos-latest
+            python-version: "3.12"
+          - os: windows-latest
+            python-version: "3.11"
+          - os: windows-latest
+            python-version: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install from wheel
+        run: uv pip install --system "${{ needs.build.outputs.wheel }}[dev]"
+
+      - name: Run tests
+        run: pytest tests/ -v
+
+      - name: Run tests with coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+        run: |
+          python -m coverage run -m pytest tests/
+          python -m coverage xml -o coverage.xml
+          python -m coverage report --skip-covered
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Run pip-audit (generate JSON)
+        run: uvx pip-audit --format json -o pip-audit.json || true
+
+      - name: Summarize advisories in job summary
+        if: always()
+        run: |
+          echo "### pip-audit advisories" >> "$GITHUB_STEP_SUMMARY"
+          uvx pip-audit --format markdown || echo "No vulnerabilities found" | tee -a "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,6 @@
+pypi/pypi/-/basedpyright/1.29.2
+pypi/pypi/-/iniconfig/2.1.0
+pypi/pypi/-/nodejs-wheel-binaries/22.16.0
+pypi/pypi/-/packaging/25.0
+pypi/pypi/-/pluggy/1.6.0
+pypi/pypi/-/pytest/8.3.5
