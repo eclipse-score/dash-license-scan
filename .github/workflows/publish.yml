@@ -184,7 +184,8 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: dash-license-scan-${{ needs.verify-tag.outputs.tag }}-publish
-      cancel-in-progress: true
+      # Do not cancel in-progress publish jobs to avoid partial publishes
+      cancel-in-progress: false
     environment:
       name: pypi
       url: https://pypi.org/project/dash-license-scan/
@@ -193,27 +194,22 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v4
-
       - uses: actions/download-artifact@v4
         with:
           name: dist-${{ github.sha }}
           path: dist
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install build tools
-        run: pip install hatch packaging twine
+      - uses: actions/checkout@v4
+        if: needs.build.outputs.requires_tag_push == 'true'
 
       - name: push tag (if needed)
         if: needs.build.outputs.requires_tag_push == 'true'
         run: |
           set -euo pipefail
           TAG="${{ needs.verify-tag.outputs.tag }}"
-          git push origin "$TAG"
-
+          # As this is a separate job, we need to re-create the tag here
+          git tag "$TAG"
+          git push --tags
 
       - name: Create GitHub Release (if needed)
         if: github.event_name != 'release'
