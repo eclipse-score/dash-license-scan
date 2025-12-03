@@ -48,11 +48,11 @@ Source = "https://github.com/eclipse-score/dash-license-scan"
 Issues = "https://github.com/eclipse-score/dash-license-scan/issues"
 
 [build-system]
-requires = ["hatchling>=1.26"]
+requires = ["hatchling>=1.26", "hatch-vcs>=0.3"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
-path = "src/dash_license_scan/__init__.py"
+source = "vcs"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/dash_license_scan"]
@@ -69,15 +69,14 @@ include = [
 # [dependency-groups]
 [project.optional-dependencies]
 dev = [
-    "pytest>=8",
+    "pytest",
     "ruff",
-    "coverage>=7.12.0",
+    "coverage",
 ]
 
 
 [tool.ruff]
 src = ["src", "tests"]
-line-length = 80
 target-version = "py310"
 
 [tool.ruff.lint]

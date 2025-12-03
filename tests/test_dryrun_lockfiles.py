@@ -17,9 +17,7 @@ def _data_files():
         yield p
 
 
-@pytest.mark.parametrize(
-    "input_path", list(_data_files()), ids=lambda p: p.stem
-)
+@pytest.mark.parametrize("input_path", list(_data_files()), ids=lambda p: p.stem)
 def test_file_based(input_path, capsys, monkeypatch):
     # Ensure Java check passes for dry-run tests
     monkeypatch.setattr(shutil, "which", lambda _: "/usr/bin/java")

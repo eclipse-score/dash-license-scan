@@ -1,6 +1,32 @@
-name: Publish to PyPI
+name: Release & Publish to PyPI
+
+# This workflow handles tagging, GitHub release creation, and publishing to PyPI.
+# While technically separate topics, they are meant to be absolutely in sync, so they are handled via this single workflow.
+
+# Use Cases:
+# 1) Manual release with new tag: Create tag, release, and publish from specified ref (branch/commit/tag)
+# 2) Automatic release from tag push: Triggered when a v* tag is pushed, release and publish to PyPI
+# 3) Automatic release from GitHub release: Triggered when a release is created on GitHub, publish to PyPI
+# 4) Recovery - existing tag: Re-run with pre-existing tag to release and publish to PyPI
+# 5) Recovery - existing release: Re-run with pre-existing GitHub release to publish to PyPI
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "New Version (PEP 440 compatible)"
+        required: true
+        type: string
+      ref:
+        description: "Git ref to release (branch, tag, or commit hash). Required if tag does not exist yet."
+        required: false
+        default: "main"
+        type: string
+
+  push:
+    tags:
+      - "v*"
+
   release:
     types: [published]
 
@@ -8,10 +34,82 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  verify-tag:
+    name: Verify Naming Convention of Tag and Release
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
     steps:
+      - name: Determine tag
+        id: tag
+        run: |
+          # Determine the tag name based on event type
+          # (tag push, release or workflow_dispatch)
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            echo "::debug:: Event is a tag push"
+            if [[ "${GITHUB_REF_TYPE}" != "tag" ]]; then
+              echo "::error:: Expected a tag ref, but got '${GITHUB_REF_TYPE}'"
+              exit 1
+            fi
+            # drop prefix "refs/tags/"
+            TAG="${GITHUB_REF_NAME#refs/tags/}"
+          elif [[ "${{ github.event_name }}" == "release" ]]; then
+            echo "::debug:: Event is a release"
+            TAG="${{ github.event.release.tag_name }}"
+          else
+            echo "::debug:: Event is a workflow_dispatch"
+            TAG="v${{ github.event.inputs.version }}"
+          fi
+          echo "Tag: $TAG" >> "$GITHUB_STEP_SUMMARY"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Validate tag matches PEP 440
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.tag.outputs.tag }}"
+          VERSION="${TAG#v}"
+          python -c "from packaging.version import Version; Version('$VERSION')"
+
+      - name: Validate release name matches git tag
+        if: github.event_name == 'release'
+        run: |
+          # The release name and tag must match,
+          # e.g. Tag: "v1.2.3", Release Name: "v1.2.3 - Some description"
+          set -euo pipefail
+          TAG="${{ steps.tag.outputs.tag }}"
+          RELEASE_NAME="${{ github.event.release.name }}"
+          echo "Release Name: $RELEASE_NAME" >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$RELEASE_NAME" != "$TAG"* ]]; then
+            echo "::error:: Release name '$RELEASE_NAME' does not start with tag '$TAG'"
+            exit 1
+          fi
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: verify-tag
+    concurrency:
+      group: dash-license-scan-${{ needs.verify-tag.outputs.tag }}-build
+      cancel-in-progress: true
+    outputs:
+      requires_tag_push: ${{ steps.create_tag.outputs.requires_tag_push }}
+    steps:
+      - name: Determine ref to checkout
+        id: ref
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            REF="${{ github.event.inputs.ref }}"
+          else
+            REF="${{ github.ref }}"
+          fi
+          echo "ref=$REF" >> "$GITHUB_OUTPUT"
+          echo "Building from: $REF" >> "$GITHUB_STEP_SUMMARY"
+
+
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.ref.outputs.ref }}
 
       - uses: actions/setup-python@v5
         with:
@@ -21,25 +119,56 @@ jobs:
         with:
           enable-cache: true
 
-      - name: Build
+      - name: Install build tools
+        run: pip install hatch packaging twine
+
+      - name: Create tag (local only; if needed)
+        id: create_tag
+        if: github.event_name == 'workflow_dispatch'
         run: |
-          uv pip install --system build twine
-          python -m build
+          set -euo pipefail
+          TAG="${{ needs.verify-tag.outputs.tag }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists."
+            echo "requires_tag_push=false" >> "$GITHUB_OUTPUT"
+          else
+            git tag "$TAG"
+            echo "requires_tag_push=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build
+        run: hatch build
 
       - name: Validate with twine
         run: twine check dist/*
 
-      - name: Smoke test wheel
+      - name: Smoke test wheel (uvx)
         run: |
           WHEEL=$(ls dist/*.whl | head -n1)
-          uvx --from "$WHEEL" dash-license-scan --help
+          uvx --from "$WHEEL" dash-license-scan --version
 
-      - name: Smoke test sdist
+      - name: Smoke test wheel (pip)
+        run: |
+          python -m venv wheel-test-env
+          . wheel-test-env/bin/activate
+          pip install dist/*.whl
+          dash-license-scan --version
+          deactivate
+
+      - name: Smoke test sdist (uv)
         run: |
           SDIST=$(ls dist/*.tar.gz | head -n1)
           uv venv .venv-sdist
           uv pip install --python .venv-sdist "$SDIST"
-          .venv-sdist/bin/dash-license-scan --help
+          .venv-sdist/bin/dash-license-scan --version
+
+      - name: Smoke test sdist (pip)
+        run: |
+          python -m venv sdist-test-env
+          . sdist-test-env/bin/activate
+          pip install dist/*.tar.gz
+          dash-license-scan --version
+          deactivate
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -48,35 +177,55 @@ jobs:
           path: dist/*
 
   publish:
-    needs: build
+    name: Publish
+    needs:
+      - build
+      - verify-tag
     runs-on: ubuntu-latest
-    # FIXME: enable and configure trusted publishing in PyPI once it's available
-    # environment:
-    #   name: pypi
-    #   url: https://pypi.org/project/dash-license-scan/
+    concurrency:
+      group: dash-license-scan-${{ needs.verify-tag.outputs.tag }}-publish
+      cancel-in-progress: true
+    environment:
+      name: pypi
+      url: https://pypi.org/project/dash-license-scan/
     permissions:
-      contents: read
-      id-token: write  # Required for trusted publishing
+      contents: write # Push tag
+      id-token: write
+
     steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
         with:
           name: dist-${{ github.sha }}
           path: dist
 
-      - name: Ensure tag matches built version
-        shell: bash
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: pip install hatch packaging twine
+
+      - name: push tag (if needed)
+        if: needs.build.outputs.requires_tag_push == 'true'
         run: |
           set -euo pipefail
-          TAG="${{ github.event.release.tag_name }}"
-          TAG_STRIPPED="${TAG#v}"
-          WHEEL=$(ls dist/*.whl | head -n1)
-          BASENAME=$(basename "$WHEEL")
-          VER=$(printf "%s" "$BASENAME" | awk -F- '{print $2}')
-          echo "Release tag: ${TAG}"
-          echo "Built version: ${VER}"
-          if [[ "$VER" != "$TAG_STRIPPED" ]]; then
-            echo "ERROR: Tag (${TAG}) does not match built version (${VER})." >&2
-            exit 1
+          TAG="${{ needs.verify-tag.outputs.tag }}"
+          git push origin "$TAG"
+
+
+      - name: Create GitHub Release (if needed)
+        if: github.event_name != 'release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="${{ needs.verify-tag.outputs.tag }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists. Verified."
+          else
+            gh release create "$TAG" --title "$TAG" --generate-notes
           fi
 
       - name: Publish to PyPI
