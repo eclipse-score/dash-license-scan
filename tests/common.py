@@ -20,6 +20,4 @@ def dash_license_scan_main(args):
             raise AssertionError(f"Unexpected SystemExit: {e.code}") from e
 
     if exit_code:
-        raise AssertionError(
-            f"dash_license_scan.main() returned exit code {exit_code}"
-        )
+        raise AssertionError(f"dash_license_scan.main() returned exit code {exit_code}")

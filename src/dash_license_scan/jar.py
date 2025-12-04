@@ -36,8 +36,7 @@ def require_java():
 
 def _get_cache_dir() -> Path:
     cache_dir = (
-        Path(os.getenv("XDG_CACHE_HOME", Path.home() / ".cache"))
-        / "dash-license-scan"
+        Path(os.getenv("XDG_CACHE_HOME", Path.home() / ".cache")) / "dash-license-scan"
     )
     cache_dir.mkdir(parents=True, exist_ok=True)
     return cache_dir
