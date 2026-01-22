@@ -36,7 +36,7 @@ def read_file_lines(file: Path) -> Generator[str, None, None]:
     for line in text.splitlines():
         line = line.strip()
         if line and not line.startswith("#"):
-            yield line.strip()
+            yield line
 
 
 def parse_pypi(file: Path):
@@ -44,8 +44,6 @@ def parse_pypi(file: Path):
     deps: list[str] = []
 
     for line in read_file_lines(file):
-        print(line)
-
         # Skip --hash lines (they're options for the previous requirement)
         if line.startswith("--hash="):
             continue

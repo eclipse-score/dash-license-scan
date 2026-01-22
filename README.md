@@ -18,7 +18,7 @@ Proof of Concept. Do not use in production environments.
 
 - **Simple to use**: Focus on usability
 - **Easy installation**: Run with [`pipx`](https://pypa.github.io/pipx/) or [`uvx`](https://docs.astral.sh/uv/concepts/tools/) - no complex setup required
-- **Self-contained**: Self-contained tool with `dash-licenses` JAR included and zero Python dependencies for simplified version management.
+- **Self-contained**: Self-contained tool with `dash-licenses` JAR included for simplified version management.
 - **Lockfile support**: Supports scanning common lockfile formats:
   - `requirements.txt` (Python with pip-tools)
   - `uv.lock` (Python with uv)

@@ -145,10 +145,6 @@ omit = [
 show_missing = true
 skip_covered = true
 skip_empty = true
-omit = [
-  "tests/*",
-  "tests/**",
-]
 
 [tool.basedpyright]
 typeCheckingMode = "standard"

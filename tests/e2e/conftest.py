@@ -96,9 +96,8 @@ def product_test_kit(
 
     patcher = Patcher(additional_skip_names=["importlib", "importlib.resources"])
     patcher.setUp()
-    resources_dir = (
-        Path(__file__).parent.parent / "src" / "dash_license_scan" / "resources"
-    )
+    git_root = Path(__file__).parent.parent.parent
+    resources_dir = git_root / "src" / "dash_license_scan" / "resources"
     if resources_dir.exists() and patcher.fs is not None:
         patcher.fs.add_real_directory(str(resources_dir), lazy_read=True)
 
