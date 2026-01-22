@@ -132,7 +132,6 @@ def run_jar(
             token_index = masked_cmd.index(token_for_review)
             masked_cmd[token_index] = "<REDACTED>"
 
-
         if dry_run:
             print(f"Would run command: {' '.join(masked_cmd)}")
             print("With dependencies:")
