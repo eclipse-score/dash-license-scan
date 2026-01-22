@@ -30,4 +30,6 @@ def test_dry_run_and_review_are_mutually_exclusive(capsys: pytest.CaptureFixture
     assert safe_run_main(["--dry-run", "--review", "requirements.txt"]) == 2
 
     err = capsys.readouterr().err
-    assert "cannot be used together" in err.lower() or "mutually exclusive" in err.lower()
+    assert (
+        "cannot be used together" in err.lower() or "mutually exclusive" in err.lower()
+    )

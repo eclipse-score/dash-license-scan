@@ -66,7 +66,9 @@ def parse_crate(file: Path):
     assert isinstance(file, Path), f"Expected Path, got <{type(file)}> {file}"
 
     try:
-        data = cast("dict[str, object]", tomllib.loads(file.read_text(encoding="utf-8")))
+        data = cast(
+            "dict[str, object]", tomllib.loads(file.read_text(encoding="utf-8"))
+        )
     except Exception as exc:  # pragma: no cover - defensive error surface
         raise ValueError(f"Failed to parse Cargo.lock as TOML: {file}") from exc
 

@@ -7,7 +7,9 @@ from _pytest.logging import LogCaptureFixture
 from dash_license_scan import parsers
 
 
-def test_parse_pypi_supports_pinned_requirements(tmp_path: Path, caplog: LogCaptureFixture) -> None:
+def test_parse_pypi_supports_pinned_requirements(
+    tmp_path: Path, caplog: LogCaptureFixture
+):
     req = tmp_path / "requirements.txt"
     req.write_text("""
 #
@@ -29,7 +31,7 @@ foo==1.2.3 \\
     assert caplog.text == ""
 
 
-def test_parse_pypi_warns_on_unknown_lines(tmp_path: Path, caplog: LogCaptureFixture) -> None:
+def test_parse_pypi_warns_on_unknown_lines(tmp_path: Path, caplog: LogCaptureFixture):
     req = tmp_path / "requirements.txt"
     req.write_text("bar @ git+https://github.com/ORG/bar.git@v1.4.0")
 
@@ -40,7 +42,7 @@ def test_parse_pypi_warns_on_unknown_lines(tmp_path: Path, caplog: LogCaptureFix
     assert "Skipping unsupported" in caplog.text
 
 
-def test_parse_crate_accepts_crates_io(tmp_path: Path) -> None:
+def test_parse_crate_accepts_crates_io(tmp_path: Path):
     cargo = tmp_path / "Cargo.lock"
     cargo.write_text(
         """
@@ -68,7 +70,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
     ]
 
 
-def test_parse_crate_rejects_unknown_registry(tmp_path: Path) -> None:
+def test_parse_crate_rejects_unknown_registry(tmp_path: Path):
     cargo = tmp_path / "Cargo.lock"
     cargo.write_text(
         """
@@ -83,7 +85,7 @@ source = "registry+https://example.com/index"
         parsers.parse(cargo)
 
 
-def test_parse_uv_lock_filters_non_pypi(tmp_path: Path, caplog: LogCaptureFixture) -> None:
+def test_parse_uv_lock_filters_non_pypi(tmp_path: Path, caplog: LogCaptureFixture):
     uv = tmp_path / "uv.lock"
     uv.write_text(
         """
@@ -107,7 +109,9 @@ source = { registry = "https://example.com/simple" }
     assert deps == ["pypi/pypi/-/requests/2.32.3"]
 
 
-def test_parse_uv_lock_warns_on_invalid_structure(tmp_path: Path, caplog: LogCaptureFixture) -> None:
+def test_parse_uv_lock_warns_on_invalid_structure(
+    tmp_path: Path, caplog: LogCaptureFixture
+):
     uv = tmp_path / "uv.lock"
     uv.write_text("""[package]\nname = 'oops'""")
 

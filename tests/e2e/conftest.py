@@ -27,7 +27,9 @@ class ProductTestKit:
     last_cmd: list[str] | None = field(default=None)
     last_input: str | None = field(default=None)
 
-    def set_fake_jar(self, issues: int, summary_text: str, stderr: str = "log-line") -> None:
+    def set_fake_jar(
+        self, issues: int, summary_text: str, stderr: str = "log-line"
+    ) -> None:
         """Stub subprocess.run used by jar.run_jar and record invocation."""
 
         def _run(cmd: list[str], *, input: str, capture_output: bool, text: bool):  # type: ignore[override]
@@ -51,7 +53,9 @@ class ProductTestKit:
     def jar_issues(self, count: int, summary: str) -> None:
         self.set_fake_jar(count, summary)
 
-    def write_requirements(self, lines: list[str], path: str = "/work/requirements.txt") -> Path:
+    def write_requirements(
+        self, lines: list[str], path: str = "/work/requirements.txt"
+    ) -> Path:
         self.fs.create_file(path, contents="\n".join(lines))
         return Path(path)
 
@@ -63,9 +67,15 @@ class ProductTestKit:
         """Invoke CLI main, returning its exit code even when SystemExit is raised."""
 
         # Reapply in case tests import main before the fixture.
-        self.monkeypatch.setattr("dash_license_scan.main.load_dotenv", lambda *_, **__: None, raising=False)
-        self.monkeypatch.setattr("dotenv.main.load_dotenv", lambda *_, **__: None, raising=False)
-        self.monkeypatch.setattr("dotenv.main.find_dotenv", lambda *_, **__: "", raising=False)
+        self.monkeypatch.setattr(
+            "dash_license_scan.main.load_dotenv", lambda *_, **__: None, raising=False
+        )
+        self.monkeypatch.setattr(
+            "dotenv.main.load_dotenv", lambda *_, **__: None, raising=False
+        )
+        self.monkeypatch.setattr(
+            "dotenv.main.find_dotenv", lambda *_, **__: "", raising=False
+        )
 
         from dash_license_scan.main import main
 
@@ -79,12 +89,16 @@ class ProductTestKit:
 
 
 @pytest.fixture
-def product_test_kit(monkeypatch: MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> Generator[ProductTestKit, None, None]:
+def product_test_kit(
+    monkeypatch: MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> Generator[ProductTestKit, None, None]:
     """End-to-end harness with fake jar + fake FS for CLI tests."""
 
     patcher = Patcher(additional_skip_names=["importlib", "importlib.resources"])
     patcher.setUp()
-    resources_dir = Path(__file__).parent.parent / "src" / "dash_license_scan" / "resources"
+    resources_dir = (
+        Path(__file__).parent.parent / "src" / "dash_license_scan" / "resources"
+    )
     if resources_dir.exists() and patcher.fs is not None:
         patcher.fs.add_real_directory(str(resources_dir), lazy_read=True)
 

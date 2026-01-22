@@ -9,7 +9,7 @@ from pathlib import Path
 from dash_license_scan import main
 
 
-def test_parse_all_lockfiles_combines_results_from_multiple_files(tmp_path: Path) -> None:
+def test_parse_all_lockfiles_combines_results_from_multiple_files(tmp_path: Path):
     """When multiple lockfiles are provided, all dependencies are collected."""
     requirements_txt = tmp_path / "requirements.txt"
     requirements_txt.write_text("requests==2.32.0")
@@ -29,4 +29,3 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
     assert len(all_dependencies) == 2
     assert "pypi/pypi/-/requests/2.32.0" in all_dependencies
     assert "crate/cratesio/-/serde/1.0.203" in all_dependencies
-

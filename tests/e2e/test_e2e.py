@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from .conftest import ProductTestKit
 
 
-def test_scans_requirements_success(product_test_kit: ProductTestKit) -> None:
+def test_scans_requirements_success(product_test_kit: ProductTestKit):
     cli = product_test_kit
     cli.jar_ok("SUMMARY OK")
 
@@ -30,7 +30,7 @@ def test_scans_requirements_success(product_test_kit: ProductTestKit) -> None:
     assert "pypi/pypi/-/other/2.0.0" in (cli.last_input or "")
 
 
-def test_scans_requirements_with_issues(product_test_kit: ProductTestKit) -> None:
+def test_scans_requirements_with_issues(product_test_kit: ProductTestKit):
     cli = product_test_kit
     cli.jar_issues(2, "ISSUE SUMMARY")
 
@@ -44,7 +44,7 @@ def test_scans_requirements_with_issues(product_test_kit: ProductTestKit) -> Non
     assert "ISSUE SUMMARY" in out
 
 
-def test_review_requires_env(product_test_kit: ProductTestKit) -> None:
+def test_review_requires_env(product_test_kit: ProductTestKit):
     cli = product_test_kit
     cli.jar_ok("SHOULD_NOT_RUN")
     cli.monkeypatch.delenv("ECLIPSE_PROJECT", raising=False)
@@ -57,7 +57,7 @@ def test_review_requires_env(product_test_kit: ProductTestKit) -> None:
     assert exit_code == 1
 
 
-def test_review_triggers_notice(product_test_kit: ProductTestKit) -> None:
+def test_review_triggers_notice(product_test_kit: ProductTestKit):
     cli = product_test_kit
     cli.jar_issues(1, "REVIEW SUMMARY")
     cli.set_review_env(project="demo", token="secret")
@@ -72,7 +72,7 @@ def test_review_triggers_notice(product_test_kit: ProductTestKit) -> None:
     assert "REVIEW SUMMARY" in out
 
 
-def test_dry_run_prints_command_and_dependencies(product_test_kit: ProductTestKit) -> None:
+def test_dry_run_prints_command_and_dependencies(product_test_kit: ProductTestKit):
     cli = product_test_kit
 
     dep_file = cli.write_requirements(["pkg==1.0.0", "other==2.0.0"])
@@ -88,7 +88,7 @@ def test_dry_run_prints_command_and_dependencies(product_test_kit: ProductTestKi
     assert "pypi/pypi/-/other/2.0.0" in out
 
 
-def test_empty_lockfile_returns_error(product_test_kit: ProductTestKit) -> None:
+def test_empty_lockfile_returns_error(product_test_kit: ProductTestKit):
     cli = product_test_kit
 
     dep_file = cli.write_requirements([])
