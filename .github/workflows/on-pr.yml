@@ -155,4 +155,4 @@ jobs:
           enable-cache: true
 
       - name: Run dash-license-scan on self
-        run: uvx dash-license-scan uv.lock
+        run: uv run dash-license-scan uv.lock

@@ -79,7 +79,7 @@ source = "registry+https://example.com/index"
 """
     )
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # noqa: PT011
         parsers.parse(cargo)
 
 
