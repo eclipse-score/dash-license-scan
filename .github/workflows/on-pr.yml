@@ -143,3 +143,16 @@ jobs:
         run: |
           echo "### pip-audit advisories" >> "$GITHUB_STEP_SUMMARY"
           uvx pip-audit --format markdown || echo "No vulnerabilities found" | tee -a "$GITHUB_STEP_SUMMARY"
+
+  self-scan:
+    name: Self Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Run dash-license-scan on self
+        run: uvx dash-license-scan uv.lock

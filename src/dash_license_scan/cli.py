@@ -15,11 +15,12 @@ class Params:
     lockfiles: list[Path]
     verbose: bool
     summary: Path | None
+    review: bool
 
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        description=f"Wrapper around eclipse-dash/dash-licenses.\nUses bundled {jar.get_jar().name}.",
+        description=f"Wrapper around eclipse-dash/dash-licenses.\nUses bundled {jar.bundled_jar().name}.",
     )
     _ = p.add_argument(
         "--version",
@@ -49,6 +50,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
     )
 
+    _ = p.add_argument(
+        "--review",
+        action="store_true",
+        help="Trigger license review process (in case of unknown licenses)",
+    )
+
     return p
 
 
@@ -56,9 +63,15 @@ def parse_args(argv: Sequence[str] | None = None):
     parser = build_parser()
     args = parser.parse_args(argv)
 
-    return Params(
+    p = Params(
         dry_run=args.dry_run,  # pyright: ignore[reportAny]
         lockfiles=args.lockfiles,  # pyright: ignore[reportAny]
         verbose=args.verbose,  # pyright: ignore[reportAny]
         summary=args.summary,  # pyright: ignore[reportAny]
+        review=args.review,  # pyright: ignore[reportAny]
     )
+
+    if p.dry_run and p.review:
+        parser.error("--dry-run and --review cannot be used together")
+
+    return p

@@ -1,5 +1,16 @@
 {
-    "python.analysis.typeCheckingMode": "standard",
+    // Use basedpyright as the language server
+    "python.languageServer": "None",
+
+    // Ensure Python extension does not enable Pylance implicitly
+    "python.analysis.typeCheckingMode": "off",
+
+    // basedpyright configuration
+    "basedpyright.analysis.diagnosticMode": "workspace",
+    "basedpyright.analysis.typeCheckingMode": "strict",
+    "basedpyright.analysis.autoImportCompletions": true,
+    "basedpyright.analysis.useLibraryCodeForTypes": true,
+
     "python.analysis.inlayHints.callArgumentNames": "partial",
     "python.analysis.inlayHints.functionReturnTypes": true,
     "python.analysis.inlayHints.pytestParameters": true,

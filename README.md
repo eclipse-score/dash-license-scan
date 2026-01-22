@@ -20,13 +20,14 @@ Proof of Concept. Do not use in production environments.
 - **Easy installation**: Run with [`pipx`](https://pypa.github.io/pipx/) or [`uvx`](https://docs.astral.sh/uv/concepts/tools/) - no complex setup required
 - **Self-contained**: Self-contained tool with `dash-licenses` JAR included and zero Python dependencies for simplified version management.
 - **Lockfile support**: Supports scanning common lockfile formats:
-  - `requirements.txt` (Python)
+  - `requirements.txt` (Python with pip-tools)
+  - `uv.lock` (Python with uv)
   - `Cargo.lock` (Rust)
 
 ### Planned Features
 
 - Auto-detect lockfiles in current directory
-- Support more lock file formats, e.g. `uv.lock` and `bazel mod graph`.
+- Support more lock file formats, e.g. bazel.
 - Detect GitHub pull request invocation and print diff
 - Compare against additional license limitations (e.g., allowed licenses list)
 - Auto-detect Eclipse project environment configuration
@@ -50,14 +51,17 @@ The tool automatically detects the lockfile type based on filename and extension
 # Scan a Python requirements file
 uvx dash-license-scan requirements.txt
 
+# Scan a uv.lock file
+uvx dash-license-scan uv.lock
+
 # Scan a Rust Cargo lockfile
 uvx dash-license-scan Cargo.lock
 
 # Scan multiple lockfiles at once
-uvx dash-license-scan requirements.txt Cargo.lock
+uvx dash-license-scan requirements.txt uv.lock Cargo.lock
 
 # Dry-run to see detected dependencies without invoking dash-licenses
-uvx dash-license-scan --dry-run requirements.txt
+uvx dash-license-scan --dry-run uv.lock
 ```
 
 
@@ -66,6 +70,29 @@ For verbose logging:
 uvx dash-license-scan -v requirements.txt
 ```
 
+### Triggering a Review of Unknown Licenses
+
+Use `--review` flag to trigger an Eclipse IP-Team review for unknown licenses. Requires two environment variables:
+
+1. **`DASH_TOKEN` or `ECLIPSE_GITLAB_API_TOKEN`** — Generate from https://gitlab.eclipse.org/-/user_settings/personal_access_tokens (scope: `api`)
+2. **`ECLIPSE_PROJECT`** — Your Eclipse project identifier (e.g., `automotive.score`)
+
+**Option A: Set as environment variables**
+```bash
+export DASH_TOKEN=<your_token>
+export ECLIPSE_PROJECT=automotive.score
+uvx dash-license-scan uv.lock --review
+```
+
+**Option B: Create a `.env` file**
+```bash
+DASH_TOKEN=<your_token>
+ECLIPSE_PROJECT=automotive.score
+```
+Then run:
+```bash
+uvx dash-license-scan uv.lock --review
+```
 
 ---
 
