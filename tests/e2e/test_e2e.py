@@ -82,7 +82,7 @@ def test_dry_run_prints_command_and_dependencies(product_test_kit: ProductTestKi
 
     out = cli.stdout()
     assert "Would run command: java" in out
-    assert "-jar /fake/jar.jar" in out or "-jar \\\\fake\\\\jar.jar" in out
+    assert "-jar /fake/jar.jar" in out or "-jar \\fake\\jar.jar" in out
     assert "With dependencies:" in out
     assert "pypi/pypi/-/pkg/1.0.0" in out
     assert "pypi/pypi/-/other/2.0.0" in out
