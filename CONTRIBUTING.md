@@ -49,7 +49,7 @@ uv run pytest
 uv run pytest -v
 
 # Run a specific test file
-uv run pytest tests/test_main.py
+uv run pytest tests/unit/test_main.py
 
 # Run tests with coverage
 uv run pytest --cov=src/dash_license_scan --cov-report=term-missing

@@ -7,7 +7,7 @@
 
     // basedpyright configuration
     "basedpyright.analysis.diagnosticMode": "workspace",
-    "basedpyright.analysis.typeCheckingMode": "strict",
+    "basedpyright.analysis.typeCheckingMode": "standard",
     "basedpyright.analysis.autoImportCompletions": true,
     "basedpyright.analysis.useLibraryCodeForTypes": true,
 

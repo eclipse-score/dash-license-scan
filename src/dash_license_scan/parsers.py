@@ -20,7 +20,7 @@ def parse(file: Path) -> list[str]:
         sys.exit(f"lockfile not found: {file}")
 
     # TODO: sync typical filenames with e.g. dependabot definitions
-    if file.stem == "requirements" and file.suffix in (".txt", ".out"):
+    if file.stem.startswith("requirements") and file.suffix in (".txt", ".out"):
         return parse_pypi(file)
     elif file.name == "Cargo.lock":
         return parse_crate(file)

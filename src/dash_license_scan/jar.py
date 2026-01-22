@@ -126,13 +126,20 @@ def run_jar(
             cmd.extend(["-token", token_for_review])
 
         cmd.extend(["-"])  # Read dependencies from stdin
-        log.debug(f"Running command: {' '.join(cmd)}")
+
+        masked_cmd = cmd.copy()
+        if token_for_review:
+            token_index = masked_cmd.index(token_for_review)
+            masked_cmd[token_index] = "<REDACTED>"
+
 
         if dry_run:
-            print(f"Would run command: {' '.join(cmd)}")
+            print(f"Would run command: {' '.join(masked_cmd)}")
             print("With dependencies:")
             print("\n".join(dependencies.split("\n")))
             raise SystemExit(0)
+
+        log.debug(f"Running command: {' '.join(masked_cmd)}")
 
         result = subprocess.run(
             cmd,
