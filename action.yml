@@ -38,7 +38,12 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        [[ "${RUNNER_DEBUG:-false}" == "true" ]] && set -x
+
+        echo "ACTIONS_STEP_DEBUG='${ACTIONS_STEP_DEBUG-<unset>}'"
+        echo "ACTIONS_RUNNER_DEBUG='${ACTIONS_RUNNER_DEBUG-<unset>}'"
+        echo "RUNNER_DEBUG='${RUNNER_DEBUG-<unset>}'"
+
+        [[ "${RUNNER_DEBUG:-false}" != "false" ]] && set -x
 
         # Defense-in-depth: mask token if it comes from inputs (inputs are not always GitHub secrets).
         if [[ -n "${DASH_TOKEN:-}" ]]; then
