@@ -36,8 +36,12 @@ runs:
         python -m venv "${{ github.action_path }}/.venv"
         ls "${{ github.action_path }}"
 
+        echo "Fake Version: $SETUPTOOLS_SCM_PRETEND_VERSION_FOR_DASH_LICENSE_SCAN"
+
         "${{ github.action_path }}/.venv/bin/python" -m pip install "${{ github.action_path }}"
       env:
+        # Install from ${{ github.action_path }} does not have .git to get version info.
+        # Provide a fake version for dash-license-scan to avoid installation errors.
         SETUPTOOLS_SCM_PRETEND_VERSION_FOR_DASH_LICENSE_SCAN: "RUN-${{ github.run_number }}"
 
     - name: Run dash-license-scan (capture stdout/stderr/exit code)
