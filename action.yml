@@ -1,49 +1,135 @@
 name: Dash License Scan
-description: Run dash-license scan tool on specified lockfiles and optionally trigger a review in Dash.
+description: Run dash-license-scan tool on specified lockfiles and optionally trigger a review in Dash.
 
 inputs:
-  token:
-    description: Dash API token
-    required: true
-
-  # TODO: simplify once https://github.com/eclipse-score/.eclipsefdn/pull/131 is merged
-  eclipse_project:
-    description: Eclipse project name
-    required: true
-
   lockfiles:
     description: List of lockfiles to scan, separated by spaces.
     required: true
 
+  token:
+    description: Dash API token
+    required: false
+
+  # TODO: simplify once https://github.com/eclipse-score/.eclipsefdn/pull/131 is merged
+  eclipse_project:
+    description: Eclipse project name
+    required: false
+
   trigger_review:
     description: Whether to trigger a review in Dash for the scan results.
     required: false
-    default: "true"
+    default: "false"
 
 runs:
   using: composite
   steps:
-    - name: Set up venv + install dash-license-scan
+    - name: Set up venv and install dash-license-scan
       shell: bash
       run: |
         set -euo pipefail
 
         python -m venv "${{ github.action_path }}/.venv"
+        "${{ github.action_path }}/.venv/bin/python" -m pip install --upgrade pip
         "${{ github.action_path }}/.venv/bin/python" -m pip install "${{ github.action_path }}"
 
-    - name: Run dash-license-scan
+    - name: Run dash-license-scan (capture stdout/stderr/exit code)
+      id: dash_scan
       shell: bash
       run: |
         set -euo pipefail
 
-        review_flag=""
-        if [[ "${{ inputs.trigger_review }}" == "true" ]]; then
-          review_flag="--review"
+        # Defense-in-depth: mask token if it comes from inputs (inputs are not always GitHub secrets).
+        if [[ -n "${DASH_TOKEN:-}" ]]; then
+          echo "::add-mask::${DASH_TOKEN}"
         fi
 
-        "${{ github.action_path }}/.venv/bin/dash-license-scan" \
-          ${{ inputs.lockfiles }} \
-          ${review_flag}
+        # Optional flag handling: use an array so quoting stays correct.
+        review_flag=()
+        if [[ "${{ inputs.trigger_review }}" == "true" ]]; then
+          review_flag=(--review)
+        fi
+
+        # Build the command as a bash array (robust + avoids injection/quoting issues).
+        cmd=(
+          "${{ github.action_path }}/.venv/bin/dash-license-scan"
+          --format md
+          ${{ inputs.lockfiles }}
+          "${review_flag[@]}"
+        )
+
+        # Capture stdout and stderr separately into temp files.
+        # Rationale:
+        # - stdout is the "result" (Markdown report)
+        # - stderr is "logging/status"
+        out_file="$(mktemp)"
+        err_file="$(mktemp)"
+
+        # Temporarily disable `-e` so a non-zero tool exit code does not abort the step
+        # before we can post the PR comment.
+        set +e
+        "${cmd[@]}" >"$out_file" 2>"$err_file"
+        exit_code=$?
+        set -e
+
+        # Pass captured values to later steps using $GITHUB_OUTPUT.
+        # For multiline content, GitHub Actions requires the heredoc-style syntax.
+        {
+          echo "exit_code=${exit_code}"
+
+          echo "stdout<<__EOF__"
+          cat "$out_file"
+          echo "__EOF__"
+
+          echo "stderr<<__EOF__"
+          cat "$err_file"
+          echo "__EOF__"
+        } >> "$GITHUB_OUTPUT"
+
+        rm -f "$out_file" "$err_file"
       env:
         DASH_TOKEN: ${{ inputs.token }}
         ECLIPSE_PROJECT: ${{ inputs.eclipse_project }}
+
+    - name: Find existing PR comment
+      if: github.event.pull_request
+      uses: peter-evans/find-comment@v3
+      id: fc
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-author: "github-actions[bot]"
+        body-includes: Dash License Check
+
+    - name: Comment on PR with Dash License Check results
+      if: github.event.pull_request
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        comment-id: ${{ steps.fc.outputs.comment-id }}
+        issue-number: ${{ github.event.pull_request.number }}
+        edit-mode: replace
+        body: |
+          ## Dash License Check
+
+          ${{ steps.dash_scan.outputs.stdout }}
+
+          <details>
+          <summary>Execution logs (stderr)</summary>
+
+          ```
+          ${{ steps.dash_scan.outputs.stderr }}
+          ```
+
+          </details>
+
+          **Exit code:** `${{ steps.dash_scan.outputs.exit_code }}`
+
+    - name: Fail the action if dash-license-scan failed
+      shell: bash
+      run: |
+        # Make the check red *after* we posted/updated the PR comment.
+        set -euo pipefail
+
+        code='${{ steps.dash_scan.outputs.exit_code }}'
+        if [[ "$code" != "0" ]]; then
+          echo "dash-license-scan failed with exit code $code" >&2
+          exit "$code"
+        fi
