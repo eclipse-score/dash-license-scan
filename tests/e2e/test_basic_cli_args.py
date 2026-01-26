@@ -1,35 +1,34 @@
 import pytest
-from tests.common import safe_run_main
+from tests.e2e.conftest import ProductTestKit
 
 from dash_license_scan import __version__
 
 
-def test_help_exits_with_usage(capsys: pytest.CaptureFixture[str]):
-    assert safe_run_main(["--help"]) == 0
+def test_help_exits_with_usage(product_test_kit: ProductTestKit):
+    assert product_test_kit.run(["--help"]) == 0
 
-    out = capsys.readouterr().out
-    assert "Wrapper around eclipse-dash/dash-licenses" in out
-
-
-def test_version_exits_with_version(capsys: pytest.CaptureFixture[str]):
-    assert safe_run_main(["--version"]) == 0
-
-    out = capsys.readouterr().out
-    assert __version__ in out
+    assert "Wrapper around eclipse-dash/dash-licenses" in product_test_kit.stdout
 
 
-def test_invalid_argument_exits_error(capsys: pytest.CaptureFixture[str]):
-    assert safe_run_main(["--unknown", "requirements.txt"]) == 2
+def test_version_exits_with_version(product_test_kit: ProductTestKit):
+    assert product_test_kit.run(["--version"]) == 0
 
-    err = capsys.readouterr().err
-    assert "unrecognized arguments" in err
+    assert __version__ in product_test_kit.stdout
 
 
-def test_dry_run_and_review_are_mutually_exclusive(capsys: pytest.CaptureFixture[str]):
-    """--dry-run and --review flags cannot be used together."""
-    assert safe_run_main(["--dry-run", "--review", "requirements.txt"]) == 2
+def test_invalid_argument_exits_error(product_test_kit: ProductTestKit):
+    assert product_test_kit.run(["--unknown", "requirements.txt"]) == 2
 
-    err = capsys.readouterr().err
+    assert "unrecognized arguments" in product_test_kit.stderr
+
+
+def test_dry_run_and_review_are_mutually_exclusive(product_test_kit: ProductTestKit):
+    """--dry-run and --trigger-review flags cannot be used together."""
+    assert (
+        product_test_kit.run(["--dry-run", "--trigger-review", "requirements.txt"]) == 2
+    )
+
+    err = product_test_kit.stderr
     assert (
         "cannot be used together" in err.lower() or "mutually exclusive" in err.lower()
     )

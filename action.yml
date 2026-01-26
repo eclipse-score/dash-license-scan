@@ -1,8 +1,8 @@
 name: Dash License Scan
-description: Run dash-license scan
+description: Run dash-license scan tool on specified lockfiles and optionally trigger a review in Dash.
 
 inputs:
-  dash_token:
+  token:
     description: Dash API token
     required: true
 
@@ -45,5 +45,5 @@ runs:
           ${{ inputs.lockfiles }} \
           ${review_flag}
       env:
-        DASH_TOKEN: ${{ inputs.dash_token }}
+        DASH_TOKEN: ${{ inputs.token }}
         ECLIPSE_PROJECT: ${{ inputs.eclipse_project }}

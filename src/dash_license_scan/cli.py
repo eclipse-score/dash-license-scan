@@ -1,6 +1,7 @@
 import argparse
 from collections.abc import Sequence
 from dataclasses import dataclass
+from enum import Enum
 from logging import getLogger
 from pathlib import Path
 
@@ -9,13 +10,17 @@ from dash_license_scan import __version__, jar
 log = getLogger(__name__)
 
 
+class OutputFormat(str, Enum):
+    MD = "md"
+
+
 @dataclass
 class Params:
     dry_run: bool
     lockfiles: list[Path]
     verbose: bool
-    summary: Path | None
     review: bool
+    format: OutputFormat
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -39,21 +44,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="Enable verbose logging",
     )
     _ = p.add_argument(
-        "--summary",
-        type=Path,
-        help="Optional path to write the dash-licenses summary output. If omitted results are printed to stdout.",
+        "--trigger-review",
+        action="store_true",
+        help="Trigger license review process (in case of unknown licenses)",
     )
+    _ = p.add_argument(
+        "--format",
+        choices=list(OutputFormat),
+        default=OutputFormat.MD,
+        help="Format of the summary output",
+    )
+
     _ = p.add_argument(
         "lockfiles",
         nargs="+",
         help="One or more lockfiles to scan (e.g., requirements.txt, Cargo.lock)",
         type=Path,
-    )
-
-    _ = p.add_argument(
-        "--trigger-review",
-        action="store_true",
-        help="Trigger license review process (in case of unknown licenses)",
     )
 
     return p
@@ -67,8 +73,8 @@ def parse_args(argv: Sequence[str] | None = None):
         dry_run=args.dry_run,  # pyright: ignore[reportAny]
         lockfiles=args.lockfiles,  # pyright: ignore[reportAny]
         verbose=args.verbose,  # pyright: ignore[reportAny]
-        summary=args.summary,  # pyright: ignore[reportAny]
         review=args.trigger_review,  # pyright: ignore[reportAny]
+        format=OutputFormat(args.format),  # pyright: ignore[reportAny]
     )
 
     if p.dry_run and p.review:

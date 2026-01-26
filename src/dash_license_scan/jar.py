@@ -13,7 +13,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from contextlib import contextmanager, suppress
 from dataclasses import dataclass
 from logging import getLogger
 from pathlib import Path
@@ -66,32 +65,11 @@ def bundled_jar() -> Path:
         return p
 
 
-@contextmanager
-def tmp_file(summary_file: Path | None):
-    """
-    Context manager yielding a Path to a created and *closed* temporary file.
-
-    Creating ensure that we actually own the file.
-    Closing ensures that Java can open the file exclusively for writing.
-    """
-
-    with tempfile.NamedTemporaryFile(  # noqa: SIM115
-        prefix="dash-license-scan-summary-", suffix=".txt", delete=False
-    ):
-    tmp_file = Path(tmp.name)
-    tmp.close()
-    try:
-        yield tmp_file
-    finally:
-        with suppress(OSError):
-            tmp_file.unlink()
-
 @dataclass
 class JarResult:
     summarize: str
-    stdout: str
-    stderr: str
-    issues_created: list[str]
+    log: str
+    issues: list[str]
 
 def run_jar(
     *,
@@ -104,40 +82,40 @@ def run_jar(
 ) -> JarResult:
     """Run the dash-licenses JAR with the given dependencies.
 
-    Returns a tuple of (#issues found, summary text).
-
     Note: presence of a token indicates review mode!
     """
 
-    require_java()  # ensure Java is available even for dry-run
-
     jar_path = bundled_jar()
 
-    with summary_file_or_tmp_file(result_file) as out:
+    with tempfile.TemporaryDirectory(prefix="dash-licenses-") as tmpdir:
+        out_file = Path(tmpdir) / "summary.txt"
+
         cmd = ["java", "-Djava.net.useSystemProxies=true"]
         if verbose:
             # According to documentation this is verbose mode, but it does not seem to have any effect
             cmd.append("-Dorg.slf4j.simpleLogger.defaultLogLevel=debug")
         cmd.extend(["-jar", str(jar_path)])
-        cmd.extend(["-summary", str(out)])
+        cmd.extend(["-summary", str(out_file)])
         if project:
             cmd.extend(["-project", project])
         if token_for_review:
+            if not project:
+                raise ValueError("Project must be specified when using review mode.")
+
             cmd.append("-review")
             cmd.extend(["-token", token_for_review])
 
         cmd.extend(["-"])  # Read dependencies from stdin
 
-        masked_cmd = cmd.copy()
-        if token_for_review:
-            token_index = masked_cmd.index(token_for_review)
-            masked_cmd[token_index] = "<REDACTED>"
+        masked_cmd = [str(c) if c != token_for_review else "<REDACTED>" for c in cmd]
 
         if dry_run:
             print(f"Would run command: {' '.join(masked_cmd)}")
             print("With dependencies:")
             print("\n".join(dependencies.split("\n")))
             raise SystemExit(0)
+
+        require_java()  # ensure Java is available
 
         log.debug(f"Running command: {' '.join(masked_cmd)}")
 
@@ -149,21 +127,24 @@ def run_jar(
         )
         # 0 is all ok
         # [1,126] is the number of dependencies with issues
-        if result.returncode < 0 or result.returncode > 126:
+        if not (result.returncode >= 0 and result.returncode <= 126):
             log.error(f"dash-licenses failed with exit code {result.returncode}")
             log.error(f"stdout: {result.stdout}")
             log.error(f"stderr: {result.stderr}")
-            raise SystemExit(result.returncode)
+            raise SystemExit(2)
 
         # stdout is always empty
         if result.stdout:
             log.warning(f"Unexpected stdout: {result.stdout}")
 
-        result = JarResult()
-        # stderr has logs, print only in verbose mode
-        for line in result.stderr.splitlines():
+        result = JarResult(
+            summarize=out_file.read_text(),
+            log=result.stderr,
+            issues=[],
+        )
+        for line in result.log.splitlines():
             if "http" in line:
-                result.issues_created.append(line)
+                result.issues.append(line)
             log.debug(f"dash-licenses: {line}")
 
-        return result.returncode, out.read_text()
+        return result

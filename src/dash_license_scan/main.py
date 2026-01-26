@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import os
+import stat
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -66,27 +67,31 @@ Refer to the documentation for more details on setting these variables.
         log.warning("No dependencies found to scan.")
         return 2  # No dependencies found is probably an error
 
-    print(f"Scanning {len(deps)} dependencies...")
+    log.info(f"Scanning {len(deps)} dependencies...")
 
-    # TODO: should we cache the results? Forever? For some minutes? Configurable?
     result = jar.run_jar(
         dependencies="\n".join(deps),
         verbose=args.verbose,
-        result_file=Path(args.summary) if args.summary else None,
         dry_run=args.dry_run,
         project=project,
         token_for_review=token if args.review else None,
     )
 
-    print("")
-    print(
-        f"Dash Licenses Summary Output: {'OK' if result.issues == 0 else f'{result.issues} Issues Found'}"
-    )
-    print(result.out)
-    if args.review and result.issues > 0:
-        print(
-            "License review process was triggered. See https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/?sort=created_date for details/status."
+    log.debug(f"Dash Licenses log: {result.log}")
+
+    if args.format == "md":
+        status = (
+            "✅ No issues found"
+            if not result.issues
+            else f"❌ {len(result.issues)} Issues found"
         )
+
+        print(f"# Dash License Scan: {status}")
+        print(result.summarize)
+        if args.review and result.issues:
+            print("License review process was triggered.")
+            for issue in result.issues:
+                print(f"* {issue}")
 
     return 1 if result.issues else 0
 
