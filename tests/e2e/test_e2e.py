@@ -31,7 +31,11 @@ def test_scans_requirements_success(product_test_kit: ProductTestKit):
 
 def test_scans_requirements_with_issues(product_test_kit: ProductTestKit):
     cli = product_test_kit
-    cli.set_fake_jar_response(2, "ISSUE SUMMARY", stderr="http://example.com/issue1\nhttp://example.com/issue2")
+    cli.set_fake_jar_response(
+        2,
+        "ISSUE SUMMARY",
+        stderr="http://example.com/issue1\nhttp://example.com/issue2",
+    )
 
     dep_file = cli.fake_requirements_file(["bad==0.1", "worse==0.2"])
 

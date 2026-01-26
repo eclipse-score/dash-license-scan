@@ -89,6 +89,7 @@ class ProductTestKit:
     def stderr(self) -> str:
         return self.capsys.readouterr().err
 
+
 @pytest.fixture
 def product_test_kit(
     monkeypatch: MonkeyPatch, capsys: pytest.CaptureFixture[str]

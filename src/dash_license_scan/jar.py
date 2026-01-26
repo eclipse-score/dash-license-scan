@@ -71,6 +71,7 @@ class JarResult:
     log: str
     issues: list[str]
 
+
 def run_jar(
     *,
     dependencies: str,
