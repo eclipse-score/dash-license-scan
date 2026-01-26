@@ -1,4 +1,3 @@
-import pytest
 from tests.e2e.conftest import ProductTestKit
 
 from dash_license_scan import __version__

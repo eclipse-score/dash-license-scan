@@ -72,7 +72,7 @@ uvx dash-license-scan -v requirements.txt
 
 ### Triggering a Review of Unknown Licenses
 
-Use `--review` flag to trigger an Eclipse IP-Team review for unknown licenses. Requires two environment variables:
+Use `--trigger-review` flag to trigger an Eclipse IP-Team review for unknown licenses. Requires two environment variables:
 
 1. **`DASH_TOKEN` or `ECLIPSE_GITLAB_API_TOKEN`** — Generate from https://gitlab.eclipse.org/-/user_settings/personal_access_tokens (scope: `api`)
 2. **`ECLIPSE_PROJECT`** — Your Eclipse project identifier (e.g., `automotive.score`)
@@ -81,7 +81,7 @@ Use `--review` flag to trigger an Eclipse IP-Team review for unknown licenses. R
 ```bash
 export DASH_TOKEN=<your_token>
 export ECLIPSE_PROJECT=automotive.score
-uvx dash-license-scan uv.lock --review
+uvx dash-license-scan uv.lock --trigger-review
 ```
 
 **Option B: Create a `.env` file**
@@ -91,7 +91,7 @@ ECLIPSE_PROJECT=automotive.score
 ```
 Then run:
 ```bash
-uvx dash-license-scan uv.lock --review
+uvx dash-license-scan uv.lock --trigger-review
 ```
 
 ---

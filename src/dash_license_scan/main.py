@@ -2,14 +2,16 @@ from __future__ import annotations
 
 import logging
 import os
-import stat
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from dotenv import load_dotenv
 
 from dash_license_scan import jar
 from dash_license_scan.cli import parse_args
 from dash_license_scan.parsers import parse
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 log = logging.getLogger(__name__)
 

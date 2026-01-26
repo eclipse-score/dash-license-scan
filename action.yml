@@ -27,7 +27,7 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        [[ "${ACTIONS_STEP_DEBUG:-false}" == "true" ]] && set -x
+        [[ "${RUNNER_DEBUG:-false}" == "true" ]] && set -x
 
         python -m venv "${{ github.action_path }}/.venv"
         "${{ github.action_path }}/.venv/bin/python" -m pip install --upgrade pip
@@ -38,7 +38,7 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        [[ "${ACTIONS_STEP_DEBUG:-false}" == "true" ]] && set -x
+        [[ "${RUNNER_DEBUG:-false}" == "true" ]] && set -x
 
         # Defense-in-depth: mask token if it comes from inputs (inputs are not always GitHub secrets).
         if [[ -n "${DASH_TOKEN:-}" ]]; then
@@ -48,7 +48,7 @@ runs:
         # Optional flag handling: use an array so quoting stays correct.
         review_flag=()
         if [[ "${{ inputs.trigger_review }}" == "true" ]]; then
-          review_flag=(--review)
+          review_flag=(--trigger-review)
         fi
 
         # Build the command as a bash array (robust + avoids injection/quoting issues).

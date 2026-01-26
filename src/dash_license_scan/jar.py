@@ -75,7 +75,6 @@ def run_jar(
     *,
     dependencies: str,
     verbose: bool = False,
-    result_file: Path | None = None,
     dry_run: bool = False,
     project: str | None = None,
     token_for_review: str | None = None,
