@@ -160,6 +160,9 @@ jobs:
   self-scan-main:
     name: Self Scan (from Action)
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
     steps:
       - uses: actions/checkout@v4
 
