@@ -1,0 +1,49 @@
+name: Dash License Scan
+description: Run dash-license scan
+
+inputs:
+  dash_token:
+    description: Dash API token
+    required: true
+
+  # TODO: simplify once https://github.com/eclipse-score/.eclipsefdn/pull/131 is merged
+  eclipse_project:
+    description: Eclipse project name
+    required: true
+
+  lockfiles:
+    description: List of lockfiles to scan, separated by spaces.
+    required: true
+
+  trigger_review:
+    description: Whether to trigger a review in Dash for the scan results.
+    required: false
+    default: "true"
+
+runs:
+  using: composite
+  steps:
+    - name: Set up venv + install dash-license-scan
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        python -m venv "${{ github.action_path }}/.venv"
+        "${{ github.action_path }}/.venv/bin/python" -m pip install "${{ github.action_path }}"
+
+    - name: Run dash-license-scan
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        review_flag=""
+        if [[ "${{ inputs.trigger_review }}" == "true" ]]; then
+          review_flag="--review"
+        fi
+
+        "${{ github.action_path }}/.venv/bin/dash-license-scan" \
+          ${{ inputs.lockfiles }} \
+          ${review_flag}
+      env:
+        DASH_TOKEN: ${{ inputs.dash_token }}
+        ECLIPSE_PROJECT: ${{ inputs.eclipse_project }}

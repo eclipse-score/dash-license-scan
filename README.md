@@ -96,6 +96,25 @@ uvx dash-license-scan uv.lock --review
 
 ---
 
+## Usage in Automations
+
+**This is planned functionality. Workflow does not exist yet.**
+
+Expected behavior by users:
+
+PR -> scan -> cannot parse dependencies --> 🔴
+PR -> scan -> all dependencies are approved --> 🟢 + PR comment with a list of dependencies and their licenses.
+PR -> scan -> some dependencies are unknown --> 🟢 + PR comment with a list of dependencies and their licenses & status.
+PR -> scan -> some dependencies in review --> 🟢 + PR comment with a list of dependencies and their licenses & status. Links to the review tickets.
+PR -> scan -> some dependencies rejected --> 🔴 + PR comment with a list of dependencies and their licenses & status. Links to the tickets.
+
+Implementation:
+
+- GitHub Action that triggers on PR, triggers `dash-license-scan` and uploads the results as a PR comment.
+- GitHub Action that triggers on new comments with `@dash-license-scan recheck` to re-check the status of dependencies in review via `dash-license-scan`.
+- GitHub Action that triggers on new comments with `@dash-license-scan trigger-review` to create review tickets for unknown dependencies via `dash-license-scan --trigger-review`.
+
+
 ## Why a Python wrapper?
 
 Why not extend the Java code directly? Here are the reasons:

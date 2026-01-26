@@ -14,6 +14,7 @@ import subprocess
 import sys
 import tempfile
 from contextlib import contextmanager, suppress
+from dataclasses import dataclass
 from logging import getLogger
 from pathlib import Path
 
@@ -66,31 +67,31 @@ def bundled_jar() -> Path:
 
 
 @contextmanager
-def summary_file_or_tmp_file(summary_file: Path | None):
-    """Context manager yielding a Path to a summary file.
+def tmp_file(summary_file: Path | None):
+    """
+    Context manager yielding a Path to a created and *closed* temporary file.
 
-    If summary_file is provided, it is used. Otherwise, a temporary file is created
-    and deleted on exit.
+    Creating ensure that we actually own the file.
+    Closing ensures that Java can open the file exclusively for writing.
     """
 
-    if summary_file:
-        summary_file.parent.mkdir(parents=True, exist_ok=True)
-        yield summary_file
+    with tempfile.NamedTemporaryFile(  # noqa: SIM115
+        prefix="dash-license-scan-summary-", suffix=".txt", delete=False
+    ):
+    tmp_file = Path(tmp.name)
+    tmp.close()
+    try:
+        yield tmp_file
+    finally:
+        with suppress(OSError):
+            tmp_file.unlink()
 
-    else:
-        # Do not use context manager, as we need to fully close the file, so the external
-        # application (Java) can open it for exclusive writing.
-        tmp = tempfile.NamedTemporaryFile(  # noqa: SIM115
-            prefix="dash-license-scan-summary-", suffix=".txt", delete=False
-        )
-        tmp_file = Path(tmp.name)
-        tmp.close()
-        try:
-            yield tmp_file
-        finally:
-            with suppress(OSError):
-                tmp_file.unlink()
-
+@dataclass
+class JarResult:
+    summarize: str
+    stdout: str
+    stderr: str
+    issues_created: list[str]
 
 def run_jar(
     *,
@@ -100,7 +101,7 @@ def run_jar(
     dry_run: bool = False,
     project: str | None = None,
     token_for_review: str | None = None,
-) -> tuple[int, str]:
+) -> JarResult:
     """Run the dash-licenses JAR with the given dependencies.
 
     Returns a tuple of (#issues found, summary text).
@@ -158,8 +159,11 @@ def run_jar(
         if result.stdout:
             log.warning(f"Unexpected stdout: {result.stdout}")
 
+        result = JarResult()
         # stderr has logs, print only in verbose mode
         for line in result.stderr.splitlines():
+            if "http" in line:
+                result.issues_created.append(line)
             log.debug(f"dash-licenses: {line}")
 
         return result.returncode, out.read_text()

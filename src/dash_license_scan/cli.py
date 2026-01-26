@@ -51,7 +51,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     _ = p.add_argument(
-        "--review",
+        "--trigger-review",
         action="store_true",
         help="Trigger license review process (in case of unknown licenses)",
     )
@@ -68,10 +68,10 @@ def parse_args(argv: Sequence[str] | None = None):
         lockfiles=args.lockfiles,  # pyright: ignore[reportAny]
         verbose=args.verbose,  # pyright: ignore[reportAny]
         summary=args.summary,  # pyright: ignore[reportAny]
-        review=args.review,  # pyright: ignore[reportAny]
+        review=args.trigger_review,  # pyright: ignore[reportAny]
     )
 
     if p.dry_run and p.review:
-        parser.error("--dry-run and --review cannot be used together")
+        parser.error("--dry-run and --trigger-review cannot be used together")
 
     return p

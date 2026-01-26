@@ -69,7 +69,7 @@ Refer to the documentation for more details on setting these variables.
     print(f"Scanning {len(deps)} dependencies...")
 
     # TODO: should we cache the results? Forever? For some minutes? Configurable?
-    issues, out = jar.run_jar(
+    result = jar.run_jar(
         dependencies="\n".join(deps),
         verbose=args.verbose,
         result_file=Path(args.summary) if args.summary else None,
@@ -80,16 +80,15 @@ Refer to the documentation for more details on setting these variables.
 
     print("")
     print(
-        f"Dash Licenses Summary Output: {'OK' if issues == 0 else f'{issues} Issues Found'}"
+        f"Dash Licenses Summary Output: {'OK' if result.issues == 0 else f'{result.issues} Issues Found'}"
     )
-    print(out)
-
-    if args.review and issues > 0:
+    print(result.out)
+    if args.review and result.issues > 0:
         print(
             "License review process was triggered. See https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/?sort=created_date for details/status."
         )
 
-    return 1 if issues else 0
+    return 1 if result.issues else 0
 
 
 if __name__ == "__main__":

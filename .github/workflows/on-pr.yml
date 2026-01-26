@@ -156,3 +156,15 @@ jobs:
 
       - name: Run dash-license-scan on self
         run: uv run dash-license-scan uv.lock
+
+  TEMP-test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: eclipse-score/dash-license-scan@dev
+        with:
+          dash_token: ${{ secrets.DASH_API_TOKEN }}
+          eclipse_project: "automotive.score"
+          lockfiles: "uv.lock"
+          trigger_review: "false"
