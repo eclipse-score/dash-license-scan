@@ -144,8 +144,8 @@ jobs:
           echo "### pip-audit advisories" >> "$GITHUB_STEP_SUMMARY"
           uvx pip-audit --format markdown || echo "No vulnerabilities found" | tee -a "$GITHUB_STEP_SUMMARY"
 
-  self-scan:
-    name: Self Scan
+  self-scan-local:
+    name: Self Scan (from PR)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -155,13 +155,15 @@ jobs:
           enable-cache: true
 
       - name: Run dash-license-scan on self
-        run: uv run dash-license-scan uv.lock
+        run: uv run dash-license-scan uv.lock --dry-run
 
-  TEMP-test-action:
+  self-scan-main:
+    name: Self Scan (from Action)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      # Run dash-license-scan using the GitHub Action on main branch (TODO: dev > main)
       - uses: eclipse-score/dash-license-scan@dev
         with:
           token: ${{ secrets.DASH_API_TOKEN }}
