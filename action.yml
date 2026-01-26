@@ -27,14 +27,11 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        echo "ACTIONS_STEP_DEBUG='${ACTIONS_STEP_DEBUG-<unset>}'"
-        echo "ACTIONS_RUNNER_DEBUG='${ACTIONS_RUNNER_DEBUG-<unset>}'"
-        echo "RUNNER_DEBUG='${RUNNER_DEBUG-<unset>}'"
-
-        set -x
+        if [[ "${RUNNER_DEBUG-0}" == "1" ]]; then
+          set -x
+        fi
 
         python -m venv "${{ github.action_path }}/.venv"
-        ls "${{ github.action_path }}"
 
         "${{ github.action_path }}/.venv/bin/python" -m pip install "${{ github.action_path }}"
 
@@ -43,7 +40,9 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        set -x
+        if [[ "${RUNNER_DEBUG-0}" == "1" ]]; then
+          set -x
+        fi
 
         # Defense-in-depth: mask token if it comes from inputs (inputs are not always GitHub secrets).
         if [[ -n "${DASH_TOKEN:-}" ]]; then
@@ -56,12 +55,18 @@ runs:
           review_flag=(--trigger-review)
         fi
 
+        verbose_flag=()
+        if [[ "${RUNNER_DEBUG-0}" == "1" ]]; then
+          verbose_flag=(--verbose)
+        fi
+
         # Build the command as a bash array (robust + avoids injection/quoting issues).
         cmd=(
           "${{ github.action_path }}/.venv/bin/dash-license-scan"
           --format md
           ${{ inputs.lockfiles }}
           "${review_flag[@]}"
+          "${verbose_flag[@]}"
         )
 
         # Capture stdout and stderr separately into temp files.
