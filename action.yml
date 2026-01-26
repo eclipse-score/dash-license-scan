@@ -35,8 +35,10 @@ runs:
 
         python -m venv "${{ github.action_path }}/.venv"
         ls "${{ github.action_path }}"
-        
+
         "${{ github.action_path }}/.venv/bin/python" -m pip install "${{ github.action_path }}"
+      env:
+        SETUPTOOLS_SCM_PRETEND_VERSION_FOR_DASH_LICENSE_SCAN: "RUN-${{ github.run_number }}"
 
     - name: Run dash-license-scan (capture stdout/stderr/exit code)
       id: dash_scan
