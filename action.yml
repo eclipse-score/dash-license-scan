@@ -27,10 +27,15 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        [[ "${RUNNER_DEBUG:-false}" == "true" ]] && set -x
+        echo "ACTIONS_STEP_DEBUG='${ACTIONS_STEP_DEBUG-<unset>}'"
+        echo "ACTIONS_RUNNER_DEBUG='${ACTIONS_RUNNER_DEBUG-<unset>}'"
+        echo "RUNNER_DEBUG='${RUNNER_DEBUG-<unset>}'"
+
+        set -x
 
         python -m venv "${{ github.action_path }}/.venv"
-        "${{ github.action_path }}/.venv/bin/python" -m pip install --upgrade pip
+        ls "${{ github.action_path }}"
+        
         "${{ github.action_path }}/.venv/bin/python" -m pip install "${{ github.action_path }}"
 
     - name: Run dash-license-scan (capture stdout/stderr/exit code)
@@ -38,12 +43,7 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-
-        echo "ACTIONS_STEP_DEBUG='${ACTIONS_STEP_DEBUG-<unset>}'"
-        echo "ACTIONS_RUNNER_DEBUG='${ACTIONS_RUNNER_DEBUG-<unset>}'"
-        echo "RUNNER_DEBUG='${RUNNER_DEBUG-<unset>}'"
-
-        [[ "${RUNNER_DEBUG:-false}" != "false" ]] && set -x
+        set -x
 
         # Defense-in-depth: mask token if it comes from inputs (inputs are not always GitHub secrets).
         if [[ -n "${DASH_TOKEN:-}" ]]; then
