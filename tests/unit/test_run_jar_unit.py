@@ -170,10 +170,12 @@ pypi/pypi/-/pytest/8.4.2, MIT, approved, #23205"""
 
     assert len(result.dependencies) == 2
     assert result.dependencies[0].package == "pypi/pypi/-/colorama/0.4.6"
-    assert result.dependencies[0].license == "BSD-2-Clause AND BSD-3-Clause"
+    assert result.dependencies[0].license_raw == "BSD-2-Clause AND BSD-3-Clause"
+    assert str(result.dependencies[0].licensing) == "BSD-2-Clause AND BSD-3-Clause"
     assert result.dependencies[0].status == "approved"
     assert result.dependencies[1].package == "pypi/pypi/-/pytest/8.4.2"
-    assert result.dependencies[1].license == "MIT"
+    assert result.dependencies[1].license_raw == "MIT"
+    assert str(result.dependencies[0].licensing) == "MIT"
 
 
 def test_parse_jar_output_extracts_issues_from_stderr():
@@ -260,6 +262,6 @@ pypi/pypi/-/pytest/8.4.2, MIT, approved, #23205"""
     assert len(result.dependencies) == 3
     assert "pypi/pypi/-/colorama/0.4.6" in [row.package for row in result.dependencies]
     assert "BSD-2-Clause AND BSD-3-Clause" in [
-        row.license for row in result.dependencies
+        row.license_raw for row in result.dependencies
     ]
     assert "pypi/pypi/-/pytest/8.4.2" in [row.package for row in result.dependencies]

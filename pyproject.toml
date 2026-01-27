@@ -10,6 +10,7 @@ keywords = ["licenses", "oss", "dash", "eclipse", "sbom"]
 dependencies = [
   "tomli; python_version < '3.11'",
   "python-dotenv",
+  "license-expression>=30.4.4",
 ]
 
 classifiers = [

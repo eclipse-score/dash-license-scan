@@ -17,6 +17,8 @@ from dataclasses import dataclass
 from logging import getLogger
 from pathlib import Path
 
+from license_expression import Licensing
+
 log = getLogger(__name__)
 
 
@@ -68,9 +70,14 @@ def bundled_jar() -> Path:
 @dataclass
 class Dependency:
     package: str
-    license: str
+    license_raw: str
     status: str
     note: str
+
+    @property
+    def licensing(self):
+        """Return parsed licensing expression."""
+        return Licensing().parse(self.license_raw)
 
 
 @dataclass
@@ -88,7 +95,7 @@ class JarResult:
                 continue
             row = Dependency(
                 package=parts[0],
-                license=parts[1],
+                license_raw=parts[1],
                 status=parts[2],
                 note=parts[3],
             )
@@ -219,7 +226,6 @@ def run_jar(
             raise SystemExit(0)
 
         else:  # noqa: RET506
-
             log.debug(f"Running command: {' '.join(masked_cmd)}")
 
             result = run_cmdline(cmd, dependencies)

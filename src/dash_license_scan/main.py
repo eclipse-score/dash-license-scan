@@ -91,7 +91,7 @@ Refer to the documentation for more details on setting these variables.
         print("| Package | License | Status | Notes |")
         print("|---------|---------|--------|-------|")
         for dep in result.dependencies:
-            print(f"| {dep.package} | {dep.license} | {dep.status} | {dep.note} |")
+            print(f"| {dep.package} | {dep.licensing} | {dep.status} | {dep.note} |")
         print()
 
         if args.trigger_review and result.issues:
