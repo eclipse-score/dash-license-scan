@@ -51,7 +51,7 @@ def main(argv: list[str] | None = None) -> int:
     log.debug("Parsed args: %s", args)
     log.debug(f"project: {project}, token: {'set' if token else 'not set'}")
 
-    if args.review and (not project or not token):
+    if args.trigger_review and (not project or not token):
         log.error(
             """
 To trigger review mode, please ensure the following environment variables are set:
@@ -76,22 +76,24 @@ Refer to the documentation for more details on setting these variables.
         verbose=args.verbose,
         dry_run=args.dry_run,
         project=project,
-        token_for_review=token if args.review else None,
+        token=token,
+        trigger_review=args.trigger_review,
     )
 
     log.debug(f"Dash Licenses log: {result.log}")
 
     if args.format == "md":
-        status = (
-            "✅ No issues found"
-            if not result.issues
-            else f"❌ {len(result.issues)} Issues found"
-        )
+        print("# Dash License Scan")
 
-        print(f"# Dash License Scan: {status}")
-        print(result.summarize)
-        if args.review and result.issues:
-            print("License review process was triggered.")
+        # markdown table
+        print("| Package | License | Status | Notes |")
+        print("|---------|---------|--------|-------|")
+        for dep in result.dependencies:
+            print(f"| {dep.package} | {dep.license} | {dep.status} | {dep.note} |")
+        print()
+
+        if args.trigger_review and result.issues:
+            print("## License review process was triggered.")
             for issue in result.issues:
                 print(f"* {issue}")
 

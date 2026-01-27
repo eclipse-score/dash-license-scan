@@ -66,10 +66,125 @@ def bundled_jar() -> Path:
 
 
 @dataclass
+class Dependency:
+    package: str
+    license: str
+    status: str
+    note: str
+
+
+@dataclass
 class JarResult:
     summarize: str
     log: str
-    issues: list[str]
+    issues: list[str]  # experimental
+    dependencies: list[Dependency]
+
+    def set_rows_from_summary(self, summary: str) -> None:
+        rows: list[Dependency] = []
+        for line in summary.splitlines():
+            parts = [part.strip() for part in line.split(",")]
+            if len(parts) != 4:
+                continue
+            row = Dependency(
+                package=parts[0],
+                license=parts[1],
+                status=parts[2],
+                note=parts[3],
+            )
+            log.debug(f"Parsed summary row {line} => {row}")
+            rows.append(row)
+        self.dependencies = rows
+
+
+def build_cmdline(
+    *,
+    verbose: bool,
+    project: str | None,
+    token: str | None,
+    out_file: Path,
+    trigger_review: bool,
+) -> list[str]:
+    """Build the command line arguments for the dash-licenses JAR."""
+
+    if trigger_review and (not project or not token):
+        raise ValueError("Project and token must be specified when using review mode.")
+
+    cmd = ["java", "-Djava.net.useSystemProxies=true"]
+    if verbose:
+        cmd.append("-Dorg.slf4j.simpleLogger.defaultLogLevel=debug")
+    cmd.extend(["-jar", str(bundled_jar())])
+    cmd.extend(["-summary", str(out_file)])
+    if project:
+        cmd.extend(["-project", project])
+    if token:
+        cmd.extend(["-token", token])
+    if trigger_review:
+        cmd.append("-review")
+
+    cmd.extend(["-"])  # Read dependencies from stdin
+    return cmd
+
+
+def run_cmdline(cmd: list[str], dependencies: str) -> subprocess.CompletedProcess[str]:
+    """Execute the dash-licenses JAR command.
+
+    Args:
+        cmd: Command line arguments to execute
+        dependencies: Dependencies string to pass via stdin
+
+    Returns:
+        CompletedProcess with returncode, stdout, and stderr
+
+    Raises:
+        SystemExit: If the command fails with an invalid exit code
+    """
+    require_java()  # ensure Java is available
+
+    result = subprocess.run(
+        cmd,
+        input=dependencies,
+        capture_output=True,
+        text=True,
+    )
+
+    # 0 is all ok
+    # [1,126] is the number of issues created in this run
+    # We don't care whether issues preexisted or were just created now.
+    if result.returncode < 0 or result.returncode > 126:
+        log.error(f"dash-licenses failed with exit code {result.returncode}")
+        log.error(f"stdout: {result.stdout}")
+        log.error(f"stderr: {result.stderr}")
+        raise SystemExit(2)
+
+    return result
+
+
+def parse_jar_output(summary: str, stderr: str) -> JarResult:
+    """Parse the output from the dash-licenses JAR execution.
+
+    Args:
+        summary: The summary output from the JAR execution
+        stderr: The stderr output from the JAR execution
+
+    Returns:
+        JarResult with parsed dependencies and issues
+    """
+    result = JarResult(
+        summarize=summary,
+        log=stderr,
+        issues=[],
+        dependencies=[],
+    )
+
+    for line in result.log.splitlines():
+        if "http" in line:
+            result.issues.append(line)
+        log.debug(f"dash-licenses: {line}")
+
+    result.set_rows_from_summary(result.summarize)
+
+    return result
 
 
 def run_jar(
@@ -78,36 +193,24 @@ def run_jar(
     verbose: bool = False,
     dry_run: bool = False,
     project: str | None = None,
-    token_for_review: str | None = None,
+    token: str | None = None,
+    trigger_review: bool = False,
 ) -> JarResult:
     """Run the dash-licenses JAR with the given dependencies.
 
     Note: presence of a token indicates review mode!
     """
-
-    jar_path = bundled_jar()
-
     with tempfile.TemporaryDirectory(prefix="dash-licenses-") as tmpdir:
         out_file = Path(tmpdir) / "summary.txt"
 
-        cmd = ["java", "-Djava.net.useSystemProxies=true"]
-        if verbose:
-            # According to documentation this is verbose mode, but it does not seem to have any effect
-            cmd.append("-Dorg.slf4j.simpleLogger.defaultLogLevel=debug")
-        cmd.extend(["-jar", str(jar_path)])
-        cmd.extend(["-summary", str(out_file)])
-        if project:
-            cmd.extend(["-project", project])
-        if token_for_review:
-            if not project:
-                raise ValueError("Project must be specified when using review mode.")
-
-            cmd.append("-review")
-            cmd.extend(["-token", token_for_review])
-
-        cmd.extend(["-"])  # Read dependencies from stdin
-
-        masked_cmd = [str(c) if c != token_for_review else "<REDACTED>" for c in cmd]
+        cmd = build_cmdline(
+            verbose=verbose,
+            project=project,
+            token=token,
+            out_file=out_file,
+            trigger_review=trigger_review,
+        )
+        masked_cmd = [str(c) if c != token else "<REDACTED>" for c in cmd]
 
         if dry_run:
             print(f"Would run command: {' '.join(masked_cmd)}")
@@ -115,36 +218,13 @@ def run_jar(
             print("\n".join(dependencies.split("\n")))
             raise SystemExit(0)
 
-        require_java()  # ensure Java is available
+        else:  # noqa: RET506
 
-        log.debug(f"Running command: {' '.join(masked_cmd)}")
+            log.debug(f"Running command: {' '.join(masked_cmd)}")
 
-        result = subprocess.run(
-            cmd,
-            input=dependencies,
-            capture_output=True,
-            text=True,
-        )
-        # 0 is all ok
-        # [1,126] is the number of dependencies with issues
-        if not (result.returncode >= 0 and result.returncode <= 126):
-            log.error(f"dash-licenses failed with exit code {result.returncode}")
-            log.error(f"stdout: {result.stdout}")
-            log.error(f"stderr: {result.stderr}")
-            raise SystemExit(2)
+            result = run_cmdline(cmd, dependencies)
 
-        # stdout is always empty
-        if result.stdout:
-            log.warning(f"Unexpected stdout: {result.stdout}")
+            if result.stdout:
+                log.warning(f"Unexpected stdout: {result.stdout}")
 
-        result = JarResult(
-            summarize=out_file.read_text(),
-            log=result.stderr,
-            issues=[],
-        )
-        for line in result.log.splitlines():
-            if "http" in line:
-                result.issues.append(line)
-            log.debug(f"dash-licenses: {line}")
-
-        return result
+            return parse_jar_output(out_file.read_text(), result.stderr)

@@ -125,6 +125,10 @@ Why not extend the Java code directly? Here are the reasons:
 
 This tool may not be for everyone, but if it helps S-CORE, it might help you too.
 
+## Contributing
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on setting up a development environment, running tests, and contributing code.
+
 ## License
 
 This wrapper is licensed under Apache-2.0 (unlike dash-licenses which uses EPL) to align with S-CORE's licensing standards. Licensing under EPL can certainly be discussed if there is interest. Note that this might become significantly more complex once there is more authors etc!!

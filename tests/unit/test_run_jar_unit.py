@@ -74,13 +74,130 @@ def test_bundled_jar_returns_valid_path():
     assert jar_path.name == "org.eclipse.dash.licenses-1.1.0.jar"
 
 
+def test_build_cmdline_constructs_basic_command(monkeypatch: pytest.MonkeyPatch):
+    """_build_cmdline constructs a valid Java command with required flags."""
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+
+    cmd = jar.build_cmdline(
+        verbose=False,
+        project=None,
+        token=None,
+        trigger_review=False,
+        out_file=Path("/tmp/summary.txt"),
+    )
+
+    assert "java" in cmd
+    assert "-Djava.net.useSystemProxies=true" in cmd
+    assert "-jar" in cmd
+    assert "/fake.jar" in cmd
+    assert "-summary" in cmd
+    assert "/tmp/summary.txt" in cmd
+    assert "-" in cmd  # stdin indicator
+
+
+def test_build_cmdline_includes_project_flag(monkeypatch: pytest.MonkeyPatch):
+    """_build_cmdline includes project flag when provided."""
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+
+    cmd = jar.build_cmdline(
+        verbose=False,
+        project="my-project",
+        token=None,
+        trigger_review=False,
+        out_file=Path("/tmp/summary.txt"),
+    )
+
+    assert "-project" in cmd
+    assert "my-project" in cmd
+
+
+def test_build_cmdline_includes_review_flags(monkeypatch: pytest.MonkeyPatch):
+    """_build_cmdline includes review and token flags when provided."""
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+
+    cmd = jar.build_cmdline(
+        verbose=False,
+        project="my-project",
+        token="secret-token",
+        trigger_review=True,
+        out_file=Path("/tmp/summary.txt"),
+    )
+
+    assert "-review" in cmd
+    assert "-token" in cmd
+    assert "secret-token" in cmd
+
+
+def test_build_cmdline_includes_verbose_flag(monkeypatch: pytest.MonkeyPatch):
+    """_build_cmdline includes verbose logging flag when enabled."""
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+
+    cmd = jar.build_cmdline(
+        verbose=True,
+        project=None,
+        token=None,
+        trigger_review=False,
+        out_file=Path("/tmp/summary.txt"),
+    )
+
+    assert "-Dorg.slf4j.simpleLogger.defaultLogLevel=debug" in cmd
+
+
+def test_build_cmdline_raises_error_when_review_without_token(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """_build_cmdline raises ValueError if trigger_review without token."""
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+
+    with pytest.raises(ValueError) as exc_info:  # noqa: PT011
+        jar.build_cmdline(
+            verbose=False,
+            project="project",
+            token=None,
+            trigger_review=True,
+            out_file=Path("/tmp/summary.txt"),
+        )
+
+    assert "Project and token must be specified" in str(exc_info.value)
+
+
+def test_parse_jar_output_parses_dependencies_from_summary():
+    """parse_jar_output correctly parses dependency rows from summary string."""
+    summary_content = """pypi/pypi/-/colorama/0.4.6, BSD-2-Clause AND BSD-3-Clause, approved, clearlydefined
+pypi/pypi/-/pytest/8.4.2, MIT, approved, #23205"""
+
+    result = jar.parse_jar_output(summary=summary_content, stderr="")
+
+    assert len(result.dependencies) == 2
+    assert result.dependencies[0].package == "pypi/pypi/-/colorama/0.4.6"
+    assert result.dependencies[0].license == "BSD-2-Clause AND BSD-3-Clause"
+    assert result.dependencies[0].status == "approved"
+    assert result.dependencies[1].package == "pypi/pypi/-/pytest/8.4.2"
+    assert result.dependencies[1].license == "MIT"
+
+
+def test_parse_jar_output_extracts_issues_from_stderr():
+    """parse_jar_output extracts lines containing http from stderr."""
+    summary_content = "pypi/pypi/-/pytest/8.4.2, MIT, approved, #23205"
+
+    stderr = """Some log line
+http://example.com/issue/1234
+Another log line
+https://example.com/review/5678"""
+
+    result = jar.parse_jar_output(summary=summary_content, stderr=stderr)
+
+    assert len(result.issues) == 2
+    assert any("http://example.com/issue/1234" in issue for issue in result.issues)
+    assert any("https://example.com/review/5678" in issue for issue in result.issues)
+
+
 def test_run_jar_exits_on_dry_run_before_calling_subprocess(
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],
 ):
     """Dry run mode prints the command but doesn't execute it."""
     monkeypatch.setattr(jar, "require_java", lambda: None)
-    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
 
     subprocess_was_called = False
 
@@ -102,4 +219,47 @@ def test_run_jar_exits_on_dry_run_before_calling_subprocess(
     output = capsys.readouterr().out
     assert "Would run command:" in output
     assert "With dependencies:" in output
-    assert "pypi/pypi/-/flask/3.0.0" in output
+
+
+def test_run_jar_produces_expected_output(
+    monkeypatch: pytest.MonkeyPatch,
+    fs: FakeFilesystem,
+):
+    """Integration test: run_jar executes subprocess and parses output correctly."""
+    monkeypatch.setattr(jar, "require_java", lambda: None)
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+
+    # Mock subprocess.run to simulate execution with summary file creation
+    def mock_subprocess_run(cmd: list[str], input: str, capture_output: bool, text: bool):
+        # Simulate the JAR creating a summary file
+        summary_file_path = None
+        for i, arg in enumerate(cmd):
+            if arg == "-summary" and i + 1 < len(cmd):
+                summary_file_path = cmd[i + 1]
+                break
+
+        if summary_file_path:
+            summary_content = """pypi/pypi/-/colorama/0.4.6, BSD-2-Clause AND BSD-3-Clause, approved, clearlydefined
+pypi/pypi/-/coverage/7.12.0, Apache-2.0 AND LicenseRef-scancode-iso-8879 AND (GPL-2.0-only AND MIT), restricted, #25641
+pypi/pypi/-/pytest/8.4.2, MIT, approved, #23205"""
+            Path(summary_file_path).write_text(summary_content)
+
+        class MockResult:
+            returncode = 0
+            stdout = ""
+            stderr = ""
+
+        return MockResult()
+
+    monkeypatch.setattr("dash_license_scan.jar.subprocess.run", mock_subprocess_run)
+
+    result = jar.run_jar(dependencies="pypi/pypi/-/flask/3.0.0")
+
+    assert result
+    assert isinstance(result, jar.JarResult)
+    assert len(result.dependencies) == 3
+    assert "pypi/pypi/-/colorama/0.4.6" in [row.package for row in result.dependencies]
+    assert "BSD-2-Clause AND BSD-3-Clause" in [
+        row.license for row in result.dependencies
+    ]
+    assert "pypi/pypi/-/pytest/8.4.2" in [row.package for row in result.dependencies]

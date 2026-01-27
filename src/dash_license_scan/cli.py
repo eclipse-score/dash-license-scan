@@ -19,7 +19,7 @@ class Params:
     dry_run: bool
     lockfiles: list[Path]
     verbose: bool
-    review: bool
+    trigger_review: bool
     format: OutputFormat
 
 
@@ -73,11 +73,11 @@ def parse_args(argv: Sequence[str] | None = None):
         dry_run=args.dry_run,  # pyright: ignore[reportAny]
         lockfiles=args.lockfiles,  # pyright: ignore[reportAny]
         verbose=args.verbose,  # pyright: ignore[reportAny]
-        review=args.trigger_review,  # pyright: ignore[reportAny]
+        trigger_review=args.trigger_review,  # pyright: ignore[reportAny]
         format=OutputFormat(args.format),  # pyright: ignore[reportAny]
     )
 
-    if p.dry_run and p.review:
+    if p.dry_run and p.trigger_review:
         parser.error("--dry-run and --trigger-review cannot be used together")
 
     return p

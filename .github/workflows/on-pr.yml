@@ -170,6 +170,6 @@ jobs:
       - uses: eclipse-score/dash-license-scan@dev
         with:
           token: ${{ secrets.DASH_API_TOKEN }}
-          eclipse_project: automotive.score
+          eclipse_project: ${{ vars.ECLIPSE_PROJECT }}
           lockfiles: uv.lock
           trigger_review: false

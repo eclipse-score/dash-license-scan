@@ -55,18 +55,13 @@ runs:
           review_flag=(--trigger-review)
         fi
 
-        verbose_flag=()
-        if [[ "${RUNNER_DEBUG-0}" == "1" ]]; then
-          verbose_flag=(--verbose)
-        fi
-
         # Build the command as a bash array (robust + avoids injection/quoting issues).
         cmd=(
           "${{ github.action_path }}/.venv/bin/dash-license-scan"
           --format md
           ${{ inputs.lockfiles }}
           "${review_flag[@]}"
-          "${verbose_flag[@]}"
+          --verbose
         )
 
         # Capture stdout and stderr separately into temp files.

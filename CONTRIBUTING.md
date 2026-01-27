@@ -24,7 +24,7 @@ This project follows the [Eclipse Code of Conduct](https://www.eclipse.org/org/d
 
 2. **Create a virtual environment and install dependencies:**
    ```bash
-   uv sync --all-extras
+   uv sync --extra dev
    ```
 
    This command:
