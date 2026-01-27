@@ -80,7 +80,9 @@ Refer to the documentation for more details on setting these variables.
         trigger_review=args.trigger_review,
     )
 
-    log.debug(f"Dash Licenses log: {result.log}")
+    log.debug(f"Dash Licenses log:\n{result.log}")
+
+    log.debug("Dash Licenses summary:\n%s", result.summary)
 
     if args.format == "md":
         print("# Dash License Scan")

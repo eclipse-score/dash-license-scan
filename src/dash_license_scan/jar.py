@@ -75,14 +75,14 @@ class Dependency:
 
 @dataclass
 class JarResult:
-    summarize: str
+    summary: str
     log: str
     issues: list[str]  # experimental
     dependencies: list[Dependency]
 
-    def set_rows_from_summary(self, summary: str) -> None:
+    def set_rows_from_summary(self) -> None:
         rows: list[Dependency] = []
-        for line in summary.splitlines():
+        for line in self.summary.splitlines():
             parts = [part.strip() for part in line.split(",")]
             if len(parts) != 4:
                 continue
@@ -171,7 +171,7 @@ def parse_jar_output(summary: str, stderr: str) -> JarResult:
         JarResult with parsed dependencies and issues
     """
     result = JarResult(
-        summarize=summary,
+        summary=summary,
         log=stderr,
         issues=[],
         dependencies=[],
@@ -182,7 +182,7 @@ def parse_jar_output(summary: str, stderr: str) -> JarResult:
             result.issues.append(line)
         log.debug(f"dash-licenses: {line}")
 
-    result.set_rows_from_summary(result.summarize)
+    result.set_rows_from_summary()
 
     return result
 
