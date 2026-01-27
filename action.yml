@@ -20,6 +20,10 @@ inputs:
     required: false
     default: "false"
 
+  comply_with:
+    description: License to check compliance against (currently only 'Apache-2.0' is supported).
+    required: false
+
 runs:
   using: composite
   steps:
@@ -40,19 +44,15 @@ runs:
       shell: bash
       run: |
         set -euo pipefail
-        if [[ "${RUNNER_DEBUG-0}" == "1" ]]; then
-          set -x
-        fi
 
         # Defense-in-depth: mask token if it comes from inputs (inputs are not always GitHub secrets).
         if [[ -n "${DASH_TOKEN:-}" ]]; then
           echo "::add-mask::${DASH_TOKEN}"
         fi
 
-        # Optional flag handling: use an array so quoting stays correct.
-        review_flag=()
-        if [[ "${{ inputs.trigger_review }}" == "true" ]]; then
-          review_flag=(--trigger-review)
+        # Enable debug logging if requested.
+        if [[ "${RUNNER_DEBUG-0}" == "1" ]]; then
+          set -x
         fi
 
         # Build the command as a bash array (robust + avoids injection/quoting issues).
@@ -60,9 +60,17 @@ runs:
           "${{ github.action_path }}/.venv/bin/dash-license-scan"
           --format md
           ${{ inputs.lockfiles }}
-          "${review_flag[@]}"
           --verbose
         )
+
+        # Optional flag handling: use an array so quoting stays correct.
+        if [[ "${{ inputs.trigger_review }}" == "true" ]]; then
+          cmd+=(--trigger-review)
+        fi
+
+        if [[ -n "${{ inputs.comply_with }}" ]]; then
+          cmd+=(--comply-with "${{ inputs.comply_with }}")
+        fi
 
         # Capture stdout and stderr separately into temp files.
         # Rationale:

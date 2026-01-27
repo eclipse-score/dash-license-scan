@@ -75,9 +75,9 @@ class Dependency:
     note: str
 
     @property
-    def licensing(self):
-        """Return parsed licensing expression."""
-        return Licensing().parse(self.license_raw)
+    def license_pretty(self):
+        """Return normalized license expression."""
+        return str(Licensing().parse(self.license_raw))
 
 
 @dataclass

@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 from dash_license_scan import jar
 from dash_license_scan.cli import parse_args
+from dash_license_scan.compliance import evaluate_compatibility
 from dash_license_scan.parsers import parse
 
 if TYPE_CHECKING:
@@ -84,14 +85,34 @@ Refer to the documentation for more details on setting these variables.
 
     log.debug("Dash Licenses summary:\n%s", result.summary)
 
+    # Step 3: Evaluate compliance (only if --comply-with is set)
+    compliance: dict[str, str] = {}
+    if args.comply_with:
+        log.info(f"Evaluating compliance with {args.comply_with}...")
+        for dep in result.dependencies:
+            compliance[dep.package] = evaluate_compatibility(
+                dep.license_raw, args.comply_with
+            )
+
     if args.format == "md":
         print("# Dash License Scan")
 
-        # markdown table
-        print("| Package | License | Status | Notes |")
-        print("|---------|---------|--------|-------|")
-        for dep in result.dependencies:
-            print(f"| {dep.package} | {dep.licensing} | {dep.status} | {dep.note} |")
+        if args.comply_with:
+            print(
+                f"| Package | License | Status | Notes | {args.comply_with} compatible |"
+            )
+            print("|---------|---------|--------|-------|-------------------------|")
+            for dep in result.dependencies:
+                print(
+                    f"| {dep.package} | {dep.license_pretty} | {dep.status} | {dep.note} | {compliance[dep.package]} |"
+                )
+        else:
+            print("| Package | License | Status | Notes |")
+            print("|---------|---------|--------|-------|")
+            for dep in result.dependencies:
+                print(
+                    f"| {dep.package} | {dep.license_pretty} | {dep.status} | {dep.note} |"
+                )
         print()
 
         if args.trigger_review and result.issues:

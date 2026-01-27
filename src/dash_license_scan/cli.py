@@ -21,6 +21,7 @@ class Params:
     verbose: bool
     trigger_review: bool
     format: OutputFormat
+    comply_with: str | None = None
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -54,6 +55,11 @@ def build_parser() -> argparse.ArgumentParser:
         default=OutputFormat.MD,
         help="Format of the summary output",
     )
+    _ = p.add_argument(
+        "--comply-with",
+        metavar="LICENSE",
+        help="Check compliance with specified license (currently only 'Apache-2.0' is supported)",
+    )
 
     _ = p.add_argument(
         "lockfiles",
@@ -70,12 +76,18 @@ def parse_args(argv: Sequence[str] | None = None):
     args = parser.parse_args(argv)
 
     p = Params(
-        dry_run=args.dry_run,  # pyright: ignore[reportAny]
-        lockfiles=args.lockfiles,  # pyright: ignore[reportAny]
-        verbose=args.verbose,  # pyright: ignore[reportAny]
-        trigger_review=args.trigger_review,  # pyright: ignore[reportAny]
-        format=OutputFormat(args.format),  # pyright: ignore[reportAny]
+        dry_run=args.dry_run,
+        lockfiles=args.lockfiles,
+        verbose=args.verbose,
+        trigger_review=args.trigger_review,
+        format=OutputFormat(args.format),
+        comply_with=args.comply_with,
     )
+
+    if p.comply_with and p.comply_with != "Apache-2.0":
+        parser.error(
+            f"--comply-with: only 'Apache-2.0' is currently supported, got '{p.comply_with}'"
+        )
 
     if p.dry_run and p.trigger_review:
         parser.error("--dry-run and --trigger-review cannot be used together")
