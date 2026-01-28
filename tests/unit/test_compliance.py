@@ -8,110 +8,130 @@ from dash_license_scan.compliance import (
 )
 
 
-class TestSimpleLicenses:
-    """Test evaluation of simple single licenses."""
-
-    def test_mit_is_allowed(self):
-        """MIT should be allowed."""
-        result = evaluate_compatibility("MIT", "Apache-2.0")
-        assert result == ComplianceStatus.ALLOWED
+def test_mit_is_allowed():
+    """MIT should be allowed."""
+    assert evaluate_compatibility("MIT", "Apache-2.0") == ComplianceStatus.ALLOWED
 
 
-class TestRestrictedLicenses:
-    """Test evaluation of restricted licenses."""
-
-    def test_gpl_2_0_is_restricted(self):
-        """GPL-2.0 should be restricted."""
-        result = evaluate_compatibility("GPL-2.0", "Apache-2.0")
-        assert result == ComplianceStatus.RESTRICTED
+def test_gpl_2_0_is_restricted():
+    """GPL-2.0-only should be restricted."""
+    assert (
+        evaluate_compatibility("GPL-2.0-only", "Apache-2.0") == ComplianceStatus.RESTRICTED
+    )
 
 
-class TestUncertainLicenses:
-    """Test evaluation of unknown/uncertain licenses."""
-
-    def test_empty_string_is_uncertain(self):
-        """Empty string should be uncertain."""
-        result = evaluate_compatibility("", "Apache-2.0")
-        assert result == ComplianceStatus.UNCERTAIN
-
-    def test_unknown_license_is_uncertain(self):
-        """Unknown license should be uncertain."""
-        result = evaluate_compatibility("Unknown-License-X", "Apache-2.0")
-        assert result == ComplianceStatus.UNCERTAIN
-
-    def test_invalid_expression_is_uncertain(self):
-        """Invalid expression should be uncertain."""
-        result = evaluate_compatibility("(((Invalid))))", "Apache-2.0")
-        assert result == ComplianceStatus.UNCERTAIN
+def test_empty_string_is_restricted():
+    """Empty string should be restricted (no license = no use)."""
+    assert evaluate_compatibility("", "Apache-2.0") == ComplianceStatus.RESTRICTED
 
 
-class TestAndExpressions:
-    """Test evaluation of AND expressions."""
-
-    def test_bsd_and_mit_is_allowed(self):
-        """BSD-2-Clause AND MIT should be allowed (both allowed)."""
-        result = evaluate_compatibility("BSD-2-Clause AND MIT", "Apache-2.0")
-        assert result == ComplianceStatus.ALLOWED
-
-    def test_gpl_and_mit_is_restricted(self):
-        """GPL-2.0 AND MIT should be restricted (one is restricted)."""
-        result = evaluate_compatibility("GPL-2.0 AND MIT", "Apache-2.0")
-        assert result == ComplianceStatus.RESTRICTED
-
-    def test_gpl_and_gpl_is_restricted(self):
-        """GPL-2.0 AND GPL-3.0 should be restricted (both restricted)."""
-        result = evaluate_compatibility("GPL-2.0 AND GPL-3.0", "Apache-2.0")
-        assert result == ComplianceStatus.RESTRICTED
-
-    def test_mit_and_unknown_is_uncertain(self):
-        """MIT AND Unknown-License should be uncertain (one is uncertain)."""
-        result = evaluate_compatibility("MIT AND Unknown-License-X", "Apache-2.0")
-        assert result == ComplianceStatus.UNCERTAIN
+def test_unknown_license_is_uncertain():
+    """Unknown license should be uncertain."""
+    assert (
+        evaluate_compatibility("Unknown-License-X", "Apache-2.0")
+        == ComplianceStatus.UNCERTAIN
+    )
 
 
-class TestOrExpressions:
-    """Test evaluation of OR expressions."""
-
-    def test_mit_or_bsd_is_allowed(self):
-        """MIT OR BSD-2-Clause should be allowed (both allowed)."""
-        result = evaluate_compatibility("MIT OR BSD-2-Clause", "Apache-2.0")
-        assert result == ComplianceStatus.ALLOWED
-
-    def test_mit_or_gpl_is_allowed(self):
-        """MIT OR GPL-2.0 should be allowed (one is allowed)."""
-        result = evaluate_compatibility("MIT OR GPL-2.0", "Apache-2.0")
-        assert result == ComplianceStatus.ALLOWED
-
-    def test_gpl_2_0_or_gpl_3_0_is_restricted(self):
-        """GPL-2.0 OR GPL-3.0 should be restricted (all restricted)."""
-        result = evaluate_compatibility("GPL-2.0 OR GPL-3.0", "Apache-2.0")
-        assert result == ComplianceStatus.RESTRICTED
-
-    def test_gpl_or_unknown_is_uncertain(self):
-        """GPL-2.0 OR Unknown-License should be uncertain (not all restricted, but has uncertain)."""
-        result = evaluate_compatibility("GPL-2.0 OR Unknown-License-X", "Apache-2.0")
-        assert result == ComplianceStatus.UNCERTAIN
+def test_invalid_expression_is_uncertain():
+    """Invalid expressions are not allowed at all."""
+    assert (
+        evaluate_compatibility("(((Invalid))))", "Apache-2.0")
+        == ComplianceStatus.RESTRICTED
+    )
 
 
-class TestComplexExpressions:
-    """Test evaluation of complex nested expressions."""
+def test_bsd_and_mit_is_allowed():
+    """BSD-2-Clause AND MIT should be allowed (both allowed)."""
+    assert (
+        evaluate_compatibility("BSD-2-Clause AND MIT", "Apache-2.0")
+        == ComplianceStatus.ALLOWED
+    )
 
-    def test_mit_and_apache_or_bsd(self):
-        """(MIT AND Apache-2.0) OR BSD-2-Clause should be allowed."""
-        result = evaluate_compatibility("(MIT AND Apache-2.0) OR BSD-2-Clause", "Apache-2.0")
-        assert result == ComplianceStatus.ALLOWED
 
-    def test_gpl_and_mit_or_apache(self):
-        """(GPL-2.0 AND MIT) OR Apache-2.0 should be allowed (first is restricted, second is allowed)."""
-        result = evaluate_compatibility("(GPL-2.0 AND MIT) OR Apache-2.0", "Apache-2.0")
-        assert result == ComplianceStatus.ALLOWED
+def test_gpl_and_mit_is_restricted():
+    """GPL-2.0-only AND MIT should be restricted (one is restricted)."""
+    assert (
+        evaluate_compatibility("GPL-2.0-only AND MIT", "Apache-2.0")
+        == ComplianceStatus.RESTRICTED
+    )
 
-    def test_mit_or_gpl_and_apache(self):
-        """MIT OR (GPL-2.0 AND Apache-2.0) should be allowed."""
-        result = evaluate_compatibility("MIT OR (GPL-2.0 AND Apache-2.0)", "Apache-2.0")
-        assert result == ComplianceStatus.ALLOWED
 
-    def test_gpl_or_agpl_and_restricted(self):
-        """GPL-2.0 OR (AGPL-3.0 AND SSPL-1.0) should be restricted."""
-        result = evaluate_compatibility("GPL-2.0 OR (AGPL-3.0 AND SSPL-1.0)", "Apache-2.0")
-        assert result == ComplianceStatus.RESTRICTED
+def test_gpl_and_gpl_is_restricted():
+    """GPL-2.0-only AND GPL-3.0-only should be restricted (both restricted)."""
+    assert (
+        evaluate_compatibility("GPL-2.0-only AND GPL-3.0-only", "Apache-2.0")
+        == ComplianceStatus.RESTRICTED
+    )
+
+
+def test_mit_and_unknown_is_uncertain():
+    """MIT AND Unknown-License should be uncertain (one is uncertain)."""
+    assert (
+        evaluate_compatibility("MIT AND Unknown-License-X", "Apache-2.0")
+        == ComplianceStatus.UNCERTAIN
+    )
+
+
+def test_mit_or_bsd_is_allowed():
+    """MIT OR BSD-2-Clause should be allowed (both allowed)."""
+    assert (
+        evaluate_compatibility("MIT OR BSD-2-Clause", "Apache-2.0")
+        == ComplianceStatus.ALLOWED
+    )
+
+
+def test_mit_or_gpl_is_allowed():
+    """MIT OR GPL-2.0-only should be allowed (one is allowed)."""
+    assert (
+        evaluate_compatibility("MIT OR GPL-2.0-only", "Apache-2.0")
+        == ComplianceStatus.ALLOWED
+    )
+
+
+def test_gpl_2_0_or_gpl_3_0_is_restricted():
+    """GPL-2.0-only OR GPL-3.0-only should be restricted (all restricted)."""
+    assert (
+        evaluate_compatibility("GPL-2.0-only OR GPL-3.0-only", "Apache-2.0")
+        == ComplianceStatus.RESTRICTED
+    )
+
+
+def test_gpl_or_unknown_is_uncertain():
+    """GPL-2.0-only OR Unknown-License should be uncertain (not all restricted, but has uncertain)."""
+    assert (
+        evaluate_compatibility("GPL-2.0-only OR Unknown-License-X", "Apache-2.0")
+        == ComplianceStatus.UNCERTAIN
+    )
+
+
+def test_mit_and_apache_or_bsd():
+    """(MIT AND Apache-2.0) OR BSD-2-Clause should be allowed."""
+    assert (
+        evaluate_compatibility("(MIT AND Apache-2.0) OR BSD-2-Clause", "Apache-2.0")
+        == ComplianceStatus.ALLOWED
+    )
+
+
+def test_gpl_and_mit_or_apache():
+    """(GPL-2.0-only AND MIT) OR Apache-2.0 should be allowed (first is restricted, second is allowed)."""
+    assert (
+        evaluate_compatibility("(GPL-2.0-only AND MIT) OR Apache-2.0", "Apache-2.0")
+        == ComplianceStatus.ALLOWED
+    )
+
+
+def test_mit_or_gpl_and_apache():
+    """MIT OR (GPL-2.0-only AND Apache-2.0) should be allowed."""
+    assert (
+        evaluate_compatibility("MIT OR (GPL-2.0-only AND Apache-2.0)", "Apache-2.0")
+        == ComplianceStatus.ALLOWED
+    )
+
+
+def test_gpl_or_agpl_and_restricted():
+    """GPL-2.0-only OR (AGPL-3.0 AND SSPL-1.0) should be restricted."""
+    assert (
+        evaluate_compatibility("GPL-2.0-only OR (AGPL-3.0 AND SSPL-1.0)", "Apache-2.0")
+        == ComplianceStatus.RESTRICTED
+    )

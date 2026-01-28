@@ -140,9 +140,9 @@ def evaluate_compatibility(license_expression: str, policy_name: str) -> str:
         parsed = licensing.parse(license_expression)
     except ExpressionError:
         log.debug("Failed to parse license expression: %r", license_expression)
-        return ComplianceStatus.UNCERTAIN
+        return ComplianceStatus.RESTRICTED
 
     if parsed is None:
-        return ComplianceStatus.UNCERTAIN
+        return ComplianceStatus.RESTRICTED
 
     return _eval(parsed, policy)
