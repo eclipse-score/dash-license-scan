@@ -28,14 +28,13 @@ class ComplianceStatus:
     UNCERTAIN = "⚠️"  # unknown / conditional / parse errors / LicenseRef-*
 
 
-
 @cache
-def _load_policies() -> dict[str, Any]:
-    """Load license policies from JSON resource file.
-
-    """
+def _load_policies_json() -> dict[str, Any]:
+    """Load license policies from JSON resource file."""
     try:
-        policy_file = resources.files("dash_license_scan.resources") / "license_policies.json"
+        policy_file = (
+            resources.files("dash_license_scan.resources") / "license_policies.json"
+        )
         return json.loads(policy_file.read_text(encoding="utf-8"))
     except Exception as e:
         log.error("Failed to load license policies: %s", e)
@@ -47,6 +46,7 @@ class Policy:
     allowed: set[str]
     restricted: set[str]
 
+
 @cache
 def _get_policy(policy_name: str) -> Policy:
     if policy_name != "Apache-2.0":
@@ -54,8 +54,8 @@ def _get_policy(policy_name: str) -> Policy:
             f"Unsupported value for --comply-with: {policy_name!r}. Supported: Apache-2.0"
         )
 
-    data = _load_policies()
-    pol = data.get("Apache-2.0")
+    data = _load_policies_json()
+    pol = data.get(policy_name)
     if not isinstance(pol, dict):
         raise ValueError("Malformed license policies data")
 
@@ -67,6 +67,25 @@ def _get_policy(policy_name: str) -> Policy:
 
     # SPDX IDs are expected to be exact strings.
     return Policy(allowed=set(allowed), restricted=set(restricted))
+
+
+def _load_policies(names: str | list[str]) -> dict[str, Policy]:
+    """Load one or more license policies by name."""
+    if isinstance(names, str):
+        names = [names]
+
+    policies: dict[str, Policy] = {}
+    for name in names:
+        policies[name] = _get_policy(name)
+
+    return policies
+
+
+def _merge_policies(policies: list[Policy]) -> Policy:
+    return Policy(
+        allowed=set.intersection(*(p.allowed for p in policies)),
+        restricted=set.union(*(p.restricted for p in policies)),
+    )
 
 
 def _eval(expr: object, policy: Policy) -> str:
@@ -121,28 +140,32 @@ def _eval(expr: object, policy: Policy) -> str:
     return ComplianceStatus.UNCERTAIN
 
 
-def evaluate_compatibility(license_expression: str, policy_name: str) -> str:
+def _parse_license_expression(license_expression: str) -> object | None:
+    """Parse an SPDX license expression into an AST node."""
+    licensing = Licensing()
+    try:
+        return licensing.parse(license_expression)
+    except ExpressionError:
+        log.warning("Failed to parse license expression: %r", license_expression)
+        return None
+
+
+def evaluate_compatibility(license_expression: str, policy: str | list[str]) -> str:
     """Evaluate if an SPDX license expression complies with a policy.
 
     Args:
         license_expression: SPDX expression (already sanitized upstream).
-        policy_name: must be exactly "Apache-2.0"
+        policy: one or more policy names (e.g., "ASF", "EF")
 
     Returns:
         ComplianceStatus.ALLOWED / RESTRICTED / UNCERTAIN
     """
-    policy = _get_policy(policy_name)
 
-    # Use permissive licensing so LicenseRef-* parses and becomes "UNCERTAIN".
-    licensing = Licensing()
+    policies = _load_policies(policy)
+    combined_policy = _merge_policies(list(policies.values()))
 
-    try:
-        parsed = licensing.parse(license_expression)
-    except ExpressionError:
-        log.debug("Failed to parse license expression: %r", license_expression)
-        return ComplianceStatus.RESTRICTED
-
+    parsed = _parse_license_expression(license_expression)
     if parsed is None:
         return ComplianceStatus.RESTRICTED
 
-    return _eval(parsed, policy)
+    return _eval(parsed, combined_policy)

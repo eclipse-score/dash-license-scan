@@ -1,11 +1,26 @@
 """Unit tests for license compliance evaluation."""
 
-import pytest
-
 from dash_license_scan.compliance import (
     ComplianceStatus,
     evaluate_compatibility,
 )
+
+# Next steps:
+# - idea: can we generate a markdown table from all these tests automatically?
+# - confirm AND and OR behavior with license experts
+# - improve `_eval` code (e.g. comments, type-safety, ....)
+# - update REAADME on how to use as an action
+# - auto discovery of lock files (e.g. **/requirements.txt), see how dependabot does it!
+# - ping eclipse whether they want to have this tool
+# - improve comment formatting etc on PR (e.g. merge last three columns)
+# - setup pypi releases
+# - remove dash from tooling repo
+# - adjust cicd-workflows license-check.yml to call this action instead of bazel crap
+# - confirm whether "ASF 3rd Party License Policy" grouping applies to S-CORE restrictions and distributor restrictions
+#   -> check against ETAS policy --> Alex, Aravind, Sebouh?, Anastasia?
+# - follow up on https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/19880 (drop GPL?)
+# - follow up on https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/24455 (PyGithub approved with GPL3)
+# pypi remove optional dependency [braket], e.g. sphinx[plotting] -> sphinx
 
 
 def test_mit_is_allowed():
@@ -16,7 +31,8 @@ def test_mit_is_allowed():
 def test_gpl_2_0_is_restricted():
     """GPL-2.0-only should be restricted."""
     assert (
-        evaluate_compatibility("GPL-2.0-only", "Apache-2.0") == ComplianceStatus.RESTRICTED
+        evaluate_compatibility("GPL-2.0-only", "Apache-2.0")
+        == ComplianceStatus.RESTRICTED
     )
 
 

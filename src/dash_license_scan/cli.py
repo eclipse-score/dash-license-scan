@@ -2,6 +2,7 @@ import argparse
 from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum
+from itertools import chain
 from logging import getLogger
 from pathlib import Path
 
@@ -21,7 +22,7 @@ class Params:
     verbose: bool
     trigger_review: bool
     format: OutputFormat
-    comply_with: str | None = None
+    comply_with: list[str]
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -57,8 +58,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     _ = p.add_argument(
         "--comply-with",
-        metavar="LICENSE",
-        help="Check compliance with specified license (currently only 'Apache-2.0' is supported)",
+        action="append",
+        nargs="+",
+        choices=["ASF", "EF"],
+        metavar="POLICY",
+        help="Check compliance with specified policy/policies (ASF, EF)",
     )
 
     _ = p.add_argument(
@@ -81,13 +85,8 @@ def parse_args(argv: Sequence[str] | None = None):
         verbose=args.verbose,
         trigger_review=args.trigger_review,
         format=OutputFormat(args.format),
-        comply_with=args.comply_with,
+        comply_with=sorted(set(chain.from_iterable(args.comply_with or []))),
     )
-
-    if p.comply_with and p.comply_with != "Apache-2.0":
-        parser.error(
-            f"--comply-with: only 'Apache-2.0' is currently supported, got '{p.comply_with}'"
-        )
 
     if p.dry_run and p.trigger_review:
         parser.error("--dry-run and --trigger-review cannot be used together")
