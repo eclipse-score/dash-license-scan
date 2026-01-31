@@ -79,6 +79,8 @@ dev = [
     "ruff",
     "coverage",
     "pyfakefs",
+    "pre-commit",
+    "basedpyright",
 ]
 
 

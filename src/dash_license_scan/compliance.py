@@ -66,6 +66,9 @@ def merge(
             ):
                 status = ComplianceStatus.UNCERTAIN
             problems.extend(v.problems)
+        # Clear problems if result is ALLOWED (one option is fine)
+        if status == ComplianceStatus.ALLOWED:
+            problems = []
         return ComplianceResult(status=status, problems=problems)
     else:
         raise ValueError(f"Unknown merge mode: {mode}")

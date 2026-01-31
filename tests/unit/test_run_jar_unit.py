@@ -172,7 +172,7 @@ pypi/pypi/-/pytest/8.4.2, MIT, approved, #23205"""
     assert result.dependencies[0].package == "pypi/pypi/-/colorama/0.4.6"
     assert result.dependencies[0].license_raw == "BSD-2-Clause AND BSD-3-Clause"
     assert result.dependencies[0].license_pretty == "BSD-2-Clause AND BSD-3-Clause"
-    assert result.dependencies[0].status == "approved"
+    assert result.dependencies[0].status == jar.ComplianceStatus.ALLOWED
     assert result.dependencies[1].package == "pypi/pypi/-/pytest/8.4.2"
     assert result.dependencies[1].license_raw == "MIT"
     assert result.dependencies[1].license_pretty == "MIT"

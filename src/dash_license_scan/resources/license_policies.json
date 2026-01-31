@@ -7,20 +7,29 @@
     "allowed": [
       "Apache-1.1",
       "Apache-2.0",
+      "PHP-3.01",
       "BSD-2-Clause",
       "BSD-3-Clause",
+      "PostgreSQL",
       "MIT",
       "ISC",
-      "MPL-2.0",
+      "SMLNJ",
+      "ICU",
+      "NCSA",
+      "W3C",
+      "Xnet",
       "Zlib",
       "Unlicense",
-      "CC0-1.0"
+      "CC0-1.0",
+      "Python-2.0",
+      "... many more missing from this list ... TODO!"
     ],
     "maybe": [
       "EPL-1.0",
       "EPL-2.0",
       "CDDL-1.0",
-      "CDDL-1.1"
+      "CDDL-1.1",
+      "... many more missing from this list ... TODO!"
     ],
     "restricted": [
       "BCL",
@@ -72,7 +81,8 @@
       "NPL-1.1",
       "SEPL",
       "DBAD",
-      "JSON"
+      "JSON",
+      "... many more missing from this list ... TODO!"
     ]
   },
 

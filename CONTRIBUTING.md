@@ -37,6 +37,39 @@ This project follows the [Eclipse Code of Conduct](https://www.eclipse.org/org/d
    source .venv/bin/activate
    ```
 
+4. **Install pre-commit hooks:** *(optional but recommended)*
+   ```bash
+   pre-commit install
+   ```
+
+   This will automatically run code formatting, linting, and type checking before each commit.
+
+### Code Quality Checks
+
+We use pre-commit hooks to maintain code quality. The hooks automatically run:
+
+- **ruff format** - Code formatting
+- **ruff check** - Linting with automatic fixes
+- **basedpyright** - Type checking
+
+**Run hooks manually on all files:**
+```bash
+pre-commit run --all-files
+```
+
+**Run hooks on staged files only:**
+```bash
+pre-commit run
+```
+
+**Skip hooks for a commit**
+
+*e.g. when you commit during your TDD cycle, you may want to skip pre-commit for every commit*
+
+```bash
+git commit --no-verify
+```
+
 ### Running Tests
 
 Run the test suite:
@@ -69,11 +102,12 @@ uv run dash-license-scan
 - Include a clear description of your changes
 - Contrary to other projects, that claim tests but do not test, dash-license-scan requires tests for new features and bug fixes
 - Ensure all tests pass locally before submitting
+- Ensure pre-commit hooks pass (run `pre-commit run --all-files` to check)
 - Reference any related issues
 
 ## License
 
-By contributing to this project, you agree that your contributions will be licensed under the Apache-2.0 License (as defined in the LICENSE file).
+By contributing to this project, you agree that your contributions will be licensed under the defined License (see LICENSE file).
 
 ## Additional Resources
 

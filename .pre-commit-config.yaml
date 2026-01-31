@@ -1,0 +1,22 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.1
+    hooks:
+      - id: ruff-format
+        name: ruff format
+        description: Format Python code with ruff
+      - id: ruff
+        name: ruff check
+        description: Lint Python code with ruff
+        args: [--fix]
+
+  - repo: https://github.com/detachhead/basedpyright
+    rev: v1.15.1
+    hooks:
+      - id: basedpyright
+        name: basedpyright
+        description: Type checking with basedpyright
+        language: node
+        types: [python]
+        entry: basedpyright
+        stages: [commit]
