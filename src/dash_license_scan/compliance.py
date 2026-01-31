@@ -201,6 +201,8 @@ def evaluate_compatibility(
 
     parsed = _parse_license_expression(license_expression)
     if parsed is None:
-        return ComplianceResult(ComplianceStatus.RESTRICTED, problems=[license_expression])
+        return ComplianceResult(
+            ComplianceStatus.RESTRICTED, problems=[license_expression]
+        )
 
     return _eval(parsed, combined_policy)

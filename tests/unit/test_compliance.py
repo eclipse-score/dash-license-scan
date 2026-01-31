@@ -1,7 +1,6 @@
 """Unit tests for license compliance evaluation."""
 
 from dash_license_scan.compliance import (
-    ComplianceResult,
     ComplianceStatus,
     evaluate_compatibility,
 )

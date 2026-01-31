@@ -17,27 +17,32 @@ This project follows the [Eclipse Code of Conduct](https://www.eclipse.org/org/d
 ### Development Setup
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/eclipse-dash/dash-license-scan.git
    cd dash-license-scan
    ```
 
-2. **Create a virtual environment and install dependencies:**
+1. **Create a virtual environment and install dependencies:**
+
    ```bash
    uv sync --extra dev
    ```
 
    This command:
+
    - Creates a virtual environment (if not already present)
    - Installs all dependencies and optional dev dependencies from `pyproject.toml`
    - Installs the package in editable mode
 
-3. **Activate the virtual environment:**
+1. **Activate the virtual environment:**
+
    ```bash
    source .venv/bin/activate
    ```
 
-4. **Install pre-commit hooks:** *(optional but recommended)*
+1. **Install pre-commit hooks:** *(optional but recommended)*
+
    ```bash
    pre-commit install
    ```
@@ -53,11 +58,13 @@ We use pre-commit hooks to maintain code quality. The hooks automatically run:
 - **basedpyright** - Type checking
 
 **Run hooks manually on all files:**
+
 ```bash
 pre-commit run --all-files
 ```
 
 **Run hooks on staged files only:**
+
 ```bash
 pre-commit run
 ```

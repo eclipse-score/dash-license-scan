@@ -232,7 +232,9 @@ def test_run_jar_produces_expected_output(
     monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
 
     # Mock subprocess.run to simulate execution with summary file creation
-    def mock_subprocess_run(cmd: list[str], input: str, capture_output: bool, text: bool):
+    def mock_subprocess_run(
+        cmd: list[str], input: str, capture_output: bool, text: bool
+    ):
         # Simulate the JAR creating a summary file
         summary_file_path = None
         for i, arg in enumerate(cmd):

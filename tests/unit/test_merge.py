@@ -12,7 +12,7 @@ class TestMergeANDMode:
         """AND of two allowed results should be allowed."""
         results = [
             ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[]),
-            ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[])
+            ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[]),
         ]
         merged = merge(results, mode="AND")
         assert merged.status == ComplianceStatus.ALLOWED
@@ -22,7 +22,9 @@ class TestMergeANDMode:
         """AND with one restricted should be restricted."""
         results = [
             ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[]),
-            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL-2.0-only"])
+            ComplianceResult(
+                status=ComplianceStatus.RESTRICTED, problems=["GPL-2.0-only"]
+            ),
         ]
         merged = merge(results, mode="AND")
         assert merged.status == ComplianceStatus.RESTRICTED
@@ -32,7 +34,7 @@ class TestMergeANDMode:
         """AND of two restricted should be restricted."""
         results = [
             ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL-2.0"]),
-            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["AGPL-3.0"])
+            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["AGPL-3.0"]),
         ]
         merged = merge(results, mode="AND")
         assert merged.status == ComplianceStatus.RESTRICTED
@@ -43,7 +45,7 @@ class TestMergeANDMode:
         """AND with one uncertain and rest allowed should be uncertain."""
         results = [
             ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[]),
-            ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown-X"])
+            ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown-X"]),
         ]
         merged = merge(results, mode="AND")
         assert merged.status == ComplianceStatus.UNCERTAIN
@@ -53,7 +55,7 @@ class TestMergeANDMode:
         """AND with restricted should be restricted even if uncertain present."""
         results = [
             ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown"]),
-            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL"])
+            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL"]),
         ]
         merged = merge(results, mode="AND")
         assert merged.status == ComplianceStatus.RESTRICTED
@@ -68,7 +70,7 @@ class TestMergeORMode:
         """OR of two allowed should be allowed."""
         results = [
             ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[]),
-            ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[])
+            ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[]),
         ]
         merged = merge(results, mode="OR")
         assert merged.status == ComplianceStatus.ALLOWED
@@ -78,7 +80,7 @@ class TestMergeORMode:
         """OR with one allowed should be allowed."""
         results = [
             ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[]),
-            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL-2.0"])
+            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL-2.0"]),
         ]
         merged = merge(results, mode="OR")
         assert merged.status == ComplianceStatus.ALLOWED
@@ -88,7 +90,7 @@ class TestMergeORMode:
         """OR of two restricted should be restricted."""
         results = [
             ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL-2.0"]),
-            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["AGPL-3.0"])
+            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["AGPL-3.0"]),
         ]
         merged = merge(results, mode="OR")
         assert merged.status == ComplianceStatus.RESTRICTED
@@ -99,7 +101,7 @@ class TestMergeORMode:
         """OR with uncertain and restricted should be uncertain."""
         results = [
             ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL"]),
-            ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown"])
+            ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown"]),
         ]
         merged = merge(results, mode="OR")
         assert merged.status == ComplianceStatus.UNCERTAIN
@@ -109,7 +111,7 @@ class TestMergeORMode:
         """OR with allowed should be allowed even if uncertain present."""
         results = [
             ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown"]),
-            ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[])
+            ComplianceResult(status=ComplianceStatus.ALLOWED, problems=[]),
         ]
         merged = merge(results, mode="OR")
         assert merged.status == ComplianceStatus.ALLOWED
@@ -119,7 +121,7 @@ class TestMergeORMode:
         """OR of two uncertain should be uncertain (we're uncertain about both options)."""
         results = [
             ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown-1"]),
-            ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown-2"])
+            ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown-2"]),
         ]
         merged = merge(results, mode="OR")
         assert merged.status == ComplianceStatus.UNCERTAIN
@@ -138,7 +140,9 @@ class TestMergeEdgeCases:
 
     def test_merge_single_item_or(self):
         """Merging single item with OR should return that item's status."""
-        results = [ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL"])]
+        results = [
+            ComplianceResult(status=ComplianceStatus.RESTRICTED, problems=["GPL"])
+        ]
         merged = merge(results, mode="OR")
         assert merged.status == ComplianceStatus.RESTRICTED
 
@@ -154,8 +158,10 @@ class TestMergeEdgeCases:
     def test_merge_multiple_problems_combined(self):
         """Problems from multiple results should all be combined."""
         results = [
-            ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown-1", "Unknown-2"]),
-            ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown-3"])
+            ComplianceResult(
+                status=ComplianceStatus.UNCERTAIN, problems=["Unknown-1", "Unknown-2"]
+            ),
+            ComplianceResult(status=ComplianceStatus.UNCERTAIN, problems=["Unknown-3"]),
         ]
         merged = merge(results, mode="AND")
         assert len(merged.problems) == 3

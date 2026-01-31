@@ -1,16 +1,12 @@
 from __future__ import annotations
 
 import logging
-import os
 from typing import TYPE_CHECKING
 
-from dotenv import load_dotenv
-
-from dash_license_scan import compliance, jar
+from dash_license_scan import jar
 from dash_license_scan.cli import parse_args_and_env
 from dash_license_scan.compliance import (
     ComplianceResult,
-    ComplianceStatus,
     evaluate_compatibility,
 )
 from dash_license_scan.outputs import write_markdown_report
@@ -37,6 +33,7 @@ def parse_all_lockfiles(lockfiles: list[Path]) -> list[str]:
         deps.extend(parsed)
 
     return deps
+
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args_and_env(argv)

@@ -1,22 +1,49 @@
-repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.1
-    hooks:
-      - id: ruff-format
-        name: ruff format
-        description: Format Python code with ruff
-      - id: ruff
-        name: ruff check
-        description: Lint Python code with ruff
-        args: [--fix]
+minimum_pre_commit_version: "3.2.0"
 
-  - repo: https://github.com/detachhead/basedpyright
-    rev: v1.15.1
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+        exclude: ^\.vscode/ # those are actually jsonc files
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: mixed-line-ending
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: ["--maxkb=10"]
+        exclude: ^src/dash_license_scan/resources/org\.eclipse\.dash\.licenses-.*\.jar$
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.10
+    hooks:
+      - id: actionlint
+
+  - repo: https://github.com/hukkin/mdformat
+    rev: 1.0.0
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-gfm
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.14
+    hooks:
+      - id: ruff-check
+        args: ["--fix"]
+      - id: ruff-format
+
+  - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
+    rev: "1.37.2"
     hooks:
       - id: basedpyright
-        name: basedpyright
-        description: Type checking with basedpyright
-        language: node
-        types: [python]
-        entry: basedpyright
-        stages: [commit]
+
+  # self-test of .pre-commit-config.yaml
+  - repo: meta
+    hooks:
+      - id: check-useless-excludes
+      - id: check-hooks-apply
