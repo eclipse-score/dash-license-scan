@@ -19,6 +19,8 @@ from pathlib import Path
 
 from license_expression import Licensing
 
+from dash_license_scan.compliance import ComplianceStatus
+
 log = getLogger(__name__)
 
 
@@ -71,8 +73,8 @@ def bundled_jar() -> Path:
 class Dependency:
     package: str
     license_raw: str
-    status: str
-    note: str
+    status: ComplianceStatus
+    clearlydefined_or_ticket: str
 
     @property
     def license_pretty(self):
@@ -87,6 +89,16 @@ class JarResult:
     issues: list[str]  # experimental
     dependencies: list[Dependency]
 
+    @staticmethod
+    def parse_status(status_str: str) -> ComplianceStatus:
+        status_str = status_str.lower()
+        if status_str == "approved":
+            return ComplianceStatus.ALLOWED
+        elif status_str == "rejected":
+            return ComplianceStatus.RESTRICTED
+        else:
+            return ComplianceStatus.UNCERTAIN
+
     def set_rows_from_summary(self) -> None:
         rows: list[Dependency] = []
         for line in self.summary.splitlines():
@@ -96,8 +108,8 @@ class JarResult:
             row = Dependency(
                 package=parts[0],
                 license_raw=parts[1],
-                status=parts[2],
-                note=parts[3],
+                status=self.parse_status(parts[2]),
+                clearlydefined_or_ticket=parts[3],
             )
             log.debug(f"Parsed summary row {line} => {row}")
             rows.append(row)

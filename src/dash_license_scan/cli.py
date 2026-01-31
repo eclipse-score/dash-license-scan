@@ -1,10 +1,13 @@
 import argparse
+import os
 from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum
 from itertools import chain
 from logging import getLogger
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 from dash_license_scan import __version__, jar
 
@@ -23,6 +26,8 @@ class Params:
     trigger_review: bool
     format: OutputFormat
     comply_with: list[str]
+    token: str | None
+    project: str | None
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -75,9 +80,13 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def parse_args(argv: Sequence[str] | None = None):
+def parse_args_and_env(argv: Sequence[str] | None = None):
     parser = build_parser()
     args = parser.parse_args(argv)
+
+    _ = load_dotenv()
+    token = os.getenv("DASH_TOKEN") or os.getenv("ECLIPSE_GITLAB_API_TOKEN")
+    project = os.getenv("ECLIPSE_PROJECT")
 
     p = Params(
         dry_run=args.dry_run,
@@ -86,9 +95,22 @@ def parse_args(argv: Sequence[str] | None = None):
         trigger_review=args.trigger_review,
         format=OutputFormat(args.format),
         comply_with=sorted(set(chain.from_iterable(args.comply_with or []))),
+        token=token,
+        project=project,
     )
 
     if p.dry_run and p.trigger_review:
         parser.error("--dry-run and --trigger-review cannot be used together")
+
+    if args.trigger_review and (not project or not token):
+        parser.error(
+            """
+To trigger review mode, please ensure the following environment variables are set:
+    - DASH_TOKEN or ECLIPSE_GITLAB_API_TOKEN
+    - ECLIPSE_PROJECT
+
+Refer to the documentation for more details on setting these variables.
+            """
+        )
 
     return p
