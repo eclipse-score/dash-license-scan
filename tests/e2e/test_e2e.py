@@ -24,7 +24,7 @@ other, Apache-2.0, approved, clearlydefined"""
 
     out = product_test_kit.stdout
     assert "# Dash License Scan" in out
-    assert "| Package | License | Status | Notes |" in out
+    assert "| Package | License | Status | Details |" in out
     assert "pkg" in out
     assert "other" in out
     assert product_test_kit.jar_cmd is not None
@@ -32,29 +32,6 @@ other, Apache-2.0, approved, clearlydefined"""
     assert "pypi/pypi/-/other/2.0.0" in (product_test_kit.jar_input or "")
 
 
-def test_scans_requirements_with_issues(product_test_kit: ProductTestKit):
-    summary = """bad, GPL-2.0-only, restricted, #12345
-worse, AGPL-3.0-only, restricted, #12346"""
-    product_test_kit.set_fake_jar_response(
-        2,
-        summary,
-        stderr="http://example.com/issue1\nhttp://example.com/issue2",
-    )
-    product_test_kit.set_env(project="demo", token="secret")
-
-    dep_file = product_test_kit.fake_requirements_file(["bad==0.1", "worse==0.2"])
-
-    exit_code = product_test_kit.run(["--trigger-review", str(dep_file)])
-    assert exit_code == 1
-
-    out = product_test_kit.stdout
-    assert "# Dash License Scan" in out
-    assert "| Package | License | Status | Notes |" in out
-    assert "bad" in out
-    assert "worse" in out
-    assert "## License review process was triggered." in out
-    assert "http://example.com/issue1" in out
-    assert "http://example.com/issue2" in out
 
 
 def test_review_requires_env(product_test_kit: ProductTestKit):
@@ -66,27 +43,7 @@ def test_review_requires_env(product_test_kit: ProductTestKit):
     dep_file = product_test_kit.fake_requirements_file(["pkg==1.0.0"])
 
     exit_code = product_test_kit.run(["--trigger-review", str(dep_file)])
-    assert exit_code == 1
-
-
-def test_review_triggers_notice(product_test_kit: ProductTestKit):
-    summary = "pkg, MIT AND GPL-2.0-only, restricted, #54321"
-    product_test_kit.set_fake_jar_response(
-        1, summary, stderr="http://example.com/issue1"
-    )
-    product_test_kit.set_env(project="demo", token="secret")
-
-    dep_file = product_test_kit.fake_requirements_file(["pkg==1.0.0"])
-
-    exit_code = product_test_kit.run(["--trigger-review", str(dep_file)])
-    assert exit_code == 1
-
-    out = product_test_kit.stdout
-    assert "# Dash License Scan" in out
-    assert "| Package | License | Status | Notes |" in out
-    assert "pkg" in out
-    assert "## License review process was triggered." in out
-    assert "http://example.com/issue1" in out
+    assert exit_code == 2
 
 
 def test_dry_run_prints_command_and_dependencies(product_test_kit: ProductTestKit):

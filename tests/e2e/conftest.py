@@ -103,11 +103,11 @@ def product_test_kit(
     patcher = Patcher(additional_skip_names=["importlib", "importlib.resources"])
     patcher.setUp()
     assert patcher.fs is not None
-    patcher.fs.add_real_directory(str(resources_dir), lazy_read=True)
+    patcher.fs.add_real_directory(str(resources_dir), lazy_read=True, read_only=True)
 
     monkeypatch.setattr(jar, "require_java", lambda: None)
     monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake/jar.jar"))
-    monkeypatch.setattr("dash_license_scan.main.load_dotenv", lambda *_, **__: None)
+    monkeypatch.setattr("dash_license_scan.cli.load_dotenv", lambda *_, **__: None)
 
     kit = ProductTestKit(fs=patcher.fs, capsys=capsys, monkeypatch=monkeypatch)
     try:
