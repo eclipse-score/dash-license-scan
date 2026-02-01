@@ -1,9 +1,6 @@
 """License compliance evaluation logic.
 
 Evaluate SPDX license expressions (AND/OR/parentheses) against a target policy.
-
-Currently supported:
-- --comply-with Apache-2.0
 """
 
 from __future__ import annotations

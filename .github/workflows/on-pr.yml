@@ -179,4 +179,4 @@ jobs:
           eclipse_project: ${{ vars.ECLIPSE_PROJECT }}
           lockfiles: uv.lock
           trigger_review: false
-          comply_with: Apache-2.0
+          comply_with: ASF EF
