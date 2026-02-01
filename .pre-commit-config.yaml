@@ -22,6 +22,8 @@ repos:
     rev: v1.7.10
     hooks:
       - id: actionlint
+        # disable shellcheck as actionlint will silently behave differently for users that have shellcheck installed
+        args: ["-shellcheck="]
 
   - repo: https://github.com/hukkin/mdformat
     rev: 1.0.0
