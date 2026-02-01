@@ -21,9 +21,9 @@ def _compliance_result_to_markdown(comp: ComplianceResult) -> str:
         return status
 
 
-def _clearlydefined_or_ticket_to_link(src: str) -> str:
+def _clearlydefined_or_ticket_to_link(package: str, src: str) -> str:
     if src == "clearlydefined":
-        return "[clearlydefined](https://clearlydefined.io/definitions/)"
+        return f"[clearlydefined](https://clearlydefined.io/definitions/{package})"
     elif src.startswith("#"):
         issue_id = src[1:]
         return f"[Eclipse ipLab {issue_id}](https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/{issue_id})"
@@ -73,6 +73,8 @@ def write_markdown_report(
             dep.status, extra_policies_tatus.get(dep.package, {})
         )
         status = results_to_markdown(results)
-        link = _clearlydefined_or_ticket_to_link(dep.clearlydefined_or_ticket)
+        link = _clearlydefined_or_ticket_to_link(
+            dep.package, dep.clearlydefined_or_ticket
+        )
         print(f"| {dep.package} | {dep.license_pretty} | {status} | {link} |")
     print()
