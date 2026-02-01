@@ -89,7 +89,7 @@ def test_build_cmdline_constructs_basic_command(monkeypatch: pytest.MonkeyPatch)
     assert "java" in cmd
     assert "-Djava.net.useSystemProxies=true" in cmd
     assert "-jar" in cmd
-    assert "/fake.jar" in cmd
+    assert "fake.jar" in cmd
     assert "-summary" in cmd
     assert "/tmp/summary.txt" in cmd
     assert "-" in cmd  # stdin indicator
