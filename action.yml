@@ -69,7 +69,7 @@ runs:
         fi
 
         if [[ -n "${{ inputs.comply_with }}" ]]; then
-          cmd+=(--comply-with "${{ inputs.comply_with }}")
+          cmd+=(--comply-with ${{ inputs.comply_with }})
         fi
 
         # Capture stdout and stderr separately into temp files.
