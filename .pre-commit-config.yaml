@@ -1,5 +1,3 @@
-minimum_pre_commit_version: "3.2.0"
-
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -18,34 +16,25 @@ repos:
         args: ["--maxkb=10"]
         exclude: ^src/dash_license_scan/resources/org\.eclipse\.dash\.licenses-.*\.jar$
 
-  - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.10
+  # use LOCAL hooks for python tooling so versions come from uv.lock
+  - repo: local
     hooks:
-      - id: actionlint
-        # disable shellcheck as actionlint will silently behave differently for users that have shellcheck installed
-        args: ["-shellcheck="]
+      - id: ruff
+        name: ruff (uv)
+        entry: uv run ruff check --fix
+        language: system
+        types_or: [python, pyi]
 
-  - repo: https://github.com/hukkin/mdformat
-    rev: 1.0.0
-    hooks:
-      - id: mdformat
-        additional_dependencies:
-          - mdformat-gfm
-
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.14
-    hooks:
-      - id: ruff-check
-        args: ["--fix"]
       - id: ruff-format
+        name: ruff format (uv)
+        entry: uv run ruff format
+        language: system
+        types_or: [python, pyi]
 
-  - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
-    rev: "1.37.2"
-    hooks:
       - id: basedpyright
-
-  # self-test of .pre-commit-config.yaml
-  - repo: meta
-    hooks:
-      - id: check-useless-excludes
-      - id: check-hooks-apply
+        name: basedpyright (uv)
+        entry: uv run basedpyright
+        language: system
+        types_or: [python, pyi]
+        # linters need to run on all files together, not only changed files
+        pass_filenames: false

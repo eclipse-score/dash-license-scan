@@ -32,8 +32,6 @@ other, Apache-2.0, approved, clearlydefined"""
     assert "pypi/pypi/-/other/2.0.0" in (product_test_kit.jar_input or "")
 
 
-
-
 def test_review_requires_env(product_test_kit: ProductTestKit):
     product_test_kit.set_fake_jar_response(0, "SHOULD_NOT_RUN")
     product_test_kit.monkeypatch.delenv("ECLIPSE_PROJECT", raising=False)
