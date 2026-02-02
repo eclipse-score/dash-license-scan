@@ -83,7 +83,7 @@ uvx dash-license-scan -v requirements.txt
 Use `--trigger-review` flag to trigger an Eclipse IP-Team review for unknown licenses. Requires two environment variables:
 
 1. **`DASH_TOKEN` or `ECLIPSE_GITLAB_API_TOKEN`** — Generate from https://gitlab.eclipse.org/-/user_settings/personal_access_tokens (scope: `api`)
-1. **`ECLIPSE_PROJECT`** — Your Eclipse project identifier (e.g., `automotive.score`)
+2. **`ECLIPSE_PROJECT`** — Your Eclipse project identifier (e.g., `automotive.score`)
 
 **Option A: Set as environment variables**
 
@@ -104,6 +104,22 @@ Then run:
 
 ```bash
 uvx dash-license-scan uv.lock --trigger-review
+```
+
+### Run compliance evaluation for identified licenses
+
+Use `--comply-with` flag to trigger compliance evaluation against a specific policy. Currently supported policies are:
+
+- `ASF` - Apache Software Foundation's (ASF) 3rd Party License Policy.
+- `EF` - Eclipse Foundation - Third Party Content Licenses.
+
+Usage:
+
+```bash
+uvx dash-license-scan uv.lock --comply-with <policy-name>
+
+uvx dash-license-scan uv.lock --comply-with ASF
+uvx dash-license-scan uv.lock --comply-with EF
 ```
 
 ______________________________________________________________________
