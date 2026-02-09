@@ -27,7 +27,8 @@ foo==1.2.3 \\
     with caplog.at_level(logging.WARNING):
         deps = parsers.parse(req)
 
-    assert deps == ["pypi/pypi/-/foo/1.2.3"]
+    assert len(deps) == 1
+    assert deps[0].to_coordinate() == "pypi/pypi/-/foo/1.2.3"
     assert caplog.text == ""
 
 
@@ -64,10 +65,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
     deps = parsers.parse(cargo)
 
-    assert deps == [
-        "crate/cratesio/-/serde/1.0.203",
-        "crate/cratesio/-/log/0.4.22",
-    ]
+    assert len(deps) == 2
+    assert deps[0].to_coordinate() == "crate/cratesio/-/serde/1.0.203"
+    assert deps[1].to_coordinate() == "crate/cratesio/-/log/0.4.22"
 
 
 def test_parse_crate_rejects_unknown_registry(tmp_path: Path):
@@ -106,7 +106,8 @@ source = { registry = "https://example.com/simple" }
 
     deps = parsers.parse(uv)
 
-    assert deps == ["pypi/pypi/-/requests/2.32.3"]
+    assert len(deps) == 1
+    assert deps[0].to_coordinate() == "pypi/pypi/-/requests/2.32.3"
 
 
 def test_parse_uv_lock_warns_on_invalid_structure(
@@ -129,9 +130,10 @@ def test_parse_cdx_extracts_dependencies_from_sbom():
     deps = parsers.parse(cdx_file)
 
     # Should extract cargo dependencies from purl
-    assert "crate/cratesio/-/serde/1.0.228" in deps
-    assert "crate/cratesio/-/proc-macro2/1.0.106" in deps
-    assert "crate/cratesio/-/unicode-ident/1.0.22" in deps
+    coords = [dep.to_coordinate() for dep in deps]
+    assert "crate/cratesio/-/serde/1.0.228" in coords
+    assert "crate/cratesio/-/proc-macro2/1.0.106" in coords
+    assert "crate/cratesio/-/unicode-ident/1.0.22" in coords
 
     # Should have many dependencies from the SBOM
     assert len(deps) > 10
@@ -144,15 +146,16 @@ def test_parse_spdx_extracts_dependencies_from_sbom():
     deps = parsers.parse(spdx_file)
 
     # Should extract cargo dependencies from purl
-    assert "crate/cratesio/-/serde/1.0.228" in deps
-    assert "crate/cratesio/-/proc-macro2/1.0.106" in deps
-    assert "crate/cratesio/-/unicode-ident/1.0.22" in deps
+    coords = [dep.to_coordinate() for dep in deps]
+    assert "crate/cratesio/-/serde/1.0.228" in coords
+    assert "crate/cratesio/-/proc-macro2/1.0.106" in coords
+    assert "crate/cratesio/-/unicode-ident/1.0.22" in coords
 
     # Should have many dependencies from the SBOM
     assert len(deps) > 10
 
     # Should not include the root package
-    assert "kyron_example" not in " ".join(deps)
+    assert "kyron_example" not in " ".join(coords)
 
 
 def test_parse_cdx_handles_invalid_json(tmp_path: Path, caplog: LogCaptureFixture):
@@ -232,7 +235,9 @@ def test_parse_spdx_normalizes_non_standard_license_expressions(
     with caplog.at_level(logging.DEBUG):
         deps = parsers.parse(spdx)
 
-    assert deps == ["crate/cratesio/-/test-package/1.0.0"]
+    assert len(deps) == 1
+    assert deps[0].to_coordinate() == "crate/cratesio/-/test-package/1.0.0"
+    assert deps[0].license == "MIT OR Apache-2.0"
     # Check that normalization happened
     assert (
         "Normalizing non-standard license expression: 'MIT/Apache-2.0'" in caplog.text

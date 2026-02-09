@@ -10,7 +10,7 @@ from dash_license_scan.compliance import (
     evaluate_compatibility,
 )
 from dash_license_scan.outputs import write_markdown_report
-from dash_license_scan.parsers import parse
+from dash_license_scan.parsers import Dependency, parse
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -22,8 +22,8 @@ logging.basicConfig(level=logging.INFO)
 # ----------------------------------------------------------------------------------
 
 
-def parse_all_lockfiles(lockfiles: list[Path]) -> list[str]:
-    deps: list[str] = []
+def parse_all_lockfiles(lockfiles: list[Path]) -> list[Dependency]:
+    deps: list[Dependency] = []
 
     for file in lockfiles:
         log.debug(f"Parsing lockfile: {file}")
@@ -57,7 +57,7 @@ def main(argv: list[str] | None = None) -> int:
     log.info(f"Scanning {len(deps)} dependencies...")
 
     result = jar.run_jar(
-        dependencies="\n".join(deps),
+        dependencies="\n".join(dep.to_coordinate() for dep in deps),
         verbose=args.verbose,
         dry_run=args.dry_run,
         project=args.project,

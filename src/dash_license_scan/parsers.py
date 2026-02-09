@@ -4,6 +4,7 @@ import json
 import logging
 import sys
 from collections.abc import Generator
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, cast
 
@@ -17,7 +18,22 @@ except ModuleNotFoundError:  # Python 3.10 fallback
 logger = logging.getLogger(__name__)
 
 
-def parse(file: Path) -> list[str]:
+@dataclass
+class Dependency:
+    """Represents a package dependency with coordinate information."""
+
+    type: str  # Package type: "pypi", "crate", "npm", "maven"
+    registry: str  # Registry: "pypi", "cratesio", "npmjs", "mavencentral"
+    name: str  # Package name
+    version: str  # Package version
+    license: str | None = None  # SPDX license expression if available
+
+    def to_coordinate(self) -> str:
+        """Convert to dash-licenses coordinate format."""
+        return f"{self.type}/{self.registry}/-/{self.name}/{self.version}"
+
+
+def parse(file: Path) -> list[Dependency]:
     assert isinstance(file, Path), f"Expected Path, got <{type(file)}> {file}"
     if not file.exists():
         sys.exit(f"lockfile not found: {file}")
@@ -48,9 +64,9 @@ def read_file_lines(file: Path) -> Generator[str, None, None]:
             yield line
 
 
-def parse_pypi(file: Path):
+def parse_pypi(file: Path) -> list[Dependency]:
     """Parse a pip requirements file into dash-licenses dependency coordinates."""
-    deps: list[str] = []
+    deps: list[Dependency] = []
 
     for line in read_file_lines(file):
         # Skip --hash lines (they're options for the previous requirement)
@@ -59,16 +75,18 @@ def parse_pypi(file: Path):
 
         if "==" in line:
             name, _, version = line.strip("\\ ").partition("==")
-            deps.append(f"pypi/pypi/-/{name}/{version}")
+            deps.append(
+                Dependency(type="pypi", registry="pypi", name=name, version=version)
+            )
         else:
             logger.warning(f"Skipping unsupported pip requirement line: {line}")
 
     return deps
 
 
-def parse_crate(file: Path):
+def parse_crate(file: Path) -> list[Dependency]:
     """Parse a Cargo.lock and extract crates.io dependencies."""
-    deps: list[str] = []
+    deps: list[Dependency] = []
 
     assert isinstance(file, Path), f"Expected Path, got <{type(file)}> {file}"
 
@@ -99,18 +117,22 @@ def parse_crate(file: Path):
         if source and "crates" not in str(source).lower():
             raise ValueError(f"Unknown crate registry source: {source}")
 
-        deps.append(f"crate/cratesio/-/{name}/{version}")
+        deps.append(
+            Dependency(
+                type="crate", registry="cratesio", name=str(name), version=str(version)
+            )
+        )
 
     return deps
 
 
-def parse_uv_lock(file: Path):
+def parse_uv_lock(file: Path) -> list[Dependency]:
     """Parse Python project dependencies from uv.lock.
 
     Extracts pinned package versions from the uv lockfile format.
     Only includes packages from PyPI registry.
     """
-    deps: list[str] = []
+    deps: list[Dependency] = []
 
     assert isinstance(file, Path), f"Expected Path, got <{type(file)}> {file}"
 
@@ -147,17 +169,21 @@ def parse_uv_lock(file: Path):
                 )
                 continue
 
-        deps.append(f"pypi/pypi/-/{name}/{version}")
+        deps.append(
+            Dependency(
+                type="pypi", registry="pypi", name=str(name), version=str(version)
+            )
+        )
     return deps
 
 
-def _purl_to_dep_coordinate(purl: str) -> str | None:
-    """Convert a Package URL (purl) to dash-licenses dependency coordinate format.
+def _purl_to_dependency(purl: str, license: str | None = None) -> Dependency | None:
+    """Convert a Package URL (purl) to a Dependency object.
 
     Examples:
-        pkg:cargo/serde@1.0.228 -> crate/cratesio/-/serde/1.0.228
-        pkg:pypi/requests@2.32.3 -> pypi/pypi/-/requests/2.32.3
-        pkg:npm/express@4.18.2 -> npm/npmjs/-/express/4.18.2
+        pkg:cargo/serde@1.0.228 -> Dependency(type="crate", registry="cratesio", name="serde", version="1.0.228")
+        pkg:pypi/requests@2.32.3 -> Dependency(type="pypi", registry="pypi", name="requests", version="2.32.3")
+        pkg:npm/express@4.18.2 -> Dependency(type="npm", registry="npmjs", name="express", version="4.18.2")
     """
     if not purl or not purl.startswith("pkg:"):
         return None
@@ -178,19 +204,50 @@ def _purl_to_dep_coordinate(purl: str) -> str | None:
         version = version.split("?")[0].split("#")[0]
         name = name_part.split("/")[-1]  # Take last part for namespaced packages
 
-        # Map purl type to dash-licenses coordinate format
+        # Map purl type to Dependency object
         if type_part == "cargo":
-            return f"crate/cratesio/-/{name}/{version}"
+            return Dependency(
+                type="crate",
+                registry="cratesio",
+                name=name,
+                version=version,
+                license=license,
+            )
         elif type_part == "pypi":
-            return f"pypi/pypi/-/{name}/{version}"
+            return Dependency(
+                type="pypi",
+                registry="pypi",
+                name=name,
+                version=version,
+                license=license,
+            )
         elif type_part == "npm":
-            return f"npm/npmjs/-/{name}/{version}"
+            return Dependency(
+                type="npm",
+                registry="npmjs",
+                name=name,
+                version=version,
+                license=license,
+            )
         elif type_part == "maven":
             # Maven format needs group/artifact mapping
             if "/" in name_part:
                 group, artifact = name_part.rsplit("/", 1)
-                return f"maven/mavencentral/{group}/{artifact}/{version}"
-            return f"maven/mavencentral/-/{name}/{version}"
+                # For maven, we include group in the name for now
+                return Dependency(
+                    type="maven",
+                    registry="mavencentral",
+                    name=f"{group}/{artifact}",
+                    version=version,
+                    license=license,
+                )
+            return Dependency(
+                type="maven",
+                registry="mavencentral",
+                name=name,
+                version=version,
+                license=license,
+            )
         else:
             logger.debug(f"Unsupported purl type: {type_part}")
             return None
@@ -199,13 +256,13 @@ def _purl_to_dep_coordinate(purl: str) -> str | None:
         return None
 
 
-def parse_cdx(file: Path) -> list[str]:  # noqa: C901
+def parse_cdx(file: Path) -> list[Dependency]:  # noqa: C901
     """Parse a CycloneDX SBOM JSON file and extract dependency coordinates.
 
     Extracts package URLs (purls) from components and converts them to
     dash-licenses coordinate format. Uses the official cyclonedx-python-lib.
     """
-    deps: list[str] = []
+    deps: list[Dependency] = []
 
     try:
         json_data = json.loads(file.read_text(encoding="utf-8"))
@@ -236,11 +293,13 @@ def parse_cdx(file: Path) -> list[str]:  # noqa: C901
                 elif hasattr(license_obj, "name") and license_obj.name:
                     original_license = _normalize_license_expression(license_obj.name)
 
-        dep = _purl_to_dep_coordinate(purl_str)
+        dep = _purl_to_dependency(purl_str, license=original_license)
         if dep:
             deps.append(dep)
             if original_license:
-                logger.debug(f"Found license for {dep}: {original_license}")
+                logger.debug(
+                    f"Found license for {dep.to_coordinate()}: {original_license}"
+                )
 
     return deps
 
@@ -282,14 +341,14 @@ def _normalize_license_expression(license_str: str) -> str:
     return license_str
 
 
-def parse_spdx(file: Path) -> list[str]:  # noqa: C901
+def parse_spdx(file: Path) -> list[Dependency]:  # noqa: C901
     """Parse an SPDX SBOM JSON file and extract dependency coordinates.
 
     Extracts package URLs (purls) from package externalRefs and converts them
     to dash-licenses coordinate format. Uses lenient JSON parsing to handle
     non-standard license expressions.
     """
-    deps: list[str] = []
+    deps: list[Dependency] = []
 
     try:
         data = json.loads(file.read_text(encoding="utf-8"))
@@ -342,10 +401,12 @@ def parse_spdx(file: Path) -> list[str]:  # noqa: C901
         elif license_declared and license_declared not in ("NOASSERTION", "NONE"):
             original_license = _normalize_license_expression(license_declared)
 
-        dep = _purl_to_dep_coordinate(purl)
+        dep = _purl_to_dependency(purl, license=original_license)
         if dep:
             deps.append(dep)
             if original_license:
-                logger.debug(f"Found license for {dep}: {original_license}")
+                logger.debug(
+                    f"Found license for {dep.to_coordinate()}: {original_license}"
+                )
 
     return deps
