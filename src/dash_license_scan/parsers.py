@@ -2,6 +2,7 @@
 
 import json
 import logging
+import subprocess
 import sys
 from collections.abc import Generator
 from dataclasses import dataclass
@@ -27,13 +28,25 @@ class Dependency:
     name: str  # Package name
     version: str  # Package version
     license: str | None = None  # SPDX license expression if available
+    dev: bool = False  # Whether this is a development dependency
 
     def to_coordinate(self) -> str:
         """Convert to dash-licenses coordinate format."""
         return f"{self.type}/{self.registry}/-/{self.name}/{self.version}"
 
 
-def parse(file: Path) -> list[Dependency]:
+def _add_dependency(deps: dict[str, Dependency], dep: Dependency) -> None:
+    coord = dep.to_coordinate()
+    existing = deps.get(coord)
+    if existing:
+        # dev only if very sure: if either is dev, mark as dev.
+        logger.debug(f"!! Duplicate dependency coordinate found: {coord} !!")
+        existing.dev = existing.dev and dep.dev
+        return
+    deps[coord] = dep
+
+
+def parse(file: Path) -> dict[str, Dependency]:
     assert isinstance(file, Path), f"Expected Path, got <{type(file)}> {file}"
     if not file.exists():
         sys.exit(f"lockfile not found: {file}")
@@ -64,9 +77,9 @@ def read_file_lines(file: Path) -> Generator[str, None, None]:
             yield line
 
 
-def parse_pypi(file: Path) -> list[Dependency]:
+def parse_pypi(file: Path) -> dict[str, Dependency]:
     """Parse a pip requirements file into dash-licenses dependency coordinates."""
-    deps: list[Dependency] = []
+    deps: dict[str, Dependency] = {}
 
     for line in read_file_lines(file):
         # Skip --hash lines (they're options for the previous requirement)
@@ -75,8 +88,9 @@ def parse_pypi(file: Path) -> list[Dependency]:
 
         if "==" in line:
             name, _, version = line.strip("\\ ").partition("==")
-            deps.append(
-                Dependency(type="pypi", registry="pypi", name=name, version=version)
+            _add_dependency(
+                deps,
+                Dependency(type="pypi", registry="pypi", name=name, version=version),
             )
         else:
             logger.warning(f"Skipping unsupported pip requirement line: {line}")
@@ -84,9 +98,9 @@ def parse_pypi(file: Path) -> list[Dependency]:
     return deps
 
 
-def parse_crate(file: Path) -> list[Dependency]:
+def parse_crate(file: Path) -> dict[str, Dependency]:
     """Parse a Cargo.lock and extract crates.io dependencies."""
-    deps: list[Dependency] = []
+    deps: dict[str, Dependency] = {}
 
     assert isinstance(file, Path), f"Expected Path, got <{type(file)}> {file}"
 
@@ -117,24 +131,151 @@ def parse_crate(file: Path) -> list[Dependency]:
         if source and "crates" not in str(source).lower():
             raise ValueError(f"Unknown crate registry source: {source}")
 
-        deps.append(
+        _add_dependency(
+            deps,
             Dependency(
-                type="crate", registry="cratesio", name=str(name), version=str(version)
-            )
+                type="crate",
+                registry="cratesio",
+                name=str(name),
+                version=str(version),
+            ),
         )
 
     return deps
 
 
-def parse_uv_lock(file: Path) -> list[Dependency]:
+def parse_uv_lock(file: Path) -> dict[str, Dependency]:
     """Parse Python project dependencies from uv.lock.
+
+    First attempts to use `uv export` to extract dependencies with dev/non-dev
+    separation. Falls back to TOML parsing if `uv export` is unavailable.
+    """
+    assert isinstance(file, Path), f"Expected Path, got <{type(file)}> {file}"
+
+    # Try using uv export first
+    try:
+        return _parse_uv_lock_with_export(file)
+    except Exception as exc:
+        logger.debug(f"Failed to parse uv.lock with uv export: {exc}")
+        logger.debug("Falling back to TOML parsing")
+        return _parse_uv_lock_toml(file)
+
+
+def _parse_requirements_lines(lines: list[str], dev: bool) -> dict[str, Dependency]:
+    """Parse requirements.txt format lines into Dependency objects."""
+    deps: dict[str, Dependency] = {}
+    for line in lines:
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+
+        # Strip environment markers (e.g. "pkg==1.2.3 ; python_version < '3.11'")
+        requirement = line.split(";", 1)[0].strip()
+        if "==" not in requirement:
+            continue
+
+        name, _, version = requirement.partition("==")
+        name = name.strip()
+        version = version.strip()
+        if name and version:
+            _add_dependency(
+                deps,
+                Dependency(
+                    type="pypi",
+                    registry="pypi",
+                    name=name,
+                    version=version,
+                    dev=dev,
+                ),
+            )
+    return deps
+
+
+def _run_prod_export(lockfile_dir: Path, timeout: int = 30) -> list[str]:
+    """Run uv export for production dependencies (--no-dev)."""
+    result = subprocess.run(
+        [
+            "uv",
+            "export",
+            "--locked",
+            "--format",
+            "requirements-txt",
+            "--no-hashes",
+            "--no-dev",
+        ],
+        cwd=lockfile_dir,
+        capture_output=True,
+        text=True,
+        check=True,
+        timeout=timeout,
+    )
+    return result.stdout.splitlines()
+
+
+def _run_dev_export(lockfile_dir: Path, timeout: int = 30) -> list[str]:
+    """Run uv export for dev dependencies (--group dev)."""
+    cmd = [
+        "uv",
+        "export",
+        "--locked",
+        "--format",
+        "requirements-txt",
+        "--no-hashes",
+        "--all-extras",
+    ]
+
+    result = subprocess.run(
+        cmd,
+        cwd=lockfile_dir,
+        capture_output=True,
+        text=True,
+        check=True,
+        timeout=timeout,
+    )
+    return result.stdout.splitlines()
+
+
+def _parse_uv_lock_with_export(file: Path) -> dict[str, Dependency]:
+    """Parse uv.lock using `uv export` commands to separate dev/non-dev deps."""
+    deps: dict[str, Dependency] = {}
+    lockfile_dir = file.parent
+
+    # Export non-dev dependencies
+    try:
+        non_dev_lines = _run_prod_export(lockfile_dir)
+        for dep in _parse_requirements_lines(non_dev_lines, dev=False).values():
+            _add_dependency(deps, dep)
+    except subprocess.CalledProcessError as exc:
+        logger.debug(f"stdout: {exc.stdout}")
+        logger.debug(f"stderr: {exc.stderr}")
+        raise ValueError(f"uv export failed for non-dev dependencies: {exc}") from exc
+    except (subprocess.TimeoutExpired, FileNotFoundError) as exc:
+        raise ValueError(f"uv export command failed: {exc}") from exc
+
+    # Export dev dependencies
+    try:
+        dev_lines = _run_dev_export(lockfile_dir)
+        for dep in _parse_requirements_lines(dev_lines, dev=True).values():
+            _add_dependency(deps, dep)
+    except subprocess.CalledProcessError as exc:
+        # It's okay if dev dependencies export fails (might not have any)
+        logger.debug(f"stdout: {exc.stdout}")
+        logger.debug(f"stderr: {exc.stderr}")
+        logger.debug(f"No dev dependencies or uv export failed for dev group: {exc}")
+
+    if not deps:
+        raise ValueError("No dependencies found via uv export")
+
+    return deps
+
+
+def _parse_uv_lock_toml(file: Path) -> dict[str, Dependency]:
+    """Parse uv.lock by reading TOML directly (fallback method).
 
     Extracts pinned package versions from the uv lockfile format.
     Only includes packages from PyPI registry.
     """
-    deps: list[Dependency] = []
-
-    assert isinstance(file, Path), f"Expected Path, got <{type(file)}> {file}"
+    deps: dict[str, Dependency] = {}
 
     try:
         data = cast("dict[str, Any]", tomllib.loads(file.read_text(encoding="utf-8")))
@@ -169,10 +310,16 @@ def parse_uv_lock(file: Path) -> list[Dependency]:
                 )
                 continue
 
-        deps.append(
+        # Cannot determine dev status from TOML, so default to False
+        _add_dependency(
+            deps,
             Dependency(
-                type="pypi", registry="pypi", name=str(name), version=str(version)
-            )
+                type="pypi",
+                registry="pypi",
+                name=str(name),
+                version=str(version),
+                dev=False,
+            ),
         )
     return deps
 
@@ -256,13 +403,13 @@ def _purl_to_dependency(purl: str, license: str | None = None) -> Dependency | N
         return None
 
 
-def parse_cdx(file: Path) -> list[Dependency]:  # noqa: C901
+def parse_cdx(file: Path) -> dict[str, Dependency]:  # noqa: C901
     """Parse a CycloneDX SBOM JSON file and extract dependency coordinates.
 
     Extracts package URLs (purls) from components and converts them to
     dash-licenses coordinate format. Uses the official cyclonedx-python-lib.
     """
-    deps: list[Dependency] = []
+    deps: dict[str, Dependency] = {}
 
     try:
         json_data = json.loads(file.read_text(encoding="utf-8"))
@@ -295,7 +442,7 @@ def parse_cdx(file: Path) -> list[Dependency]:  # noqa: C901
 
         dep = _purl_to_dependency(purl_str, license=original_license)
         if dep:
-            deps.append(dep)
+            _add_dependency(deps, dep)
             if original_license:
                 logger.debug(
                     f"Found license for {dep.to_coordinate()}: {original_license}"
@@ -341,14 +488,14 @@ def _normalize_license_expression(license_str: str) -> str:
     return license_str
 
 
-def parse_spdx(file: Path) -> list[Dependency]:  # noqa: C901
+def parse_spdx(file: Path) -> dict[str, Dependency]:  # noqa: C901
     """Parse an SPDX SBOM JSON file and extract dependency coordinates.
 
     Extracts package URLs (purls) from package externalRefs and converts them
     to dash-licenses coordinate format. Uses lenient JSON parsing to handle
     non-standard license expressions.
     """
-    deps: list[Dependency] = []
+    deps: dict[str, Dependency] = {}
 
     try:
         data = json.loads(file.read_text(encoding="utf-8"))
@@ -403,7 +550,7 @@ def parse_spdx(file: Path) -> list[Dependency]:  # noqa: C901
 
         dep = _purl_to_dependency(purl, license=original_license)
         if dep:
-            deps.append(dep)
+            _add_dependency(deps, dep)
             if original_license:
                 logger.debug(
                     f"Found license for {dep.to_coordinate()}: {original_license}"

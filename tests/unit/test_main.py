@@ -27,6 +27,5 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
     all_dependencies = main.parse_all_lockfiles([requirements_txt, cargo_lock])
 
     assert len(all_dependencies) == 2
-    coords = [dep.to_coordinate() for dep in all_dependencies]
-    assert "pypi/pypi/-/requests/2.32.0" in coords
-    assert "crate/cratesio/-/serde/1.0.203" in coords
+    assert "pypi/pypi/-/requests/2.32.0" in all_dependencies
+    assert "crate/cratesio/-/serde/1.0.203" in all_dependencies

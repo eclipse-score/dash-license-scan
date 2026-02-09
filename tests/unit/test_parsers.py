@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 from _pytest.logging import LogCaptureFixture
@@ -28,7 +29,8 @@ foo==1.2.3 \\
         deps = parsers.parse(req)
 
     assert len(deps) == 1
-    assert deps[0].to_coordinate() == "pypi/pypi/-/foo/1.2.3"
+    only_dep = next(iter(deps.values()))
+    assert only_dep.to_coordinate() == "pypi/pypi/-/foo/1.2.3"
     assert caplog.text == ""
 
 
@@ -39,7 +41,7 @@ def test_parse_pypi_warns_on_unknown_lines(tmp_path: Path, caplog: LogCaptureFix
     with caplog.at_level(logging.WARNING):
         deps = parsers.parse(req)
 
-    assert deps == []
+    assert deps == {}
     assert "Skipping unsupported" in caplog.text
 
 
@@ -66,8 +68,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
     deps = parsers.parse(cargo)
 
     assert len(deps) == 2
-    assert deps[0].to_coordinate() == "crate/cratesio/-/serde/1.0.203"
-    assert deps[1].to_coordinate() == "crate/cratesio/-/log/0.4.22"
+    assert "crate/cratesio/-/serde/1.0.203" in deps
+    assert "crate/cratesio/-/log/0.4.22" in deps
 
 
 def test_parse_crate_rejects_unknown_registry(tmp_path: Path):
@@ -86,6 +88,7 @@ source = "registry+https://example.com/index"
 
 
 def test_parse_uv_lock_filters_non_pypi(tmp_path: Path, caplog: LogCaptureFixture):
+    """Test that uv.lock parsing filters non-PyPI packages (using TOML fallback)."""
     uv = tmp_path / "uv.lock"
     uv.write_text(
         """
@@ -104,10 +107,16 @@ source = { registry = "https://example.com/simple" }
 """
     )
 
-    deps = parsers.parse(uv)
+    # Mock _run_prod_export to fail so it falls back to TOML parsing
+    with patch("dash_license_scan.parsers._run_prod_export") as mock_prod:
+        mock_prod.side_effect = FileNotFoundError("uv not found")
+
+        deps = parsers.parse(uv)
 
     assert len(deps) == 1
-    assert deps[0].to_coordinate() == "pypi/pypi/-/requests/2.32.3"
+    only_dep = next(iter(deps.values()))
+    assert only_dep.to_coordinate() == "pypi/pypi/-/requests/2.32.3"
+    assert only_dep.dev is False
 
 
 def test_parse_uv_lock_warns_on_invalid_structure(
@@ -116,11 +125,96 @@ def test_parse_uv_lock_warns_on_invalid_structure(
     uv = tmp_path / "uv.lock"
     uv.write_text("""[package]\nname = 'oops'""")
 
-    with caplog.at_level(logging.WARNING):
+    # Mock _run_prod_export to fail so it falls back to TOML parsing
+    with patch("dash_license_scan.parsers._run_prod_export") as mock_prod:
+        mock_prod.side_effect = FileNotFoundError("uv not found")
+
+        with caplog.at_level(logging.WARNING):
+            deps = parsers.parse(uv)
+
+    assert deps == {}
+    assert "Invalid uv.lock" in caplog.text
+
+
+def test_parse_uv_lock_with_export_separates_dev_dependencies(tmp_path: Path):
+    """Test that uv export properly separates dev and non-dev dependencies."""
+    uv = tmp_path / "uv.lock"
+    uv.write_text("version = 1\n")  # Minimal valid uv.lock
+
+    # Mock the export functions directly
+    with (
+        patch("dash_license_scan.parsers._run_prod_export") as mock_prod,
+        patch("dash_license_scan.parsers._run_dev_export") as mock_dev,
+    ):
+        mock_prod.return_value = ["requests==2.32.3", "flask==3.0.0"]
+        mock_dev.return_value = ["pytest==8.0.0", "ruff==0.1.0"]
+
         deps = parsers.parse(uv)
 
-    assert deps == []
-    assert "Invalid uv.lock" in caplog.text
+    assert len(deps) == 4
+
+    # Check non-dev dependencies
+    non_dev_deps = [d for d in deps.values() if not d.dev]
+    assert len(non_dev_deps) == 2
+    assert any(d.name == "requests" and d.version == "2.32.3" for d in non_dev_deps)
+    assert any(d.name == "flask" and d.version == "3.0.0" for d in non_dev_deps)
+
+    # Check dev dependencies
+    dev_deps = [d for d in deps.values() if d.dev]
+    assert len(dev_deps) == 2
+    assert any(d.name == "pytest" and d.version == "8.0.0" for d in dev_deps)
+    assert any(d.name == "ruff" and d.version == "0.1.0" for d in dev_deps)
+
+
+def test_parse_uv_lock_with_export_handles_no_dev_deps(tmp_path: Path):
+    """Test that uv export handles projects with no dev dependencies."""
+    uv = tmp_path / "uv.lock"
+    uv.write_text("version = 1\n")
+
+    from subprocess import CalledProcessError
+
+    with (
+        patch("dash_license_scan.parsers._run_prod_export") as mock_prod,
+        patch("dash_license_scan.parsers._run_dev_export") as mock_dev,
+    ):
+        mock_prod.return_value = ["requests==2.32.3"]
+        mock_dev.side_effect = CalledProcessError(1, "uv export", stderr="No dev group")
+
+        deps = parsers.parse(uv)
+
+    assert len(deps) == 1
+    only_dep = next(iter(deps.values()))
+    assert only_dep.name == "requests"
+    assert only_dep.dev is False
+
+
+def test_parse_uv_lock_falls_back_when_uv_not_available(
+    tmp_path: Path, caplog: LogCaptureFixture
+):
+    """Test that parsing falls back to TOML when uv command is not available."""
+    uv = tmp_path / "uv.lock"
+    uv.write_text(
+        """
+version = 1
+
+[[package]]
+name = "requests"
+version = "2.32.3"
+"""
+    )
+
+    with patch("dash_license_scan.parsers._run_prod_export") as mock_prod:
+        mock_prod.side_effect = FileNotFoundError("uv command not found")
+
+        with caplog.at_level(logging.DEBUG):
+            deps = parsers.parse(uv)
+
+    assert len(deps) == 1
+    only_dep = next(iter(deps.values()))
+    assert only_dep.name == "requests"
+    assert "Falling back to TOML parsing" in caplog.text
+    assert only_dep.name == "requests"
+    assert "Falling back to TOML parsing" in caplog.text
 
 
 def test_parse_cdx_extracts_dependencies_from_sbom():
@@ -130,10 +224,9 @@ def test_parse_cdx_extracts_dependencies_from_sbom():
     deps = parsers.parse(cdx_file)
 
     # Should extract cargo dependencies from purl
-    coords = [dep.to_coordinate() for dep in deps]
-    assert "crate/cratesio/-/serde/1.0.228" in coords
-    assert "crate/cratesio/-/proc-macro2/1.0.106" in coords
-    assert "crate/cratesio/-/unicode-ident/1.0.22" in coords
+    assert "crate/cratesio/-/serde/1.0.228" in deps
+    assert "crate/cratesio/-/proc-macro2/1.0.106" in deps
+    assert "crate/cratesio/-/unicode-ident/1.0.22" in deps
 
     # Should have many dependencies from the SBOM
     assert len(deps) > 10
@@ -146,16 +239,15 @@ def test_parse_spdx_extracts_dependencies_from_sbom():
     deps = parsers.parse(spdx_file)
 
     # Should extract cargo dependencies from purl
-    coords = [dep.to_coordinate() for dep in deps]
-    assert "crate/cratesio/-/serde/1.0.228" in coords
-    assert "crate/cratesio/-/proc-macro2/1.0.106" in coords
-    assert "crate/cratesio/-/unicode-ident/1.0.22" in coords
+    assert "crate/cratesio/-/serde/1.0.228" in deps
+    assert "crate/cratesio/-/proc-macro2/1.0.106" in deps
+    assert "crate/cratesio/-/unicode-ident/1.0.22" in deps
 
     # Should have many dependencies from the SBOM
     assert len(deps) > 10
 
     # Should not include the root package
-    assert "kyron_example" not in " ".join(coords)
+    assert "kyron_example" not in " ".join(deps.keys())
 
 
 def test_parse_cdx_handles_invalid_json(tmp_path: Path, caplog: LogCaptureFixture):
@@ -166,7 +258,7 @@ def test_parse_cdx_handles_invalid_json(tmp_path: Path, caplog: LogCaptureFixtur
     with caplog.at_level(logging.WARNING):
         deps = parsers.parse(cdx)
 
-    assert deps == []
+    assert deps == {}
     assert "Failed to parse" in caplog.text
 
 
@@ -178,7 +270,7 @@ def test_parse_spdx_handles_invalid_json(tmp_path: Path, caplog: LogCaptureFixtu
     with caplog.at_level(logging.WARNING):
         deps = parsers.parse(spdx)
 
-    assert deps == []
+    assert deps == {}
     assert "Failed to parse" in caplog.text
 
 
@@ -192,7 +284,7 @@ def test_parse_cdx_validates_format(tmp_path: Path, caplog: LogCaptureFixture):
 
     # The CycloneDX library is lenient and doesn't validate format strictly,
     # but will return empty components, so we get an empty list
-    assert deps == []
+    assert deps == {}
 
 
 def test_parse_spdx_validates_format(tmp_path: Path, caplog: LogCaptureFixture):
@@ -203,7 +295,7 @@ def test_parse_spdx_validates_format(tmp_path: Path, caplog: LogCaptureFixture):
     with caplog.at_level(logging.WARNING):
         deps = parsers.parse(spdx)
 
-    assert deps == []
+    assert deps == {}
     assert "Invalid SPDX" in caplog.text
 
 
@@ -236,8 +328,9 @@ def test_parse_spdx_normalizes_non_standard_license_expressions(
         deps = parsers.parse(spdx)
 
     assert len(deps) == 1
-    assert deps[0].to_coordinate() == "crate/cratesio/-/test-package/1.0.0"
-    assert deps[0].license == "MIT OR Apache-2.0"
+    only_dep = next(iter(deps.values()))
+    assert only_dep.to_coordinate() == "crate/cratesio/-/test-package/1.0.0"
+    assert only_dep.license == "MIT OR Apache-2.0"
     # Check that normalization happened
     assert (
         "Normalizing non-standard license expression: 'MIT/Apache-2.0'" in caplog.text

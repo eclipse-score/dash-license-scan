@@ -6,10 +6,9 @@ from typing import TYPE_CHECKING
 from dash_license_scan import jar
 from dash_license_scan.cli import parse_args_and_env
 from dash_license_scan.compliance import (
-    ComplianceResult,
     evaluate_compatibility,
 )
-from dash_license_scan.outputs import write_markdown_report
+from dash_license_scan.outputs import DependencyReport, write_markdown_report
 from dash_license_scan.parsers import Dependency, parse
 
 if TYPE_CHECKING:
@@ -22,15 +21,20 @@ logging.basicConfig(level=logging.INFO)
 # ----------------------------------------------------------------------------------
 
 
-def parse_all_lockfiles(lockfiles: list[Path]) -> list[Dependency]:
-    deps: list[Dependency] = []
+def parse_all_lockfiles(lockfiles: list[Path]) -> dict[str, Dependency]:
+    deps: dict[str, Dependency] = {}
 
     for file in lockfiles:
         log.debug(f"Parsing lockfile: {file}")
         parsed = parse(file)
         log.debug(f"Parsed dependencies from {file}: {parsed}")
 
-        deps.extend(parsed)
+        for coord, dep in parsed.items():
+            existing = deps.get(coord)
+            if existing:
+                existing.dev = existing.dev and dep.dev
+            else:
+                deps[coord] = dep
 
     return deps
 
@@ -57,7 +61,7 @@ def main(argv: list[str] | None = None) -> int:
     log.info(f"Scanning {len(deps)} dependencies...")
 
     result = jar.run_jar(
-        dependencies="\n".join(dep.to_coordinate() for dep in deps),
+        dependencies="\n".join(deps.keys()),
         verbose=args.verbose,
         dry_run=args.dry_run,
         project=args.project,
@@ -69,19 +73,40 @@ def main(argv: list[str] | None = None) -> int:
 
     log.debug("Dash Licenses summary:\n%s", result.summary)
 
+    prod_coords: set[str] = set()
+    dev_coords: set[str] = set()
+    for orig_dep in deps.values():
+        coord = orig_dep.to_coordinate()
+        if orig_dep.dev:
+            dev_coords.add(coord)
+        else:
+            prod_coords.add(coord)
+
+    reports: dict[str, DependencyReport] = {}
+    for jar_dep in result.dependencies:
+        coord = jar_dep.package
+        is_dev = coord in dev_coords and coord not in prod_coords
+        report = DependencyReport(
+            package=jar_dep.package,
+            license_raw=jar_dep.license_raw,
+            license_pretty=jar_dep.license_pretty,
+            status=jar_dep.status,
+            clearlydefined_or_ticket=jar_dep.clearlydefined_or_ticket,
+            extra_policies={},
+            is_dev=is_dev,
+        )
+        reports[jar_dep.package] = report
+
     # Step 3: Evaluate compliance (only if --comply-with is set)
-    # combined_status[package][policy] = status
-    extra_policies_status: dict[str, dict[str, ComplianceResult]] = {}
     for policy in args.comply_with:
         log.info(f"Evaluating compliance with {policy}...")
         for dep in result.dependencies:
-            comp = evaluate_compatibility(dep.license_raw, policy)
-            if dep.package not in extra_policies_status:
-                extra_policies_status[dep.package] = {}
-            extra_policies_status[dep.package][policy] = comp
+            reports[dep.package].extra_policies[policy] = evaluate_compatibility(
+                dep.license_raw, policy
+            )
 
     if args.format == "md":
-        write_markdown_report(result, extra_policies_status)
+        write_markdown_report(reports)
     else:
         log.error(f"Unknown output format: {args.format}")
         return 2

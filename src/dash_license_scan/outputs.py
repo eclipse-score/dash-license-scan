@@ -1,5 +1,19 @@
+from dataclasses import dataclass
+
 from dash_license_scan.compliance import ComplianceResult, ComplianceStatus
-from dash_license_scan.jar import JarResult
+
+
+@dataclass
+class DependencyReport:
+    """Combined information for a single dependency in the report."""
+
+    package: str
+    license_raw: str
+    license_pretty: str
+    status: ComplianceStatus
+    clearlydefined_or_ticket: str
+    extra_policies: dict[str, ComplianceResult]
+    is_dev: bool
 
 
 def _compliance_status_to_markdown(result: ComplianceStatus) -> str:
@@ -62,19 +76,39 @@ def _aggregate_status_results(
     return results
 
 
-def write_markdown_report(
-    result: JarResult, extra_policies_tatus: dict[str, dict[str, ComplianceResult]]
+def _print_markdown_table(
+    reports: list[DependencyReport],
+    title: str,
 ) -> None:
-    print("# Dash License Scan")
+    """Print a markdown table for a list of dependency reports."""
+    print(f"# Dash License Scan - {title}")
     print("| Package | License | Status | Details |")
     print("|---------|---------|--------|---------|")
-    for dep in result.dependencies:
-        results = _aggregate_status_results(
-            dep.status, extra_policies_tatus.get(dep.package, {})
-        )
+    for report in reports:
+        results = _aggregate_status_results(report.status, report.extra_policies)
         status = results_to_markdown(results)
         link = _clearlydefined_or_ticket_to_link(
-            dep.package, dep.clearlydefined_or_ticket
+            report.package, report.clearlydefined_or_ticket
         )
-        print(f"| {dep.package} | {dep.license_pretty} | {status} | {link} |")
+        print(f"| {report.package} | {report.license_pretty} | {status} | {link} |")
     print()
+
+
+def write_markdown_report(reports_by_package: dict[str, DependencyReport]) -> None:
+    """Write markdown report split by production/dev dependencies.
+
+    Args:
+        reports_by_package: Mapping of package coordinate to DependencyReport.
+    """
+    reports = list(reports_by_package.values())
+    # Separate by dev status
+    prod_reports = [r for r in reports if not r.is_dev]
+    dev_reports = [r for r in reports if r.is_dev]
+
+    # Print production dependencies table
+    if prod_reports:
+        _print_markdown_table(prod_reports, "Production Dependencies")
+
+    # Print development dependencies table
+    if dev_reports:
+        _print_markdown_table(dev_reports, "Development Dependencies")
