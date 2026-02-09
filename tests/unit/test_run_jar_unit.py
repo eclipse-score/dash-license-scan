@@ -76,7 +76,7 @@ def test_bundled_jar_returns_valid_path():
 
 def test_build_cmdline_constructs_basic_command(monkeypatch: pytest.MonkeyPatch):
     """_build_cmdline constructs a valid Java command with required flags."""
-    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("__JAR_PATH__"))
 
     cmd = jar.build_cmdline(
         verbose=False,
@@ -89,7 +89,7 @@ def test_build_cmdline_constructs_basic_command(monkeypatch: pytest.MonkeyPatch)
     assert "java" in cmd
     assert "-Djava.net.useSystemProxies=true" in cmd
     assert "-jar" in cmd
-    assert "fake.jar" in cmd
+    assert "__JAR_PATH__" in cmd
     assert "-summary" in cmd
     assert "/tmp/summary.txt" in cmd
     assert "-" in cmd  # stdin indicator
@@ -97,7 +97,7 @@ def test_build_cmdline_constructs_basic_command(monkeypatch: pytest.MonkeyPatch)
 
 def test_build_cmdline_includes_project_flag(monkeypatch: pytest.MonkeyPatch):
     """_build_cmdline includes project flag when provided."""
-    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("__JAR_PATH__"))
 
     cmd = jar.build_cmdline(
         verbose=False,
@@ -113,7 +113,7 @@ def test_build_cmdline_includes_project_flag(monkeypatch: pytest.MonkeyPatch):
 
 def test_build_cmdline_includes_review_flags(monkeypatch: pytest.MonkeyPatch):
     """_build_cmdline includes review and token flags when provided."""
-    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("__JAR_PATH__"))
 
     cmd = jar.build_cmdline(
         verbose=False,
@@ -130,7 +130,7 @@ def test_build_cmdline_includes_review_flags(monkeypatch: pytest.MonkeyPatch):
 
 def test_build_cmdline_includes_verbose_flag(monkeypatch: pytest.MonkeyPatch):
     """_build_cmdline includes verbose logging flag when enabled."""
-    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("__JAR_PATH__"))
 
     cmd = jar.build_cmdline(
         verbose=True,
@@ -147,7 +147,7 @@ def test_build_cmdline_raises_error_when_review_without_token(
     monkeypatch: pytest.MonkeyPatch,
 ):
     """_build_cmdline raises ValueError if trigger_review without token."""
-    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("__JAR_PATH__"))
 
     with pytest.raises(ValueError) as exc_info:  # noqa: PT011
         jar.build_cmdline(
@@ -229,7 +229,7 @@ def test_run_jar_produces_expected_output(
 ):
     """Integration test: run_jar executes subprocess and parses output correctly."""
     monkeypatch.setattr(jar, "require_java", lambda: None)
-    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("/fake.jar"))
+    monkeypatch.setattr(jar, "bundled_jar", lambda: Path("__JAR_PATH__"))
 
     # Mock subprocess.run to simulate execution with summary file creation
     def mock_subprocess_run(

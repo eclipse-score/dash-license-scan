@@ -11,6 +11,8 @@ dependencies = [
   "tomli; python_version < '3.11'",
   "python-dotenv",
   "license-expression>=30.4.4",
+  "cyclonedx-python-lib>=7.0.0",
+  "spdx-tools>=0.8.0",
 ]
 
 classifiers = [

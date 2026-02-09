@@ -120,3 +120,125 @@ def test_parse_uv_lock_warns_on_invalid_structure(
 
     assert deps == []
     assert "Invalid uv.lock" in caplog.text
+
+
+def test_parse_cdx_extracts_dependencies_from_sbom():
+    """Test that CycloneDX SBOM is parsed correctly."""
+    cdx_file = Path(__file__).parent / "resources" / "sbom.cdx.json"
+
+    deps = parsers.parse(cdx_file)
+
+    # Should extract cargo dependencies from purl
+    assert "crate/cratesio/-/serde/1.0.228" in deps
+    assert "crate/cratesio/-/proc-macro2/1.0.106" in deps
+    assert "crate/cratesio/-/unicode-ident/1.0.22" in deps
+
+    # Should have many dependencies from the SBOM
+    assert len(deps) > 10
+
+
+def test_parse_spdx_extracts_dependencies_from_sbom():
+    """Test that SPDX SBOM is parsed correctly."""
+    spdx_file = Path(__file__).parent / "resources" / "sbom.spdx.json"
+
+    deps = parsers.parse(spdx_file)
+
+    # Should extract cargo dependencies from purl
+    assert "crate/cratesio/-/serde/1.0.228" in deps
+    assert "crate/cratesio/-/proc-macro2/1.0.106" in deps
+    assert "crate/cratesio/-/unicode-ident/1.0.22" in deps
+
+    # Should have many dependencies from the SBOM
+    assert len(deps) > 10
+
+    # Should not include the root package
+    assert "kyron_example" not in " ".join(deps)
+
+
+def test_parse_cdx_handles_invalid_json(tmp_path: Path, caplog: LogCaptureFixture):
+    """Test that invalid CycloneDX JSON is handled gracefully."""
+    cdx = tmp_path / "sbom.cdx.json"
+    cdx.write_text("{invalid json")
+
+    with caplog.at_level(logging.WARNING):
+        deps = parsers.parse(cdx)
+
+    assert deps == []
+    assert "Failed to parse" in caplog.text
+
+
+def test_parse_spdx_handles_invalid_json(tmp_path: Path, caplog: LogCaptureFixture):
+    """Test that invalid SPDX JSON is handled gracefully."""
+    spdx = tmp_path / "sbom.spdx.json"
+    spdx.write_text("{invalid json")
+
+    with caplog.at_level(logging.WARNING):
+        deps = parsers.parse(spdx)
+
+    assert deps == []
+    assert "Failed to parse" in caplog.text
+
+
+def test_parse_cdx_validates_format(tmp_path: Path, caplog: LogCaptureFixture):
+    """Test that non-CycloneDX JSON is handled gracefully (returns empty list)."""
+    cdx = tmp_path / "sbom.cdx.json"
+    cdx.write_text('{"format": "something else"}')
+
+    with caplog.at_level(logging.WARNING):
+        deps = parsers.parse(cdx)
+
+    # The CycloneDX library is lenient and doesn't validate format strictly,
+    # but will return empty components, so we get an empty list
+    assert deps == []
+
+
+def test_parse_spdx_validates_format(tmp_path: Path, caplog: LogCaptureFixture):
+    """Test that non-SPDX JSON is rejected."""
+    spdx = tmp_path / "sbom.spdx.json"
+    spdx.write_text('{"version": "1.0"}')
+
+    with caplog.at_level(logging.WARNING):
+        deps = parsers.parse(spdx)
+
+    assert deps == []
+    assert "Invalid SPDX" in caplog.text
+
+
+def test_parse_spdx_normalizes_non_standard_license_expressions(
+    tmp_path: Path, caplog: LogCaptureFixture
+):
+    """Test that non-standard license expressions (using /) are normalized to SPDX standard (OR)."""
+    spdx = tmp_path / "sbom.spdx.json"
+    spdx.write_text("""
+{
+  "spdxVersion": "SPDX-2.3",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package1",
+      "name": "test-package",
+      "licenseConcluded": "MIT/Apache-2.0",
+      "licenseDeclared": "MIT/Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/test-package@1.0.0"
+        }
+      ]
+    }
+  ]
+}
+""")
+
+    with caplog.at_level(logging.DEBUG):
+        deps = parsers.parse(spdx)
+
+    assert deps == ["crate/cratesio/-/test-package/1.0.0"]
+    # Check that normalization happened
+    assert (
+        "Normalizing non-standard license expression: 'MIT/Apache-2.0'" in caplog.text
+    )
+    assert "Normalized to: 'MIT OR Apache-2.0'" in caplog.text
+    assert (
+        "Found license for crate/cratesio/-/test-package/1.0.0: MIT OR Apache-2.0"
+        in caplog.text
+    )
