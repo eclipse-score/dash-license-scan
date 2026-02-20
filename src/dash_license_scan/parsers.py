@@ -156,9 +156,10 @@ def parse_uv_lock(file: Path) -> dict[str, Dependency]:
     try:
         return _parse_uv_lock_with_export(file)
     except Exception as exc:
+        # Fallback
         logger.debug(f"Failed to parse uv.lock with uv export: {exc}")
         logger.debug("Falling back to TOML parsing")
-        return _parse_uv_lock_toml(file)
+        return _parse_uv_lock_file(file)
 
 
 def _parse_requirements_lines(lines: list[str], dev: bool) -> dict[str, Dependency]:
@@ -191,7 +192,7 @@ def _parse_requirements_lines(lines: list[str], dev: bool) -> dict[str, Dependen
     return deps
 
 
-def _run_prod_export(lockfile_dir: Path, timeout: int = 30) -> list[str]:
+def _run_uv_export_for_prod(lockfile_dir: Path, timeout: int = 30) -> list[str]:
     """Run uv export for production dependencies (--no-dev)."""
     result = subprocess.run(
         [
@@ -212,7 +213,7 @@ def _run_prod_export(lockfile_dir: Path, timeout: int = 30) -> list[str]:
     return result.stdout.splitlines()
 
 
-def _run_dev_export(lockfile_dir: Path, timeout: int = 30) -> list[str]:
+def _run_uv_export_for_dev(lockfile_dir: Path, timeout: int = 30) -> list[str]:
     """Run uv export for dev dependencies (--group dev)."""
     cmd = [
         "uv",
@@ -242,7 +243,7 @@ def _parse_uv_lock_with_export(file: Path) -> dict[str, Dependency]:
 
     # Export non-dev dependencies
     try:
-        non_dev_lines = _run_prod_export(lockfile_dir)
+        non_dev_lines = _run_uv_export_for_prod(lockfile_dir)
         for dep in _parse_requirements_lines(non_dev_lines, dev=False).values():
             _add_dependency(deps, dep)
     except subprocess.CalledProcessError as exc:
@@ -254,7 +255,7 @@ def _parse_uv_lock_with_export(file: Path) -> dict[str, Dependency]:
 
     # Export dev dependencies
     try:
-        dev_lines = _run_dev_export(lockfile_dir)
+        dev_lines = _run_uv_export_for_dev(lockfile_dir)
         for dep in _parse_requirements_lines(dev_lines, dev=True).values():
             _add_dependency(deps, dep)
     except subprocess.CalledProcessError as exc:
@@ -269,7 +270,7 @@ def _parse_uv_lock_with_export(file: Path) -> dict[str, Dependency]:
     return deps
 
 
-def _parse_uv_lock_toml(file: Path) -> dict[str, Dependency]:
+def _parse_uv_lock_file(file: Path) -> dict[str, Dependency]:
     """Parse uv.lock by reading TOML directly (fallback method).
 
     Extracts pinned package versions from the uv lockfile format.

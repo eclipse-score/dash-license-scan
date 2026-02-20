@@ -73,6 +73,17 @@ def main(argv: list[str] | None = None) -> int:
 
     log.debug("Dash Licenses summary:\n%s", result.summary)
 
+    # 1. parse lock files
+    # 2. run jar to get license info
+    # 3. evaluate compliance with policies
+    # 4. print report
+
+    # parsed : dict[str, Dependency] = parse_all_lockfiles(args.lockfiles)
+    # jar_result: dict[..., jar.JarResult] = jar.run_jar(...)
+    # compliance_results: dict[str, ComplianceResult] = {}
+    # # merge 3 dicts! wtf
+    # print_result()
+
     prod_coords: set[str] = set()
     dev_coords: set[str] = set()
     for orig_dep in deps.values():
