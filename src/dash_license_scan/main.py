@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
+from pathlib import Path
 
 from dash_license_scan import jar
 from dash_license_scan.cli import parse_args_and_env
@@ -11,13 +11,21 @@ from dash_license_scan.compliance import (
 from dash_license_scan.outputs import DependencyReport, write_markdown_report
 from dash_license_scan.parsers import Dependency, parse
 
-if TYPE_CHECKING:
-    from pathlib import Path
-
 log = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
+LOCKFILE_NAMES = [
+    "requirements.txt",
+    "requirements-dev.txt",
+    "uv.lock",
+    "Cargo.lock",
+    # CycloneDX/cdx JSON SBOMs
+    "*cyclonedx*.json",
+    "*cdx*.json",
+    "*spdx*.json",
+    # Add more variants as needed"
+]
 # ----------------------------------------------------------------------------------
 
 
@@ -39,6 +47,13 @@ def parse_all_lockfiles(lockfiles: list[Path]) -> dict[str, Dependency]:
     return deps
 
 
+def find_lockfiles(root: Path) -> list[Path]:
+    lockfiles = []
+    for name in LOCKFILE_NAMES:
+        lockfiles.extend(root.rglob(name))
+    return lockfiles
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args_and_env(argv)
     if args.verbose:
@@ -52,7 +67,18 @@ def main(argv: list[str] | None = None) -> int:
     # feedback if their environment is missing the JRE required by dash-licenses.
     jar.require_java()
 
-    deps = parse_all_lockfiles(args.lockfiles)
+    lockfiles: list[Path] = args.lockfiles or []
+    if not lockfiles:
+        # If no lockfiles are provided, automatically search for typical lockfiles in all subdirectories from the project root.
+        log.info(
+            "No lockfiles specified, searching for typical lockfiles in subdirectories from project root..."
+        )
+
+        root: Path = Path.cwd()
+        lockfiles = find_lockfiles(root)
+
+    log.debug(f"Lockfiles to scan: {lockfiles}")
+    deps = parse_all_lockfiles(lockfiles)
 
     if len(deps) == 0:
         log.warning("No dependencies found to scan.")

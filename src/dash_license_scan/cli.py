@@ -72,8 +72,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     _ = p.add_argument(
         "lockfiles",
-        nargs="+",
-        help="One or more lockfiles to scan (e.g., requirements.txt, Cargo.lock)",
+        nargs="*",
+        help=(
+            "One or more lockfiles to scan (e.g., requirements.txt, Cargo.lock).\n"
+            "If not provided, the tool will attempt to auto-detect lockfiles in the current directory."
+        ),
         type=Path,
     )
 
