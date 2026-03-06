@@ -3,7 +3,6 @@ import os
 from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum
-from itertools import chain
 from logging import getLogger
 from pathlib import Path
 
@@ -16,6 +15,7 @@ log = getLogger(__name__)
 
 class OutputFormat(str, Enum):
     MD = "md"
+    JSON = "json"
 
 
 @dataclass
@@ -64,7 +64,6 @@ def build_parser() -> argparse.ArgumentParser:
     _ = p.add_argument(
         "--comply-with",
         action="append",
-        nargs="+",
         choices=["ASF", "EF"],
         metavar="POLICY",
         help="Check compliance with specified policy/policies (ASF, EF)",
@@ -97,7 +96,7 @@ def parse_args_and_env(argv: Sequence[str] | None = None):
         verbose=args.verbose,
         trigger_review=args.trigger_review,
         format=OutputFormat(args.format),
-        comply_with=sorted(set(chain.from_iterable(args.comply_with or []))),
+        comply_with=sorted(set(args.comply_with or [])),
         token=token,
         project=project,
     )

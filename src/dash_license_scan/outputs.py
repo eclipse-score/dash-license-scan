@@ -1,6 +1,13 @@
+import json
 from dataclasses import dataclass
 
 from dash_license_scan.compliance import ComplianceResult, ComplianceStatus
+
+_STATUS_TO_STR: dict[ComplianceStatus, str] = {
+    ComplianceStatus.ALLOWED: "allowed",
+    ComplianceStatus.RESTRICTED: "restricted",
+    ComplianceStatus.UNCERTAIN: "uncertain",
+}
 
 
 @dataclass
@@ -41,6 +48,16 @@ def _clearlydefined_or_ticket_to_link(package: str, src: str) -> str:
     elif src.startswith("#"):
         issue_id = src[1:]
         return f"[Eclipse ipLab {issue_id}](https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/{issue_id})"
+    else:
+        return src
+
+
+def _clearlydefined_or_ticket_to_url(package: str, src: str) -> str:
+    if src == "clearlydefined":
+        return f"https://clearlydefined.io/definitions/{package}"
+    elif src.startswith("#"):
+        issue_id = src[1:]
+        return f"https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/{issue_id}"
     else:
         return src
 
@@ -112,3 +129,58 @@ def write_markdown_report(reports_by_package: dict[str, DependencyReport]) -> No
     # Print development dependencies table
     if dev_reports:
         _print_markdown_table(dev_reports, "Development Dependencies")
+
+
+def _compliance_result_to_json(result: ComplianceResult) -> dict:
+    return {
+        "status": _STATUS_TO_STR[result.status],
+        "problems": result.problems,
+    }
+
+
+def _parse_coordinate(coord: str) -> dict[str, str]:
+    """Split a dash-licenses / ClearlyDefined coordinate into its parts.
+
+    Coordinate format: {type}/{provider}/-/{name}/{version}
+    e.g. "pypi/pypi/-/xmltodict/1.0.2"
+    Maven names contain a slash: "maven/mavencentral/-/group/artifact/1.0"
+    """
+    # Split on the literal separator "/-/" to isolate the name+version tail
+    head, sep, tail = coord.partition("/-/")
+    if not sep:
+        return {"distribution": "", "name": coord, "version": ""}
+    distribution = head.split("/")[0]
+    *name_parts, version = tail.split("/")
+    name = "/".join(name_parts)
+    return {"name": name, "version": version, "distribution": distribution}
+
+
+def _report_to_json(report: DependencyReport) -> dict:
+    results = _aggregate_status_results(report.status, report.extra_policies)
+    return {
+        "package": _parse_coordinate(report.package),
+        "license": report.license_pretty,
+        "status": {
+            policy: _compliance_result_to_json(comp) for policy, comp in results.items()
+        },
+        "details": _clearlydefined_or_ticket_to_url(
+            report.package, report.clearlydefined_or_ticket
+        ),
+    }
+
+
+def write_json_report(reports_by_package: dict[str, DependencyReport]) -> None:
+    """Write JSON report split by production/dev dependencies.
+
+    Args:
+        reports_by_package: Mapping of package coordinate to DependencyReport.
+    """
+    reports = list(reports_by_package.values())
+    prod_reports = [r for r in reports if not r.is_dev]
+    dev_reports = [r for r in reports if r.is_dev]
+
+    output = {
+        "production": [_report_to_json(r) for r in prod_reports],
+        "development": [_report_to_json(r) for r in dev_reports],
+    }
+    print(json.dumps(output, indent=2))

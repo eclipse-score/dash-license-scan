@@ -8,7 +8,11 @@ from dash_license_scan.cli import parse_args_and_env
 from dash_license_scan.compliance import (
     evaluate_compatibility,
 )
-from dash_license_scan.outputs import DependencyReport, write_markdown_report
+from dash_license_scan.outputs import (
+    DependencyReport,
+    write_json_report,
+    write_markdown_report,
+)
 from dash_license_scan.parsers import Dependency, parse
 
 log = logging.getLogger(__name__)
@@ -54,7 +58,7 @@ def find_lockfiles(root: Path) -> list[Path]:
     return lockfiles
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:  # noqa: C901
     args = parse_args_and_env(argv)
     if args.verbose:
         logging.getLogger().setLevel(logging.DEBUG)
@@ -144,6 +148,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.format == "md":
         write_markdown_report(reports)
+    elif args.format == "json":
+        write_json_report(reports)
     else:
         log.error(f"Unknown output format: {args.format}")
         return 2

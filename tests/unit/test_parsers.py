@@ -107,8 +107,8 @@ source = { registry = "https://example.com/simple" }
 """
     )
 
-    # Mock _run_prod_export to fail so it falls back to TOML parsing
-    with patch("dash_license_scan.parsers._run_prod_export") as mock_prod:
+    # Mock _run_uv_export_for_prod to fail so it falls back to TOML parsing
+    with patch("dash_license_scan.parsers._run_uv_export_for_prod") as mock_prod:
         mock_prod.side_effect = FileNotFoundError("uv not found")
 
         deps = parsers.parse(uv)
@@ -125,8 +125,8 @@ def test_parse_uv_lock_warns_on_invalid_structure(
     uv = tmp_path / "uv.lock"
     uv.write_text("""[package]\nname = 'oops'""")
 
-    # Mock _run_prod_export to fail so it falls back to TOML parsing
-    with patch("dash_license_scan.parsers._run_prod_export") as mock_prod:
+    # Mock _run_uv_export_for_prod to fail so it falls back to TOML parsing
+    with patch("dash_license_scan.parsers._run_uv_export_for_prod") as mock_prod:
         mock_prod.side_effect = FileNotFoundError("uv not found")
 
         with caplog.at_level(logging.WARNING):
@@ -143,8 +143,8 @@ def test_parse_uv_lock_with_export_separates_dev_dependencies(tmp_path: Path):
 
     # Mock the export functions directly
     with (
-        patch("dash_license_scan.parsers._run_prod_export") as mock_prod,
-        patch("dash_license_scan.parsers._run_dev_export") as mock_dev,
+        patch("dash_license_scan.parsers._run_uv_export_for_prod") as mock_prod,
+        patch("dash_license_scan.parsers._run_uv_export_for_dev") as mock_dev,
     ):
         mock_prod.return_value = ["requests==2.32.3", "flask==3.0.0"]
         mock_dev.return_value = ["pytest==8.0.0", "ruff==0.1.0"]
@@ -174,8 +174,8 @@ def test_parse_uv_lock_with_export_handles_no_dev_deps(tmp_path: Path):
     from subprocess import CalledProcessError
 
     with (
-        patch("dash_license_scan.parsers._run_prod_export") as mock_prod,
-        patch("dash_license_scan.parsers._run_dev_export") as mock_dev,
+        patch("dash_license_scan.parsers._run_uv_export_for_prod") as mock_prod,
+        patch("dash_license_scan.parsers._run_uv_export_for_dev") as mock_dev,
     ):
         mock_prod.return_value = ["requests==2.32.3"]
         mock_dev.side_effect = CalledProcessError(1, "uv export", stderr="No dev group")
@@ -203,7 +203,7 @@ version = "2.32.3"
 """
     )
 
-    with patch("dash_license_scan.parsers._run_prod_export") as mock_prod:
+    with patch("dash_license_scan.parsers._run_uv_export_for_prod") as mock_prod:
         mock_prod.side_effect = FileNotFoundError("uv command not found")
 
         with caplog.at_level(logging.DEBUG):
