@@ -1,23 +1,15 @@
-"""Test helpers for dash_license_scan tests.
+from __future__ import annotations
 
-Keep imports lazy so importing this module at collection time doesn't
-fail when the package under test isn't on sys.path.
-"""
+from dash_license_scan.main import main as real_main
 
 
-def dash_license_scan_main(args):
-    # Import inside the function to avoid ModuleNotFoundError during
-    # pytest collection when tests are imported as a package.
-    from dash_license_scan.main import main
+def safe_run_main(argv: list[str] | None = None) -> int:
+    """Catch SystemExit and convert error code to normal return."""
 
-    exit_code = None
     try:
-        exit_code = main(args)
+        return real_main(argv)
     except SystemExit as e:
         if isinstance(e.code, int):
-            exit_code = e.code
+            return e.code
         else:
-            raise AssertionError(f"Unexpected SystemExit: {e.code}") from e
-
-    if exit_code:
-        raise AssertionError(f"dash_license_scan.main() returned exit code {exit_code}")
+            raise

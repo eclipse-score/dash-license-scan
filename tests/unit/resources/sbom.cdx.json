@@ -1,0 +1,2806 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:7f127757-82fd-4b9c-86bd-0bf5ace5bbd0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-02-08T18:41:00Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "score-sbom-generator",
+          "description": "Eclipse SCORE SBOM Generator (Bazel-native)",
+          "publisher": "Eclipse Foundation"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "name": "kyron_example",
+      "version": "0.5.0-beta",
+      "bom-ref": "kyron_example@0.5.0-beta",
+      "purl": "pkg:github/eclipse-score/kyron_example@0.5.0-beta",
+      "supplier": {
+        "name": "Eclipse Foundation",
+        "url": [
+          "https://projects.eclipse.org/projects/automotive.score"
+        ]
+      }
+    },
+    "supplier": {
+      "name": "Eclipse Foundation",
+      "url": [
+        "https://projects.eclipse.org/projects/automotive.score"
+      ]
+    },
+    "authors": [
+      {
+        "name": "Eclipse SCORE Team"
+      }
+    ],
+    "lifecycles": [
+      {
+        "phase": "build"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "iceoryx2-pal-concurrency-sync-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-pal-concurrency-sync-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-pal-concurrency-sync-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-elementary-traits-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-elementary-traits-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-elementary-traits-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-elementary-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-elementary-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-elementary-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-log-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-log-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-log-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "serde",
+      "version": "1.0.228",
+      "bom-ref": "serde@1.0.228",
+      "purl": "pkg:cargo/serde@1.0.228",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9a8e94ea7f378bd32cbbd37198a4a91436180c5bb472411e48b5ec2e2124ae9e"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/serde-rs/serde"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "serde-core",
+      "version": "1.0.228",
+      "bom-ref": "serde-core@1.0.228",
+      "purl": "pkg:cargo/serde-core@1.0.228",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "41d385c7d4ca58e59fc732af25c3983b67ac852c1a25000afe1175de458b67ad"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/serde-rs/serde"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "proc-macro2",
+      "version": "1.0.106",
+      "bom-ref": "proc-macro2@1.0.106",
+      "purl": "pkg:cargo/proc-macro2@1.0.106",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5ee95bc4ef87b8d5ba32e8b7714ccc834865276eab0aed5c9958d00ec45f49e8"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/dtolnay/proc-macro2"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "unicode-ident",
+      "version": "1.0.22",
+      "bom-ref": "unicode-ident@1.0.22",
+      "purl": "pkg:cargo/unicode-ident@1.0.22",
+      "licenses": [
+        {
+          "license": {
+            "id": "(MIT OR Apache-2.0) AND Unicode-3.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9312f7c4f6ff9069b165498234ce8be658059c6728633667c526e27dc2cf1df5"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/dtolnay/unicode-ident"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "quote",
+      "version": "1.0.44",
+      "bom-ref": "quote@1.0.44",
+      "purl": "pkg:cargo/quote@1.0.44",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a338cc41d27e6cc6dce6cefc13a0729dfbb81c262b1f519331575dd80ef3067f"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/dtolnay/quote"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "syn",
+      "version": "2.0.114",
+      "bom-ref": "syn@2.0.114",
+      "purl": "pkg:cargo/syn@2.0.114",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "390cc9a294ab71bdb1aa2e99d13be9c753cd2d7bd6560c77118597410c4d2e87"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/dtolnay/syn"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "serde-derive",
+      "version": "1.0.228",
+      "bom-ref": "serde-derive@1.0.228",
+      "purl": "pkg:cargo/serde-derive@1.0.228",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d540f220d3187173da220f885ab66608367b6574e925011a9353e4badda91d79"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/serde-rs/serde"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-derive-macros-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-derive-macros-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-derive-macros-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-container-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-container-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-container-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-lock-free-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-lock-free-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-lock-free-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "enum-iterator-derive",
+      "version": "1.5.0",
+      "bom-ref": "enum-iterator-derive@1.5.0",
+      "purl": "pkg:cargo/enum-iterator-derive@1.5.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "0BSD"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "685adfa4d6f3d765a26bc5dbc936577de9abf756c1feeb3089b01dd395034842"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/stephaneyfx/enum-iterator.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "enum-iterator",
+      "version": "2.3.0",
+      "bom-ref": "enum-iterator@2.3.0",
+      "purl": "pkg:cargo/enum-iterator@2.3.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "0BSD"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a4549325971814bda7a44061bf3fe7e487d447cba01e4220a4b454d630d7a016"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/stephaneyfx/enum-iterator.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-pal-configuration-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-pal-configuration-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-pal-configuration-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "bindgen",
+      "version": "0.72.1",
+      "bom-ref": "bindgen@0.72.1",
+      "purl": "pkg:cargo/bindgen@0.72.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "993776b509cfb49c750f11b8f07a46fa23e0a1386ffc01fb1e7d343efc387895"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/rust-bindgen"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "bitflags",
+      "version": "2.10.0",
+      "bom-ref": "bitflags@2.10.0",
+      "purl": "pkg:cargo/bitflags@2.10.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "812e12b5285cc515a9c72a5c1d3b6d46a19dac5acfef5265968c166106e31dd3"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/bitflags/bitflags"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "memchr",
+      "version": "2.8.0",
+      "bom-ref": "memchr@2.8.0",
+      "purl": "pkg:cargo/memchr@2.8.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "Unlicense OR MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f52b00d39961fc5b2736ea853c9cc86238e165017a493d1d5c8eac6bdc4cc273"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/BurntSushi/memchr"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "minimal-lexical",
+      "version": "0.2.1",
+      "bom-ref": "minimal-lexical@0.2.1",
+      "purl": "pkg:cargo/minimal-lexical@0.2.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT/Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/Alexhuszagh/minimal-lexical"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "nom",
+      "version": "7.1.3",
+      "bom-ref": "nom@7.1.3",
+      "purl": "pkg:cargo/nom@7.1.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d273983c5a657a70a3e8f2a01329822f3b8c8172b73826411a55751e404a0a4a"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-bakery/nom"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cexpr",
+      "version": "0.6.0",
+      "bom-ref": "cexpr@0.6.0",
+      "purl": "pkg:cargo/cexpr@0.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0/MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6fac387a98bb7c37292057cffc56d62ecb629900026402633ae9160df93a8766"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/jethrogb/rust-cexpr"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "glob",
+      "version": "0.3.3",
+      "bom-ref": "glob@0.3.3",
+      "purl": "pkg:cargo/glob@0.3.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0cc23270f6e1808e30a928bdc84dea0b9b4136a8bc82338574f23baf47bbd280"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/glob"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "clang-sys",
+      "version": "1.8.1",
+      "bom-ref": "clang-sys@1.8.1",
+      "purl": "pkg:cargo/clang-sys@1.8.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0b023947811758c97c59bf9d1c188fd619ad4718dcaa767947df1cadb14f39f4"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/KyleMayes/clang-sys"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libc",
+      "version": "0.2.180",
+      "bom-ref": "libc@0.2.180",
+      "purl": "pkg:cargo/libc@0.2.180",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "37c93d8daa9d8a012fd8ab92f088405fb202ea0b6ab73ee2482ae66af4f42091"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/libc"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cfg-if",
+      "version": "1.0.4",
+      "bom-ref": "cfg-if@1.0.4",
+      "purl": "pkg:cargo/cfg-if@1.0.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/cfg-if"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "libloading",
+      "version": "0.8.9",
+      "bom-ref": "libloading@0.8.9",
+      "purl": "pkg:cargo/libloading@0.8.9",
+      "licenses": [
+        {
+          "license": {
+            "id": "ISC"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d7c4b02199fee7c5d21a5ae7d8cfa79a6ef5bb2fc834d6e9058e89c825efdc55"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/nagisa/rust_libloading/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "either",
+      "version": "1.15.0",
+      "bom-ref": "either@1.15.0",
+      "purl": "pkg:cargo/either@1.15.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "48c757948c5ede0e46177b7add2e67155f70e33c07fea8284df6576da70b3719"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rayon-rs/either"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "itertools",
+      "version": "0.13.0",
+      "bom-ref": "itertools@0.13.0",
+      "purl": "pkg:cargo/itertools@0.13.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-itertools/itertools"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "log",
+      "version": "0.4.29",
+      "bom-ref": "log@0.4.29",
+      "purl": "pkg:cargo/log@0.4.29",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5e5032e24019045c762d3c0f28f5b6b8bbf38563a65908389bf7978758920897"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/log"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "prettyplease",
+      "version": "0.2.37",
+      "bom-ref": "prettyplease@0.2.37",
+      "purl": "pkg:cargo/prettyplease@0.2.37",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/dtolnay/prettyplease"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "aho-corasick",
+      "version": "1.1.4",
+      "bom-ref": "aho-corasick@1.1.4",
+      "purl": "pkg:cargo/aho-corasick@1.1.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "Unlicense OR MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ddd31a130427c27518df266943a5308ed92d4b226cc639f5a8f1002816174301"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/BurntSushi/aho-corasick"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "regex-syntax",
+      "version": "0.8.9",
+      "bom-ref": "regex-syntax@0.8.9",
+      "purl": "pkg:cargo/regex-syntax@0.8.9",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7a2d987857b319362043e95f5353c0535c1f58eec5336fdfcf626430af7def58"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/regex"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "regex-automata",
+      "version": "0.4.14",
+      "bom-ref": "regex-automata@0.4.14",
+      "purl": "pkg:cargo/regex-automata@0.4.14",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5276caf25ac86c8d810222b3dbb938e512c55c6831a10f3e6ed1c93b84041f1c"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/regex"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "regex",
+      "version": "1.12.3",
+      "bom-ref": "regex@1.12.3",
+      "purl": "pkg:cargo/regex@1.12.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "843bc0191f75f3e22651ae5f1e72939ab2f72a4bc30fa80a066bd66edefc24d4"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/regex"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "rustc-hash",
+      "version": "2.1.1",
+      "bom-ref": "rustc-hash@2.1.1",
+      "purl": "pkg:cargo/rustc-hash@2.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0 OR MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "357703d41365b4b27c590e3ed91eabb1b663f07c4c084095e60cbed4362dff0d"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/rustc-hash"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "shlex",
+      "version": "1.3.0",
+      "bom-ref": "shlex@1.3.0",
+      "purl": "pkg:cargo/shlex@1.3.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/comex/rust-shlex"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "find-msvc-tools",
+      "version": "0.1.9",
+      "bom-ref": "find-msvc-tools@0.1.9",
+      "purl": "pkg:cargo/find-msvc-tools@0.1.9",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3a3076410a55c90011c298b04d0cfa770b00fa04e1e3c97d3f6c9de105a03844"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/cc-rs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cc",
+      "version": "1.2.55",
+      "bom-ref": "cc@1.2.55",
+      "purl": "pkg:cargo/cc@1.2.55",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "90583009037521a116abf44494efecd645ba48b6622457080f080b85544e2215"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/cc-rs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-pal-posix-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-pal-posix-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-pal-posix-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "lazy-static",
+      "version": "1.5.0",
+      "bom-ref": "lazy-static@1.5.0",
+      "purl": "pkg:cargo/lazy-static@1.5.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "bbd2bcb4c963f2ddae06a2efc7e9f3591312473c50c6685e1f298068316e66fe"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang-nursery/lazy-static.rs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-system-types-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-system-types-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-system-types-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "tiny-fn",
+      "version": "0.1.9",
+      "bom-ref": "tiny-fn@0.1.9",
+      "purl": "pkg:cargo/tiny-fn@0.1.9",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9659b108631d1e1cf3e8e489f894bee40bc9d68fd6cc67ec4d4ce9b72d565228"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/zakarumych/tiny-fn"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-posix-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-posix-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-posix-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-memory-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-memory-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-memory-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-pal-testing-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-pal-testing-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-pal-testing-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-testing-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-testing-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-testing-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-threadsafe-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-threadsafe-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-threadsafe-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "pin-project-lite",
+      "version": "0.2.16",
+      "bom-ref": "pin-project-lite@0.2.16",
+      "purl": "pkg:cargo/pin-project-lite@0.2.16",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0 OR MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3b3cff922bd51709b605d9ead9aa71031d81447142d828eb4a6eba76fe619f9b"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/taiki-e/pin-project-lite"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "once-cell",
+      "version": "1.21.3",
+      "bom-ref": "once-cell@1.21.3",
+      "purl": "pkg:cargo/once-cell@1.21.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/matklad/once_cell"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "tracing-core",
+      "version": "0.1.36",
+      "bom-ref": "tracing-core@0.1.36",
+      "purl": "pkg:cargo/tracing-core@0.1.36",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7a04e24fab5c89c6a36eb8558c9656f30d81de51dfa4d3b45f26b21d61fa0a6c"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/tokio-rs/tracing"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "tracing-attributes",
+      "version": "0.1.31",
+      "bom-ref": "tracing-attributes@0.1.31",
+      "purl": "pkg:cargo/tracing-attributes@0.1.31",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7490cfa5ec963746568740651ac6781f701c9c5ea257c58e057f3ba8cf69e8da"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/tokio-rs/tracing"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "tracing",
+      "version": "0.1.44",
+      "bom-ref": "tracing@0.1.44",
+      "purl": "pkg:cargo/tracing@0.1.44",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2d15d90a0b5c19378952d479dc858407149d7bb45a14de0142f6c534b16fc647"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/tokio-rs/tracing"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "nu-ansi-term",
+      "version": "0.50.3",
+      "bom-ref": "nu-ansi-term@0.50.3",
+      "purl": "pkg:cargo/nu-ansi-term@0.50.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "7957b9740744892f114936ab4a57b3f487491bbeafaf8083688b16841a4240e5"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/nushell/nu-ansi-term"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "itoa",
+      "version": "1.0.17",
+      "bom-ref": "itoa@1.0.17",
+      "purl": "pkg:cargo/itoa@1.0.17",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4a5f13b858c8d314ee3e8f639011f7ccefe71f97f96e50151fb991f267928e2c"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/dtolnay/itoa"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "serde-json",
+      "version": "1.0.149",
+      "bom-ref": "serde-json@1.0.149",
+      "purl": "pkg:cargo/serde-json@1.0.149",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "402a6f66d8c709116cf22f558eab210f5a50187f702eb4d7e5ef38d9a7f1c79c"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/serde-rs/json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "zmij",
+      "version": "1.0.19",
+      "bom-ref": "zmij@1.0.19",
+      "purl": "pkg:cargo/zmij@1.0.19"
+    },
+    {
+      "type": "library",
+      "name": "sharded-slab",
+      "version": "0.1.7",
+      "bom-ref": "sharded-slab@0.1.7",
+      "purl": "pkg:cargo/sharded-slab@0.1.7",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f40ca3c46823713e0d4209592e8d6e826aa57e928f09752619fc696c499637f6"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/hawkw/sharded-slab"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "smallvec",
+      "version": "1.15.1",
+      "bom-ref": "smallvec@1.15.1",
+      "purl": "pkg:cargo/smallvec@1.15.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "67b1b7a3b5fe4f1376887184045fcf45c69e92af734b7aaddc05fb777b6fbd03"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/servo/rust-smallvec"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "thread-local",
+      "version": "1.1.9",
+      "bom-ref": "thread-local@1.1.9",
+      "purl": "pkg:cargo/thread-local@1.1.9",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f60246a4944f24f6e018aa17cdeffb7818b76356965d03b07d6a9886e8962185"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/Amanieu/thread_local-rs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "tracing-log",
+      "version": "0.2.0",
+      "bom-ref": "tracing-log@0.2.0",
+      "purl": "pkg:cargo/tracing-log@0.2.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ee855f1f400bd0e5c02d150ae5de3840039a3f54b025156404e34c23c03f47c3"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/tokio-rs/tracing"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "tracing-serde",
+      "version": "0.2.0",
+      "bom-ref": "tracing-serde@0.2.0",
+      "purl": "pkg:cargo/tracing-serde@0.2.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "704b1aeb7be0d0a84fc9828cae51dab5970fee5088f83d1dd7ee6f6246fc6ff1"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/tokio-rs/tracing"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "tracing-subscriber",
+      "version": "0.3.22",
+      "bom-ref": "tracing-subscriber@0.3.22",
+      "purl": "pkg:cargo/tracing-subscriber@0.3.22",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2f30143827ddab0d256fd843b7a66d164e9f271cfa0dde49142c5ca0ca291f1e"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/tokio-rs/tracing"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "score_kyron",
+      "version": "unknown",
+      "bom-ref": "score_kyron@unknown",
+      "purl": "pkg:github/eclipse-score/score_kyron@unknown",
+      "supplier": {
+        "name": "Eclipse Foundation"
+      }
+    },
+    {
+      "type": "library",
+      "name": "byteorder",
+      "version": "1.5.0",
+      "bom-ref": "byteorder@1.5.0",
+      "purl": "pkg:cargo/byteorder@1.5.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "Unlicense OR MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/BurntSushi/byteorder"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cdr",
+      "version": "0.2.4",
+      "bom-ref": "cdr@0.2.4",
+      "purl": "pkg:cargo/cdr@0.2.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT/Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9617422bf43fde9280707a7e90f8f7494389c182f5c70b0f67592d0f06d41dfa"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/hrektts/cdr-rs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-pal-os-api-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-pal-os-api-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-pal-os-api-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-bb-linux-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-bb-linux-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-bb-linux-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "thiserror",
+      "version": "2.0.18",
+      "bom-ref": "thiserror@2.0.18",
+      "purl": "pkg:cargo/thiserror@2.0.18",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f63587ca0f12b72a0600bcba1d40081f830876000bb46dd2337a3051618f4fc8"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/dtolnay/thiserror"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "thiserror-impl",
+      "version": "2.0.18",
+      "bom-ref": "thiserror-impl@2.0.18",
+      "purl": "pkg:cargo/thiserror-impl@2.0.18",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3ff15c8ecd7de3849db632e14d18d2571fa09dfc5ed93479bc4485c7a517c913"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/dtolnay/thiserror"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "cobs",
+      "version": "0.3.0",
+      "bom-ref": "cobs@0.3.0",
+      "purl": "pkg:cargo/cobs@0.3.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0fa961b519f0b462e3a3b4a34b64d119eeaca1d59af726fe450bbba07a9fc0a1"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/jamesmunns/cobs.rs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "hash32",
+      "version": "0.2.1",
+      "bom-ref": "hash32@0.2.1",
+      "purl": "pkg:cargo/hash32@0.2.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b0c35f58762feb77d74ebe43bdbc3210f09be9fe6742234d573bacc26ed92b67"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-embedded-community/hash32"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "semver",
+      "version": "1.0.27",
+      "bom-ref": "semver@1.0.27",
+      "purl": "pkg:cargo/semver@1.0.27",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d767eb0aabc880b29956c35734170f26ed551a859dbd361d140cdbeca61ab1e2"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/dtolnay/semver"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "rustc-version",
+      "version": "0.4.1",
+      "bom-ref": "rustc-version@0.4.1",
+      "purl": "pkg:cargo/rustc-version@0.4.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cfcb3a22ef46e85b45de6ee7e79d063319ebb6594faafcf1c225ea92ab6e9b92"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/djc/rustc-version-rs"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "heapless",
+      "version": "0.7.17",
+      "bom-ref": "heapless@0.7.17",
+      "purl": "pkg:cargo/heapless@0.7.17",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "cdc6457c0eb62c71aac4bc17216026d8410337c4126773b9c5daba343f17964f"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-embedded/heapless"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "stable-deref-trait",
+      "version": "1.2.1",
+      "bom-ref": "stable-deref-trait@1.2.1",
+      "purl": "pkg:cargo/stable-deref-trait@1.2.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6ce2be8dc25455e1f91df71bfa12ad37d7af1092ae736f3a6cd0e37bc7810596"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/storyyeller/stable_deref_trait"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "scopeguard",
+      "version": "1.2.0",
+      "bom-ref": "scopeguard@1.2.0",
+      "purl": "pkg:cargo/scopeguard@1.2.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/bluss/scopeguard"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "lock-api",
+      "version": "0.4.14",
+      "bom-ref": "lock-api@0.4.14",
+      "purl": "pkg:cargo/lock-api@0.4.14",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "224399e74b87b5f3557511d98dff8b14089b3dadafcab6bb93eab67d3aace965"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/Amanieu/parking_lot"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "spin",
+      "version": "0.9.8",
+      "bom-ref": "spin@0.9.8",
+      "purl": "pkg:cargo/spin@0.9.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/mvdnes/spin-rs.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "postcard-derive",
+      "version": "0.2.2",
+      "bom-ref": "postcard-derive@0.2.2",
+      "purl": "pkg:cargo/postcard-derive@0.2.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "e0232bd009a197ceec9cc881ba46f727fcd8060a2d8d6a9dde7a69030a6fe2bb"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/jamesmunns/postcard"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "postcard",
+      "version": "1.1.3",
+      "bom-ref": "postcard@1.1.3",
+      "purl": "pkg:cargo/postcard@1.1.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6764c3b5dd454e283a30e6dfe78e9b31096d9e32036b5d1eaac7a6119ccb9a24"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/jamesmunns/postcard"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sha1-smol",
+      "version": "1.0.1",
+      "bom-ref": "sha1-smol@1.0.1",
+      "purl": "pkg:cargo/sha1-smol@1.0.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "bbfa15b3dddfee50a0fff136974b3e1bde555604ba463834a7eb7deb6417705d"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/mitsuhiko/sha1-smol"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "serde-spanned",
+      "version": "0.6.9",
+      "bom-ref": "serde-spanned@0.6.9",
+      "purl": "pkg:cargo/serde-spanned@0.6.9",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "bf41e0cfaf7226dca15e8197172c295a782857fcb97fad1808a166870dee75a3"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/toml-rs/toml"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "toml-datetime",
+      "version": "0.6.11",
+      "bom-ref": "toml-datetime@0.6.11",
+      "purl": "pkg:cargo/toml-datetime@0.6.11",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "22cddaf88f4fbc13c51aebbf5f8eceb5c7c5a9da2ac40a13519eb5b0a0e8f11c"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/toml-rs/toml"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "equivalent",
+      "version": "1.0.2",
+      "bom-ref": "equivalent@1.0.2",
+      "purl": "pkg:cargo/equivalent@1.0.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0 OR MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/indexmap-rs/equivalent"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "hashbrown",
+      "version": "0.16.1",
+      "bom-ref": "hashbrown@0.16.1",
+      "purl": "pkg:cargo/hashbrown@0.16.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "841d1cc9bed7f9236f321df977030373f4a4163ae1a7dbfe1a51a2c1a51d9100"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/rust-lang/hashbrown"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "indexmap",
+      "version": "2.13.0",
+      "bom-ref": "indexmap@2.13.0",
+      "purl": "pkg:cargo/indexmap@2.13.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0 OR MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0ad4bb2b565bca0645f4d68c5c9af97fba094e9791da685bf83cb5f3ce74acf2"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/indexmap-rs/indexmap"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "toml-write",
+      "version": "0.1.2",
+      "bom-ref": "toml-write@0.1.2",
+      "purl": "pkg:cargo/toml-write@0.1.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5d99f8c9a7727884afe522e9bd5edbfc91a3312b36a77b5fb8926e4c31a41801"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/toml-rs/toml"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "winnow",
+      "version": "0.7.14",
+      "bom-ref": "winnow@0.7.14",
+      "purl": "pkg:cargo/winnow@0.7.14",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5a5364e9d77fcdeeaa6062ced926ee3381faa2ee02d3eb83a5c27a8825540829"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/winnow-rs/winnow"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "toml-edit",
+      "version": "0.22.27",
+      "bom-ref": "toml-edit@0.22.27",
+      "purl": "pkg:cargo/toml-edit@0.22.27",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "41fe8c660ae4257887cf66394862d21dbca4a6ddd26f04a3560410406a2f819a"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/toml-rs/toml"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "toml",
+      "version": "0.8.23",
+      "bom-ref": "toml@0.8.23",
+      "purl": "pkg:cargo/toml@0.8.23",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT OR Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "dc1beb996b9d83529a9e75c17a1686767d148d70663143c7854d8b4a09ced362"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/toml-rs/toml"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-cal-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-cal-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-cal-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "iceoryx2-qnx8",
+      "version": "0.7.0",
+      "bom-ref": "iceoryx2-qnx8@0.7.0",
+      "purl": "pkg:cargo/iceoryx2-qnx8@0.7.0"
+    },
+    {
+      "type": "library",
+      "name": "boost",
+      "version": "1.87.0",
+      "bom-ref": "boost@1.87.0",
+      "purl": "pkg:conan/boost@1.87.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSL-1.0"
+          }
+        }
+      ],
+      "supplier": {
+        "name": "Boost.org"
+      },
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://www.boost.org/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "nlohmann-json",
+      "version": "3.11.3",
+      "bom-ref": "nlohmann-json@3.11.3",
+      "purl": "pkg:conan/nlohmann_json@3.11.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "supplier": {
+        "name": "Niels Lohmann"
+      },
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/nlohmann/json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "googletest",
+      "version": "1.17.0",
+      "bom-ref": "googletest@1.17.0",
+      "purl": "pkg:github/google/googletest@1.17.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "supplier": {
+        "name": "Google LLC"
+      },
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/google/googletest"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "google_benchmark",
+      "version": "1.9.4",
+      "bom-ref": "google_benchmark@1.9.4",
+      "purl": "pkg:github/google/benchmark@1.9.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "supplier": {
+        "name": "Google LLC"
+      },
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/google/benchmark"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "flatbuffers",
+      "version": "25.2.10",
+      "bom-ref": "flatbuffers@25.2.10",
+      "purl": "pkg:github/google/flatbuffers@25.2.10",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "supplier": {
+        "name": "Google LLC"
+      },
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/google/flatbuffers"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "vsomeip",
+      "version": "3.6.0",
+      "bom-ref": "vsomeip@3.6.0",
+      "purl": "pkg:github/COVESA/vsomeip@3.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "supplier": {
+        "name": "COVESA"
+      },
+      "externalReferences": [
+        {
+          "type": "distribution",
+          "url": "https://github.com/COVESA/vsomeip"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "json_schema_validator",
+      "version": "2.1.0",
+      "bom-ref": "json_schema_validator@2.1.0",
+      "purl": "pkg:github/pboettch/json-schema-validator@2.1.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "supplier": {
+        "name": "Patrick Boettcher"
+      }
+    },
+    {
+      "type": "library",
+      "name": "bazel_skylib",
+      "version": "1.8.1",
+      "bom-ref": "bazel_skylib@1.8.1",
+      "purl": "pkg:github/bazelbuild/bazel-skylib@1.8.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "kyron_example@0.5.0-beta",
+      "dependsOn": [
+        "iceoryx2-pal-concurrency-sync-qnx8@0.7.0",
+        "iceoryx2-bb-elementary-traits-qnx8@0.7.0",
+        "iceoryx2-bb-elementary-qnx8@0.7.0",
+        "iceoryx2-bb-log-qnx8@0.7.0",
+        "serde@1.0.228",
+        "serde-core@1.0.228",
+        "proc-macro2@1.0.106",
+        "unicode-ident@1.0.22",
+        "quote@1.0.44",
+        "syn@2.0.114",
+        "serde-derive@1.0.228",
+        "iceoryx2-bb-derive-macros-qnx8@0.7.0",
+        "iceoryx2-bb-container-qnx8@0.7.0",
+        "iceoryx2-bb-lock-free-qnx8@0.7.0",
+        "enum-iterator-derive@1.5.0",
+        "enum-iterator@2.3.0",
+        "iceoryx2-pal-configuration-qnx8@0.7.0",
+        "bindgen@0.72.1",
+        "bitflags@2.10.0",
+        "memchr@2.8.0",
+        "minimal-lexical@0.2.1",
+        "nom@7.1.3",
+        "cexpr@0.6.0",
+        "glob@0.3.3",
+        "clang-sys@1.8.1",
+        "libc@0.2.180",
+        "cfg-if@1.0.4",
+        "libloading@0.8.9",
+        "either@1.15.0",
+        "itertools@0.13.0",
+        "log@0.4.29",
+        "prettyplease@0.2.37",
+        "aho-corasick@1.1.4",
+        "regex-syntax@0.8.9",
+        "regex-automata@0.4.14",
+        "regex@1.12.3",
+        "rustc-hash@2.1.1",
+        "shlex@1.3.0",
+        "find-msvc-tools@0.1.9",
+        "cc@1.2.55",
+        "iceoryx2-pal-posix-qnx8@0.7.0",
+        "lazy-static@1.5.0",
+        "iceoryx2-bb-system-types-qnx8@0.7.0",
+        "tiny-fn@0.1.9",
+        "iceoryx2-bb-posix-qnx8@0.7.0",
+        "iceoryx2-bb-memory-qnx8@0.7.0",
+        "iceoryx2-pal-testing-qnx8@0.7.0",
+        "iceoryx2-bb-testing-qnx8@0.7.0",
+        "iceoryx2-bb-threadsafe-qnx8@0.7.0",
+        "pin-project-lite@0.2.16",
+        "once-cell@1.21.3",
+        "tracing-core@0.1.36",
+        "tracing-attributes@0.1.31",
+        "tracing@0.1.44",
+        "nu-ansi-term@0.50.3",
+        "itoa@1.0.17",
+        "serde-json@1.0.149",
+        "zmij@1.0.19",
+        "sharded-slab@0.1.7",
+        "smallvec@1.15.1",
+        "thread-local@1.1.9",
+        "tracing-log@0.2.0",
+        "tracing-serde@0.2.0",
+        "tracing-subscriber@0.3.22",
+        "score_kyron@unknown",
+        "byteorder@1.5.0",
+        "cdr@0.2.4",
+        "iceoryx2-pal-os-api-qnx8@0.7.0",
+        "iceoryx2-bb-linux-qnx8@0.7.0",
+        "thiserror@2.0.18",
+        "thiserror-impl@2.0.18",
+        "cobs@0.3.0",
+        "hash32@0.2.1",
+        "semver@1.0.27",
+        "rustc-version@0.4.1",
+        "heapless@0.7.17",
+        "stable-deref-trait@1.2.1",
+        "scopeguard@1.2.0",
+        "lock-api@0.4.14",
+        "spin@0.9.8",
+        "postcard-derive@0.2.2",
+        "postcard@1.1.3",
+        "sha1-smol@1.0.1",
+        "serde-spanned@0.6.9",
+        "toml-datetime@0.6.11",
+        "equivalent@1.0.2",
+        "hashbrown@0.16.1",
+        "indexmap@2.13.0",
+        "toml-write@0.1.2",
+        "winnow@0.7.14",
+        "toml-edit@0.22.27",
+        "toml@0.8.23",
+        "iceoryx2-cal-qnx8@0.7.0",
+        "iceoryx2-qnx8@0.7.0",
+        "boost@1.87.0",
+        "nlohmann-json@3.11.3",
+        "googletest@1.17.0",
+        "google_benchmark@1.9.4",
+        "flatbuffers@25.2.10",
+        "vsomeip@3.6.0",
+        "json_schema_validator@2.1.0",
+        "bazel_skylib@1.8.1"
+      ]
+    },
+    {
+      "ref": "iceoryx2-pal-concurrency-sync-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-elementary-traits-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-elementary-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-log-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "serde@1.0.228",
+      "dependsOn": []
+    },
+    {
+      "ref": "serde-core@1.0.228",
+      "dependsOn": []
+    },
+    {
+      "ref": "proc-macro2@1.0.106",
+      "dependsOn": []
+    },
+    {
+      "ref": "unicode-ident@1.0.22",
+      "dependsOn": []
+    },
+    {
+      "ref": "quote@1.0.44",
+      "dependsOn": []
+    },
+    {
+      "ref": "syn@2.0.114",
+      "dependsOn": []
+    },
+    {
+      "ref": "serde-derive@1.0.228",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-derive-macros-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-container-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-lock-free-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "enum-iterator-derive@1.5.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "enum-iterator@2.3.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-pal-configuration-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "bindgen@0.72.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "bitflags@2.10.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "memchr@2.8.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "minimal-lexical@0.2.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "nom@7.1.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "cexpr@0.6.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "glob@0.3.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "clang-sys@1.8.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "libc@0.2.180",
+      "dependsOn": []
+    },
+    {
+      "ref": "cfg-if@1.0.4",
+      "dependsOn": []
+    },
+    {
+      "ref": "libloading@0.8.9",
+      "dependsOn": []
+    },
+    {
+      "ref": "either@1.15.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "itertools@0.13.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "log@0.4.29",
+      "dependsOn": []
+    },
+    {
+      "ref": "prettyplease@0.2.37",
+      "dependsOn": []
+    },
+    {
+      "ref": "aho-corasick@1.1.4",
+      "dependsOn": []
+    },
+    {
+      "ref": "regex-syntax@0.8.9",
+      "dependsOn": []
+    },
+    {
+      "ref": "regex-automata@0.4.14",
+      "dependsOn": []
+    },
+    {
+      "ref": "regex@1.12.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "rustc-hash@2.1.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "shlex@1.3.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "find-msvc-tools@0.1.9",
+      "dependsOn": []
+    },
+    {
+      "ref": "cc@1.2.55",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-pal-posix-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "lazy-static@1.5.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-system-types-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "tiny-fn@0.1.9",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-posix-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-memory-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-pal-testing-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-testing-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-threadsafe-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pin-project-lite@0.2.16",
+      "dependsOn": []
+    },
+    {
+      "ref": "once-cell@1.21.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "tracing-core@0.1.36",
+      "dependsOn": []
+    },
+    {
+      "ref": "tracing-attributes@0.1.31",
+      "dependsOn": []
+    },
+    {
+      "ref": "tracing@0.1.44",
+      "dependsOn": []
+    },
+    {
+      "ref": "nu-ansi-term@0.50.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "itoa@1.0.17",
+      "dependsOn": []
+    },
+    {
+      "ref": "serde-json@1.0.149",
+      "dependsOn": []
+    },
+    {
+      "ref": "zmij@1.0.19",
+      "dependsOn": []
+    },
+    {
+      "ref": "sharded-slab@0.1.7",
+      "dependsOn": []
+    },
+    {
+      "ref": "smallvec@1.15.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "thread-local@1.1.9",
+      "dependsOn": []
+    },
+    {
+      "ref": "tracing-log@0.2.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "tracing-serde@0.2.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "tracing-subscriber@0.3.22",
+      "dependsOn": []
+    },
+    {
+      "ref": "score_kyron@unknown",
+      "dependsOn": [
+        "rules_rustcratecrate_index__iceoryx2-bb-container-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-bb-derive-macros-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-bb-elementary-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-bb-elementary-traits-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-bb-lock-free-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-bb-memory-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-bb-posix-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-bb-system-types-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-bb-testing-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-bb-threadsafe-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-cal-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-pal-concurrency-sync-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__iceoryx2-qnx8-0.7.0@unknown",
+        "rules_rustcratecrate_index__libc-0.2.180@unknown",
+        "rules_rustcratecrate_index__proc-macro2-1.0.106@unknown",
+        "rules_rustcratecrate_index__quote-1.0.44@unknown",
+        "rules_rustcratecrate_index__syn-2.0.114@unknown",
+        "rules_rustcratecrate_index__tracing-0.1.44@unknown",
+        "rules_rustcratecrate_index__tracing-subscriber-0.3.22@unknown",
+        "score_kyron@unknown"
+      ]
+    },
+    {
+      "ref": "byteorder@1.5.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "cdr@0.2.4",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-pal-os-api-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-bb-linux-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "thiserror@2.0.18",
+      "dependsOn": []
+    },
+    {
+      "ref": "thiserror-impl@2.0.18",
+      "dependsOn": []
+    },
+    {
+      "ref": "cobs@0.3.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "hash32@0.2.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "semver@1.0.27",
+      "dependsOn": []
+    },
+    {
+      "ref": "rustc-version@0.4.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "heapless@0.7.17",
+      "dependsOn": []
+    },
+    {
+      "ref": "stable-deref-trait@1.2.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "scopeguard@1.2.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "lock-api@0.4.14",
+      "dependsOn": []
+    },
+    {
+      "ref": "spin@0.9.8",
+      "dependsOn": []
+    },
+    {
+      "ref": "postcard-derive@0.2.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "postcard@1.1.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "sha1-smol@1.0.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "serde-spanned@0.6.9",
+      "dependsOn": []
+    },
+    {
+      "ref": "toml-datetime@0.6.11",
+      "dependsOn": []
+    },
+    {
+      "ref": "equivalent@1.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "hashbrown@0.16.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "indexmap@2.13.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "toml-write@0.1.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "winnow@0.7.14",
+      "dependsOn": []
+    },
+    {
+      "ref": "toml-edit@0.22.27",
+      "dependsOn": []
+    },
+    {
+      "ref": "toml@0.8.23",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-cal-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "iceoryx2-qnx8@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "boost@1.87.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "nlohmann-json@3.11.3",
+      "dependsOn": []
+    },
+    {
+      "ref": "googletest@1.17.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "google_benchmark@1.9.4",
+      "dependsOn": []
+    },
+    {
+      "ref": "flatbuffers@25.2.10",
+      "dependsOn": []
+    },
+    {
+      "ref": "vsomeip@3.6.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "json_schema_validator@2.1.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "bazel_skylib@1.8.1",
+      "dependsOn": []
+    }
+  ]
+}

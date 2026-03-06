@@ -18,13 +18,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
 
-      - name: Lint with ruff
-        run: uvx ruff check src/ tests/
+      - name: Sync dev dependencies
+        run: uv sync --extra dev
 
-      - name: Format check with ruff
-        run: uvx ruff format --check src/ tests/
+      - name: Run pre-commit hooks
+        run: uv run pre-commit run --all-files
 
   build:
     name: Build Distribution
@@ -143,3 +149,38 @@ jobs:
         run: |
           echo "### pip-audit advisories" >> "$GITHUB_STEP_SUMMARY"
           uvx pip-audit --format markdown || echo "No vulnerabilities found" | tee -a "$GITHUB_STEP_SUMMARY"
+
+  self-scan-local:
+    name: Self Scan (from PR)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Run dash-license-scan on self
+        run: uv run dash-license-scan uv.lock --dry-run
+
+  self-scan-main:
+    name: Self Scan (from Action)
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      # Run dash-license-scan using the GitHub Action on main branch (TODO: dev > main)
+      - uses: eclipse-score/dash-license-scan@dev
+        with:
+          token: ${{ secrets.DASH_API_TOKEN }}
+          eclipse_project: ${{ vars.ECLIPSE_PROJECT }}
+          lockfiles: uv.lock
+          trigger_review: false
+          comply_with: ASF EF

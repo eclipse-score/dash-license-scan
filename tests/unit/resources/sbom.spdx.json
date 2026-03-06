@@ -1,0 +1,2389 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "SBOM for kyron_example",
+  "documentNamespace": "https://eclipse.dev/score/spdx/kyron-example-4eba974a-d097-45d1-8f81-e0edcfc5f6e0",
+  "creationInfo": {
+    "created": "2026-02-08T18:41:00Z",
+    "creators": [
+      "Organization: Eclipse Foundation",
+      "Tool: score-sbom-generator"
+    ]
+  },
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-RootPackage",
+      "name": "kyron_example",
+      "versionInfo": "0.5.0-beta",
+      "downloadLocation": "https://github.com/eclipse-score",
+      "supplier": "Organization: Eclipse Foundation",
+      "primaryPackagePurpose": "APPLICATION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-pal-concurrency-sync-qnx8-0.7.0",
+      "name": "iceoryx2-pal-concurrency-sync-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-pal-concurrency-sync-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-elementary-traits-qnx8-0.7.0",
+      "name": "iceoryx2-bb-elementary-traits-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-elementary-traits-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-elementary-qnx8-0.7.0",
+      "name": "iceoryx2-bb-elementary-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-elementary-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-log-qnx8-0.7.0",
+      "name": "iceoryx2-bb-log-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-log-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-serde-1.0.228",
+      "name": "serde",
+      "versionInfo": "1.0.228",
+      "downloadLocation": "https://github.com/serde-rs/serde",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/serde@1.0.228"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-serde-core-1.0.228",
+      "name": "serde-core",
+      "versionInfo": "1.0.228",
+      "downloadLocation": "https://github.com/serde-rs/serde",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/serde-core@1.0.228"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-proc-macro2-1.0.106",
+      "name": "proc-macro2",
+      "versionInfo": "1.0.106",
+      "downloadLocation": "https://github.com/dtolnay/proc-macro2",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/proc-macro2@1.0.106"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-unicode-ident-1.0.22",
+      "name": "unicode-ident",
+      "versionInfo": "1.0.22",
+      "downloadLocation": "https://github.com/dtolnay/unicode-ident",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "licenseDeclared": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/unicode-ident@1.0.22"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-quote-1.0.44",
+      "name": "quote",
+      "versionInfo": "1.0.44",
+      "downloadLocation": "https://github.com/dtolnay/quote",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/quote@1.0.44"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-syn-2.0.114",
+      "name": "syn",
+      "versionInfo": "2.0.114",
+      "downloadLocation": "https://github.com/dtolnay/syn",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/syn@2.0.114"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-serde-derive-1.0.228",
+      "name": "serde-derive",
+      "versionInfo": "1.0.228",
+      "downloadLocation": "https://github.com/serde-rs/serde",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/serde-derive@1.0.228"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-derive-macros-qnx8-0.7.0",
+      "name": "iceoryx2-bb-derive-macros-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-derive-macros-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-container-qnx8-0.7.0",
+      "name": "iceoryx2-bb-container-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-container-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-lock-free-qnx8-0.7.0",
+      "name": "iceoryx2-bb-lock-free-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-lock-free-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-enum-iterator-derive-1.5.0",
+      "name": "enum-iterator-derive",
+      "versionInfo": "1.5.0",
+      "downloadLocation": "https://github.com/stephaneyfx/enum-iterator.git",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "0BSD",
+      "licenseDeclared": "0BSD",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/enum-iterator-derive@1.5.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-enum-iterator-2.3.0",
+      "name": "enum-iterator",
+      "versionInfo": "2.3.0",
+      "downloadLocation": "https://github.com/stephaneyfx/enum-iterator.git",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "0BSD",
+      "licenseDeclared": "0BSD",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/enum-iterator@2.3.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-pal-configuration-qnx8-0.7.0",
+      "name": "iceoryx2-pal-configuration-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-pal-configuration-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-bindgen-0.72.1",
+      "name": "bindgen",
+      "versionInfo": "0.72.1",
+      "downloadLocation": "https://github.com/rust-lang/rust-bindgen",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/bindgen@0.72.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-bitflags-2.10.0",
+      "name": "bitflags",
+      "versionInfo": "2.10.0",
+      "downloadLocation": "https://github.com/bitflags/bitflags",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/bitflags@2.10.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-memchr-2.8.0",
+      "name": "memchr",
+      "versionInfo": "2.8.0",
+      "downloadLocation": "https://github.com/BurntSushi/memchr",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Unlicense OR MIT",
+      "licenseDeclared": "Unlicense OR MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/memchr@2.8.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-minimal-lexical-0.2.1",
+      "name": "minimal-lexical",
+      "versionInfo": "0.2.1",
+      "downloadLocation": "https://github.com/Alexhuszagh/minimal-lexical",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT/Apache-2.0",
+      "licenseDeclared": "MIT/Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/minimal-lexical@0.2.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-nom-7.1.3",
+      "name": "nom",
+      "versionInfo": "7.1.3",
+      "downloadLocation": "https://github.com/rust-bakery/nom",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/nom@7.1.3"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-cexpr-0.6.0",
+      "name": "cexpr",
+      "versionInfo": "0.6.0",
+      "downloadLocation": "https://github.com/jethrogb/rust-cexpr",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0/MIT",
+      "licenseDeclared": "Apache-2.0/MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/cexpr@0.6.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-glob-0.3.3",
+      "name": "glob",
+      "versionInfo": "0.3.3",
+      "downloadLocation": "https://github.com/rust-lang/glob",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/glob@0.3.3"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-clang-sys-1.8.1",
+      "name": "clang-sys",
+      "versionInfo": "1.8.1",
+      "downloadLocation": "https://github.com/KyleMayes/clang-sys",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/clang-sys@1.8.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-libc-0.2.180",
+      "name": "libc",
+      "versionInfo": "0.2.180",
+      "downloadLocation": "https://github.com/rust-lang/libc",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/libc@0.2.180"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-cfg-if-1.0.4",
+      "name": "cfg-if",
+      "versionInfo": "1.0.4",
+      "downloadLocation": "https://github.com/rust-lang/cfg-if",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/cfg-if@1.0.4"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-libloading-0.8.9",
+      "name": "libloading",
+      "versionInfo": "0.8.9",
+      "downloadLocation": "https://github.com/nagisa/rust_libloading/",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "ISC",
+      "licenseDeclared": "ISC",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/libloading@0.8.9"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-either-1.15.0",
+      "name": "either",
+      "versionInfo": "1.15.0",
+      "downloadLocation": "https://github.com/rayon-rs/either",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/either@1.15.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-itertools-0.13.0",
+      "name": "itertools",
+      "versionInfo": "0.13.0",
+      "downloadLocation": "https://github.com/rust-itertools/itertools",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/itertools@0.13.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-log-0.4.29",
+      "name": "log",
+      "versionInfo": "0.4.29",
+      "downloadLocation": "https://github.com/rust-lang/log",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/log@0.4.29"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-prettyplease-0.2.37",
+      "name": "prettyplease",
+      "versionInfo": "0.2.37",
+      "downloadLocation": "https://github.com/dtolnay/prettyplease",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/prettyplease@0.2.37"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-aho-corasick-1.1.4",
+      "name": "aho-corasick",
+      "versionInfo": "1.1.4",
+      "downloadLocation": "https://github.com/BurntSushi/aho-corasick",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Unlicense OR MIT",
+      "licenseDeclared": "Unlicense OR MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/aho-corasick@1.1.4"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-regex-syntax-0.8.9",
+      "name": "regex-syntax",
+      "versionInfo": "0.8.9",
+      "downloadLocation": "https://github.com/rust-lang/regex",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/regex-syntax@0.8.9"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-regex-automata-0.4.14",
+      "name": "regex-automata",
+      "versionInfo": "0.4.14",
+      "downloadLocation": "https://github.com/rust-lang/regex",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/regex-automata@0.4.14"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-regex-1.12.3",
+      "name": "regex",
+      "versionInfo": "1.12.3",
+      "downloadLocation": "https://github.com/rust-lang/regex",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/regex@1.12.3"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-rustc-hash-2.1.1",
+      "name": "rustc-hash",
+      "versionInfo": "2.1.1",
+      "downloadLocation": "https://github.com/rust-lang/rustc-hash",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0 OR MIT",
+      "licenseDeclared": "Apache-2.0 OR MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/rustc-hash@2.1.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-shlex-1.3.0",
+      "name": "shlex",
+      "versionInfo": "1.3.0",
+      "downloadLocation": "https://github.com/comex/rust-shlex",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/shlex@1.3.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-find-msvc-tools-0.1.9",
+      "name": "find-msvc-tools",
+      "versionInfo": "0.1.9",
+      "downloadLocation": "https://github.com/rust-lang/cc-rs",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/find-msvc-tools@0.1.9"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-cc-1.2.55",
+      "name": "cc",
+      "versionInfo": "1.2.55",
+      "downloadLocation": "https://github.com/rust-lang/cc-rs",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/cc@1.2.55"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-pal-posix-qnx8-0.7.0",
+      "name": "iceoryx2-pal-posix-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-pal-posix-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-lazy-static-1.5.0",
+      "name": "lazy-static",
+      "versionInfo": "1.5.0",
+      "downloadLocation": "https://github.com/rust-lang-nursery/lazy-static.rs",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/lazy-static@1.5.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-system-types-qnx8-0.7.0",
+      "name": "iceoryx2-bb-system-types-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-system-types-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-tiny-fn-0.1.9",
+      "name": "tiny-fn",
+      "versionInfo": "0.1.9",
+      "downloadLocation": "https://github.com/zakarumych/tiny-fn",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/tiny-fn@0.1.9"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-posix-qnx8-0.7.0",
+      "name": "iceoryx2-bb-posix-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-posix-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-memory-qnx8-0.7.0",
+      "name": "iceoryx2-bb-memory-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-memory-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-pal-testing-qnx8-0.7.0",
+      "name": "iceoryx2-pal-testing-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-pal-testing-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-testing-qnx8-0.7.0",
+      "name": "iceoryx2-bb-testing-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-testing-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-threadsafe-qnx8-0.7.0",
+      "name": "iceoryx2-bb-threadsafe-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-threadsafe-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-pin-project-lite-0.2.16",
+      "name": "pin-project-lite",
+      "versionInfo": "0.2.16",
+      "downloadLocation": "https://github.com/taiki-e/pin-project-lite",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0 OR MIT",
+      "licenseDeclared": "Apache-2.0 OR MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/pin-project-lite@0.2.16"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-once-cell-1.21.3",
+      "name": "once-cell",
+      "versionInfo": "1.21.3",
+      "downloadLocation": "https://github.com/matklad/once_cell",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/once-cell@1.21.3"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-tracing-core-0.1.36",
+      "name": "tracing-core",
+      "versionInfo": "0.1.36",
+      "downloadLocation": "https://github.com/tokio-rs/tracing",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/tracing-core@0.1.36"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-tracing-attributes-0.1.31",
+      "name": "tracing-attributes",
+      "versionInfo": "0.1.31",
+      "downloadLocation": "https://github.com/tokio-rs/tracing",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/tracing-attributes@0.1.31"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-tracing-0.1.44",
+      "name": "tracing",
+      "versionInfo": "0.1.44",
+      "downloadLocation": "https://github.com/tokio-rs/tracing",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/tracing@0.1.44"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-nu-ansi-term-0.50.3",
+      "name": "nu-ansi-term",
+      "versionInfo": "0.50.3",
+      "downloadLocation": "https://github.com/nushell/nu-ansi-term",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/nu-ansi-term@0.50.3"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-itoa-1.0.17",
+      "name": "itoa",
+      "versionInfo": "1.0.17",
+      "downloadLocation": "https://github.com/dtolnay/itoa",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/itoa@1.0.17"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-serde-json-1.0.149",
+      "name": "serde-json",
+      "versionInfo": "1.0.149",
+      "downloadLocation": "https://github.com/serde-rs/json",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/serde-json@1.0.149"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-zmij-1.0.19",
+      "name": "zmij",
+      "versionInfo": "1.0.19",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/zmij@1.0.19"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-sharded-slab-0.1.7",
+      "name": "sharded-slab",
+      "versionInfo": "0.1.7",
+      "downloadLocation": "https://github.com/hawkw/sharded-slab",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/sharded-slab@0.1.7"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-smallvec-1.15.1",
+      "name": "smallvec",
+      "versionInfo": "1.15.1",
+      "downloadLocation": "https://github.com/servo/rust-smallvec",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/smallvec@1.15.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-thread-local-1.1.9",
+      "name": "thread-local",
+      "versionInfo": "1.1.9",
+      "downloadLocation": "https://github.com/Amanieu/thread_local-rs",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/thread-local@1.1.9"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-tracing-log-0.2.0",
+      "name": "tracing-log",
+      "versionInfo": "0.2.0",
+      "downloadLocation": "https://github.com/tokio-rs/tracing",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/tracing-log@0.2.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-tracing-serde-0.2.0",
+      "name": "tracing-serde",
+      "versionInfo": "0.2.0",
+      "downloadLocation": "https://github.com/tokio-rs/tracing",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/tracing-serde@0.2.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-tracing-subscriber-0.3.22",
+      "name": "tracing-subscriber",
+      "versionInfo": "0.3.22",
+      "downloadLocation": "https://github.com/tokio-rs/tracing",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/tracing-subscriber@0.3.22"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-score-kyron-unknown",
+      "name": "score_kyron",
+      "versionInfo": "unknown",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "supplier": "Organization: Eclipse Foundation",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:github/eclipse-score/score_kyron@unknown"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-byteorder-1.5.0",
+      "name": "byteorder",
+      "versionInfo": "1.5.0",
+      "downloadLocation": "https://github.com/BurntSushi/byteorder",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Unlicense OR MIT",
+      "licenseDeclared": "Unlicense OR MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/byteorder@1.5.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-cdr-0.2.4",
+      "name": "cdr",
+      "versionInfo": "0.2.4",
+      "downloadLocation": "https://github.com/hrektts/cdr-rs",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT/Apache-2.0",
+      "licenseDeclared": "MIT/Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/cdr@0.2.4"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-pal-os-api-qnx8-0.7.0",
+      "name": "iceoryx2-pal-os-api-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-pal-os-api-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-bb-linux-qnx8-0.7.0",
+      "name": "iceoryx2-bb-linux-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-bb-linux-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-thiserror-2.0.18",
+      "name": "thiserror",
+      "versionInfo": "2.0.18",
+      "downloadLocation": "https://github.com/dtolnay/thiserror",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/thiserror@2.0.18"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-thiserror-impl-2.0.18",
+      "name": "thiserror-impl",
+      "versionInfo": "2.0.18",
+      "downloadLocation": "https://github.com/dtolnay/thiserror",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/thiserror-impl@2.0.18"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-cobs-0.3.0",
+      "name": "cobs",
+      "versionInfo": "0.3.0",
+      "downloadLocation": "https://github.com/jamesmunns/cobs.rs",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/cobs@0.3.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-hash32-0.2.1",
+      "name": "hash32",
+      "versionInfo": "0.2.1",
+      "downloadLocation": "https://github.com/rust-embedded-community/hash32",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/hash32@0.2.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-semver-1.0.27",
+      "name": "semver",
+      "versionInfo": "1.0.27",
+      "downloadLocation": "https://github.com/dtolnay/semver",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/semver@1.0.27"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-rustc-version-0.4.1",
+      "name": "rustc-version",
+      "versionInfo": "0.4.1",
+      "downloadLocation": "https://github.com/djc/rustc-version-rs",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/rustc-version@0.4.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-heapless-0.7.17",
+      "name": "heapless",
+      "versionInfo": "0.7.17",
+      "downloadLocation": "https://github.com/rust-embedded/heapless",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/heapless@0.7.17"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-stable-deref-trait-1.2.1",
+      "name": "stable-deref-trait",
+      "versionInfo": "1.2.1",
+      "downloadLocation": "https://github.com/storyyeller/stable_deref_trait",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/stable-deref-trait@1.2.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-scopeguard-1.2.0",
+      "name": "scopeguard",
+      "versionInfo": "1.2.0",
+      "downloadLocation": "https://github.com/bluss/scopeguard",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/scopeguard@1.2.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-lock-api-0.4.14",
+      "name": "lock-api",
+      "versionInfo": "0.4.14",
+      "downloadLocation": "https://github.com/Amanieu/parking_lot",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/lock-api@0.4.14"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-spin-0.9.8",
+      "name": "spin",
+      "versionInfo": "0.9.8",
+      "downloadLocation": "https://github.com/mvdnes/spin-rs.git",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/spin@0.9.8"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-postcard-derive-0.2.2",
+      "name": "postcard-derive",
+      "versionInfo": "0.2.2",
+      "downloadLocation": "https://github.com/jamesmunns/postcard",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/postcard-derive@0.2.2"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-postcard-1.1.3",
+      "name": "postcard",
+      "versionInfo": "1.1.3",
+      "downloadLocation": "https://github.com/jamesmunns/postcard",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/postcard@1.1.3"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-sha1-smol-1.0.1",
+      "name": "sha1-smol",
+      "versionInfo": "1.0.1",
+      "downloadLocation": "https://github.com/mitsuhiko/sha1-smol",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/sha1-smol@1.0.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-serde-spanned-0.6.9",
+      "name": "serde-spanned",
+      "versionInfo": "0.6.9",
+      "downloadLocation": "https://github.com/toml-rs/toml",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/serde-spanned@0.6.9"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-toml-datetime-0.6.11",
+      "name": "toml-datetime",
+      "versionInfo": "0.6.11",
+      "downloadLocation": "https://github.com/toml-rs/toml",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/toml-datetime@0.6.11"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-equivalent-1.0.2",
+      "name": "equivalent",
+      "versionInfo": "1.0.2",
+      "downloadLocation": "https://github.com/indexmap-rs/equivalent",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0 OR MIT",
+      "licenseDeclared": "Apache-2.0 OR MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/equivalent@1.0.2"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-hashbrown-0.16.1",
+      "name": "hashbrown",
+      "versionInfo": "0.16.1",
+      "downloadLocation": "https://github.com/rust-lang/hashbrown",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/hashbrown@0.16.1"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-indexmap-2.13.0",
+      "name": "indexmap",
+      "versionInfo": "2.13.0",
+      "downloadLocation": "https://github.com/indexmap-rs/indexmap",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0 OR MIT",
+      "licenseDeclared": "Apache-2.0 OR MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/indexmap@2.13.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-toml-write-0.1.2",
+      "name": "toml-write",
+      "versionInfo": "0.1.2",
+      "downloadLocation": "https://github.com/toml-rs/toml",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/toml-write@0.1.2"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-winnow-0.7.14",
+      "name": "winnow",
+      "versionInfo": "0.7.14",
+      "downloadLocation": "https://github.com/winnow-rs/winnow",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/winnow@0.7.14"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-toml-edit-0.22.27",
+      "name": "toml-edit",
+      "versionInfo": "0.22.27",
+      "downloadLocation": "https://github.com/toml-rs/toml",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/toml-edit@0.22.27"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-toml-0.8.23",
+      "name": "toml",
+      "versionInfo": "0.8.23",
+      "downloadLocation": "https://github.com/toml-rs/toml",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT OR Apache-2.0",
+      "licenseDeclared": "MIT OR Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/toml@0.8.23"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-cal-qnx8-0.7.0",
+      "name": "iceoryx2-cal-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-cal-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-iceoryx2-qnx8-0.7.0",
+      "name": "iceoryx2-qnx8",
+      "versionInfo": "0.7.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:cargo/iceoryx2-qnx8@0.7.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-boost-1.87.0",
+      "name": "boost",
+      "versionInfo": "1.87.0",
+      "downloadLocation": "https://www.boost.org/",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "BSL-1.0",
+      "licenseDeclared": "BSL-1.0",
+      "copyrightText": "NOASSERTION",
+      "supplier": "Organization: Boost.org",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:conan/boost@1.87.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-nlohmann-json-3.11.3",
+      "name": "nlohmann-json",
+      "versionInfo": "3.11.3",
+      "downloadLocation": "https://github.com/nlohmann/json",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "supplier": "Organization: Niels Lohmann",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:conan/nlohmann_json@3.11.3"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-googletest-1.17.0",
+      "name": "googletest",
+      "versionInfo": "1.17.0",
+      "downloadLocation": "https://github.com/google/googletest",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "copyrightText": "NOASSERTION",
+      "supplier": "Organization: Google LLC",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:github/google/googletest@1.17.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-google-benchmark-1.9.4",
+      "name": "google_benchmark",
+      "versionInfo": "1.9.4",
+      "downloadLocation": "https://github.com/google/benchmark",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "supplier": "Organization: Google LLC",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:github/google/benchmark@1.9.4"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-flatbuffers-25.2.10",
+      "name": "flatbuffers",
+      "versionInfo": "25.2.10",
+      "downloadLocation": "https://github.com/google/flatbuffers",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "supplier": "Organization: Google LLC",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:github/google/flatbuffers@25.2.10"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-vsomeip-3.6.0",
+      "name": "vsomeip",
+      "versionInfo": "3.6.0",
+      "downloadLocation": "https://github.com/COVESA/vsomeip",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MPL-2.0",
+      "licenseDeclared": "MPL-2.0",
+      "copyrightText": "NOASSERTION",
+      "supplier": "Organization: COVESA",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:github/COVESA/vsomeip@3.6.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-json-schema-validator-2.1.0",
+      "name": "json_schema_validator",
+      "versionInfo": "2.1.0",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "copyrightText": "NOASSERTION",
+      "supplier": "Organization: Patrick Boettcher",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:github/pboettch/json-schema-validator@2.1.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-bazel-skylib-1.8.1",
+      "name": "bazel_skylib",
+      "versionInfo": "1.8.1",
+      "downloadLocation": "NOASSERTION",
+      "primaryPackagePurpose": "LIBRARY",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "Apache-2.0",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:github/bazelbuild/bazel-skylib@1.8.1"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-RootPackage"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-pal-concurrency-sync-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-elementary-traits-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-elementary-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-log-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-serde-1.0.228"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-serde-core-1.0.228"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-proc-macro2-1.0.106"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-unicode-ident-1.0.22"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-quote-1.0.44"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-syn-2.0.114"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-serde-derive-1.0.228"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-derive-macros-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-container-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-lock-free-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-enum-iterator-derive-1.5.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-enum-iterator-2.3.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-pal-configuration-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-bindgen-0.72.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-bitflags-2.10.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-memchr-2.8.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-minimal-lexical-0.2.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-nom-7.1.3"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-cexpr-0.6.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-glob-0.3.3"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-clang-sys-1.8.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-libc-0.2.180"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-cfg-if-1.0.4"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-libloading-0.8.9"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-either-1.15.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-itertools-0.13.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-log-0.4.29"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-prettyplease-0.2.37"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-aho-corasick-1.1.4"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-regex-syntax-0.8.9"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-regex-automata-0.4.14"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-regex-1.12.3"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-rustc-hash-2.1.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-shlex-1.3.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-find-msvc-tools-0.1.9"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-cc-1.2.55"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-pal-posix-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-lazy-static-1.5.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-system-types-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-tiny-fn-0.1.9"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-posix-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-memory-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-pal-testing-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-testing-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-threadsafe-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-pin-project-lite-0.2.16"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-once-cell-1.21.3"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-tracing-core-0.1.36"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-tracing-attributes-0.1.31"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-tracing-0.1.44"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-nu-ansi-term-0.50.3"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-itoa-1.0.17"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-serde-json-1.0.149"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-zmij-1.0.19"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-sharded-slab-0.1.7"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-smallvec-1.15.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-thread-local-1.1.9"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-tracing-log-0.2.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-tracing-serde-0.2.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-tracing-subscriber-0.3.22"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-score-kyron-unknown"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-byteorder-1.5.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-cdr-0.2.4"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-pal-os-api-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-bb-linux-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-thiserror-2.0.18"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-thiserror-impl-2.0.18"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-cobs-0.3.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-hash32-0.2.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-semver-1.0.27"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-rustc-version-0.4.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-heapless-0.7.17"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-stable-deref-trait-1.2.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-scopeguard-1.2.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-lock-api-0.4.14"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-spin-0.9.8"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-postcard-derive-0.2.2"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-postcard-1.1.3"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-sha1-smol-1.0.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-serde-spanned-0.6.9"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-toml-datetime-0.6.11"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-equivalent-1.0.2"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-hashbrown-0.16.1"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-indexmap-2.13.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-toml-write-0.1.2"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-winnow-0.7.14"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-toml-edit-0.22.27"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-toml-0.8.23"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-cal-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-iceoryx2-qnx8-0.7.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-boost-1.87.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-nlohmann-json-3.11.3"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-googletest-1.17.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-google-benchmark-1.9.4"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-flatbuffers-25.2.10"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-vsomeip-3.6.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-json-schema-validator-2.1.0"
+    },
+    {
+      "spdxElementId": "SPDXRef-RootPackage",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-bazel-skylib-1.8.1"
+    }
+  ]
+}
