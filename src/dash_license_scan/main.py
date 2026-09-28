@@ -64,15 +64,19 @@ def real_main(argv: list[str] | None = None) -> None:
     try:
         cmd = [
             "java",
-            "-jar",
-            str(jar_path),
-            "-summary",
-            str(summary_path),
         ]
         if args.verbose:
             # According to documentation, but does not seem to have any effect:
             cmd.append("-Dorg.slf4j.simpleLogger.defaultLogLevel=debug")
-        cmd.append("-")  # read dependencies from stdin
+        cmd.extend(
+            [
+                "-jar",
+                str(jar_path),
+                "-summary",
+                str(summary_path),
+                "-",
+            ]
+        )
         log.debug(f"Command: {' '.join(cmd)}")
         deps_input = "\n".join(deps)
         result = subprocess.run(cmd, input=deps_input, text=True)
