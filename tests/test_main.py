@@ -37,7 +37,9 @@ def test_dash_licenses_command_uses_stdin_and_jvm_options(tmp_path):
 
     with (
         patch("dash_license_scan.main.jar.require_java"),
-        patch("dash_license_scan.main.jar.get_jar", return_value=tmp_path / "licenses.jar"),
+        patch(
+            "dash_license_scan.main.jar.get_jar", return_value=tmp_path / "licenses.jar"
+        ),
         patch("dash_license_scan.main.subprocess.run") as run,
     ):
         run.return_value.returncode = 0
