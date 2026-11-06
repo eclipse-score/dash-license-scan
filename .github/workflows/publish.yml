@@ -107,7 +107,7 @@ jobs:
           echo "Building from: $REF" >> "$GITHUB_STEP_SUMMARY"
 
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ steps.ref.outputs.ref }}
 
@@ -199,7 +199,7 @@ jobs:
           name: dist-${{ github.sha }}
           path: dist
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: needs.build.outputs.requires_tag_push == 'true'
 
       - name: push tag (if needed)
