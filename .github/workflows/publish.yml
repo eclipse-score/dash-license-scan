@@ -36,7 +36,7 @@ permissions:
 jobs:
   verify-tag:
     name: Verify Naming Convention of Tag and Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
     steps:
@@ -87,7 +87,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: verify-tag
     concurrency:
       group: dash-license-scan-${{ needs.verify-tag.outputs.tag }}-build
@@ -181,7 +181,7 @@ jobs:
     needs:
       - build
       - verify-tag
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     concurrency:
       group: dash-license-scan-${{ needs.verify-tag.outputs.tag }}-publish
       # Do not cancel in-progress publish jobs to avoid partial publishes
