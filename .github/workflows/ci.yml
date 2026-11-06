@@ -14,7 +14,7 @@ permissions:
 jobs:
   lint:
     name: Lint & Format Check
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -28,7 +28,7 @@ jobs:
 
   build:
     name: Build Distribution
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       sdist: ${{ steps.paths.outputs.sdist }}
       wheel: ${{ steps.paths.outputs.wheel }}
@@ -81,7 +81,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-24.04, macos-latest, windows-latest]
         python-version: ["3.10", "3.11", "3.12", "3.13"]
         exclude:
           # Reduce cost: test all versions on Linux, subset on macOS/Windows
@@ -116,7 +116,7 @@ jobs:
         run: pytest tests/ -v
 
       - name: Run tests with coverage
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+        if: matrix.os == 'ubuntu-24.04' && matrix.python-version == '3.12'
         run: |
           python -m coverage run -m pytest tests/
           python -m coverage xml -o coverage.xml
@@ -124,7 +124,7 @@ jobs:
 
   security:
     name: Security Scan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       security-events: write
